@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>DeliverableBoundaryWalkReq1</title></head>
+    
+<body>
+<div id="top">
+<h1>DELIVERABLE BOUNDARY WALK REQ1 <font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+<h2>Introduction</h2>
+ 
+ 
+<h2>Requirements</h2>
+
+ 
+<div class="remark">
+<ol class="arabic">
+<li><p>Compilare la sezione <code class="docutils literal notranslate"><span class="pre">Problem</span> <span class="pre">analysis</span></code> del template2023</a>   ponendo in luce i key-points
+del problema della interazione con il VirtualRobot23.</p>
+
+</li>
+<li><p>Ridenominare il file <span class="remark">BoundaryWalkCognomeNome</span> e inserirlo nella directory <code class="docutils literal notranslate"><span class="pre">Deliverables</span></code>
+del proprio GIT repo privato.</p></li>
+<li><p>Compilare la sezione <code class="docutils literal notranslate"><span class="pre">Project</span></code> descrivendo una strategia di comandi (sincroni e/o asincroni)
+che induce il robot:</p>
+<ul class="simple">
+<li><p><span class="blue">Req1</span> : a percorrere (una volta) il bordo perimetrale della stanza rappresentata ne<span class="std std-ref">La scena di WEnv, utilizzando il protocollo HTTP.</span></p></li>
+</ul>
+</li>
+</div>
+
+ 
+
+<h2>Requirement analysis</h2>
+	<div class="remark">
+	<p>Dopo aver discusso con il committente, si è capito che:</p>
+		<ul>
+			<li>Con robot si intende il Differential Drive Robot (DDR) fornito dal committente, con il quale si può comunicare tramite protocollo HTTP o WS, fornendogli comandi cril.</li>
+			<li>Il robot può effettuare solo movimenti basilari, ovvero andare avanti e indietro, ruotare di 90 gradi a destra o sinistra</li>
+			<li>Il robot è inizialmente posizionato nella home, che si trova nell'angolo in alto a sinstra della stanza, rivolto verso sud</li>
+			<li>La stanza è rettangolare, quindi il bordo è definito da 4 mura nelle quali il robot può collidere</li>
+			<li>La stanza non presenta ostacoli lungo il bordo perimetrale</li>
+		</ul>	
+	</div>
+
+</div>
+
+<h2>Problem analysis</h2>
+	<div class="remark">
+		<p>Dato che il committente ha imposto l'utilizzo di HTTP per comunicare con il robot, la serie di comandi che gli verranno inviati saranno <b>sincroni</b>,
+			quindi ogni volta che si invia un comando si attende la risposta. Anche se la comunicazione sincrona ha alcune limitazioni, in questo caso permette di inviare
+			i comandi necessari per permettere al robot di percorrere il perimetro senza doverci preoccupare del fatto di dover evitare di inviare un comando mentre ancora
+			il robot sta eseguendo il precedente (dato che si aspetta sempre la risposta).</p>
+		<p>Ipotizzando che il robot parta dalla home definita nel requirement analysis, una possibile soluzione al problema è la seguente:</p>
+		<ol>
+			<li>Inviare al robot un comando di forward abbastanza lungo da farlo collidere con il muro</li>
+			<li>Girare il robot a sinistra</li>
+			<li>Ripetere i primi 2 punti per altre 3 volte</li>
+		</ol>
+	</div>
+
+<h2>Test plans</h2> 
+<div class="remark">
+	<p>Per verificare il corretto funzionamento della soluzione, bisogna verificare che il robot riesca a percorrere l'intero perimetro e che questo perimetro venga percorso una sola volta.
+		Per fare questo si può tenere traccia delle volte che il robot colpisce uno specifico muro. La soluzione avrà avuto successo se alla fine del percorso il robot avrà colpito ogni muro una
+			sola volta (questo test è però legato alla soluzione, se si utilizzasse una diversa soluzione per far percorrere il perimetro al robot che non faccia uso di collisioni, questo test non avrebbe
+			successo).</p>
+			
+	<p>Un altro tipo di test potrebbe consistere nel creare una funzione che permetta di verificare se il robot si trova nella home, in modo da testare i comandi della soluzione e poi usare la funzione per verificare
+		che il robot si trovi nuovamente nella posizione di home. Questo non garantisce però che il perimetro venga percorso una sola volta. Con i WS avremmo potuto verificare ciò andando a vedere il numero delle volte
+		che il sonar individua il robot, in modo da essere sicuri che il perimetro sia stato percorso più di zero volte e meno di due.</p>
+	
+	<p>Per questo progetto si utilizzerà la seconda tipologia. La funzione che verifica se il robot è in home può essere costruita andando a verificare che a destra e dietro il robot ci sia un muro a breve distanza, perchè
+		per come è fatta la scena solo nel caso della home si verifica questa condizione.</p>
+</div>
+
+<h2>Project</h2>
+	<div class="remark">
+	<p>public void walkBoundary() { <br/>
+	&emsp;	String forwardcmd   = "{\"robotmove\":\"moveForward\"  , \"time\": \"4000\"}"; <br/>
+	&emsp;	String turnleftcmd  = "{\"robotmove\":\"turnLeft\"     , \"time\": \"300\"}"; <br/>
+	&emsp;	JSONObject result; <br/>
+	&emsp;	for(int i=0;i<4;i++) { <br/>
+	&emsp;&emsp;		result = callHTTP(forwardcmd); <br/>
+	&emsp;&emsp;		CommUtils.outblue("moveForward endmove=" + result); <br/>
+	&emsp;&emsp;		result = callHTTP(turnleftcmd); <br/>
+	&emsp;&emsp;		CommUtils.outblue("turnLeft endmove=" + result); <br/>
+		}</p>
+	</div>
+ 
+</div>
+
+<h2>Testing</h2> 
+	<div class="remark">
+	<p>FUNZIONE CHE VERIFICA CHE IL ROBOT SI TROVI NELLA HOME:</p>
+	<p>protected boolean is_home(){<br/>
+    &emsp;    String turnrightcmd = "{\"robotmove\":\"turnRight\"     , \"time\": \"300\"}";<br/>
+    &emsp;    String forwardcmd = "{\"robotmove\":\"moveForward\"  , \"time\": \"200\"}";<br/>
+    &emsp;    JSONObject result;<br/>
+    &emsp;   result = callHTTP(turnrightcmd);<br/>
+    &emsp;    result = callHTTP(forwardcmd);<br/>
+    &emsp;    if(!result.get("move").equals("moveForward-collision"))<br/>
+    &emsp;&emsp;        return false;<br/>
+    &emsp;    else{<br/>
+    &emsp;&emsp;        result = callHTTP(turnrightcmd);<br/>
+    &emsp;&emsp;        result = callHTTP(forwardcmd);<br/>
+    &emsp;&emsp;        if(!result.get("move").equals("moveForward-collision"))<br/>
+    &emsp;&emsp;&emsp;            return false;<br/>
+    &emsp;&emsp;       else{<br/>
+    &emsp;&emsp;&emsp;            result = callHTTP(turnrightcmd);<br/>
+    &emsp;&emsp;&emsp;            result = callHTTP(turnrightcmd);<br/>
+    &emsp;&emsp;&emsp;            return true;<br/>
+    &emsp;&emsp;        }<br/>
+    &emsp;    }<br/>
+    }</p>
+	
+	<p>TEST DEL BOUNDARYWALK</p>
+	<p>@Test<br/>
+    public void walkBoundaryTest() {<br/>
+    &emsp;    String forwardcmd   = "{\"robotmove\":\"moveForward\"  , \"time\": \"4000\"}";<br/>
+    &emsp;    String turnleftcmd  = "{\"robotmove\":\"turnLeft\"     , \"time\": \"300\"}";<br/>
+    &emsp;    JSONObject result;<br/>
+    &emsp;    for(int i=0;i<4;i++) {<br/>
+    &emsp;&emsp;        result = callHTTP(forwardcmd);<br/>
+    &emsp;&emsp;        CommUtils.outblue("moveForward endmove=" + result);<br/>
+    &emsp;&emsp;        result = callHTTP(turnleftcmd);<br/>
+    &emsp;&emsp;        CommUtils.outblue("turnLeft endmove=" + result);<br/>
+    &emsp;    }<br/>
+    &emsp;    boolean test = is_home();<br/>
+    &emsp;    assert(test);<br/>
+    }</p>
+	</div>
+
+<h2>Deployment</h2> 
+
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Matteo Giri email: matteo.giri@studio.unibo.it
+<br>
+Link GitHub Repo: https://github.com/s1090263/iss2023/
+<img src="./fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
+</div> 
+</body>
+</html>
