@@ -1,0 +1,189 @@
+<mxfile host="app.diagrams.net" modified="2024-01-23T00:48:51.694Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="jU8Sptoa-4D6zNrgQXrV" version="22.1.21" type="device">
+  <diagram name="Pagina-1" id="YTXqqnCZJgdV_gC577OF">
+    <mxGraphModel dx="1050" dy="625" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-1" value="&lt;b&gt;Fridge Truck&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#99CCFF;" parent="1" vertex="1">
+          <mxGeometry x="150" y="100" width="100" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-6" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#E0FBFF;" parent="v21qgCGxmAFB9yMqXVoD-1" vertex="1">
+          <mxGeometry x="45" y="86" width="10" height="434" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-2" value="&lt;b&gt;Transport Trolley&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#99CCFF;" parent="1" vertex="1">
+          <mxGeometry x="640" y="100" width="100" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-9" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#E0FBFF;" parent="v21qgCGxmAFB9yMqXVoD-2" vertex="1">
+          <mxGeometry x="45" y="60" width="10" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-30" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#E0FBFF;" parent="v21qgCGxmAFB9yMqXVoD-2" vertex="1">
+          <mxGeometry x="45" y="540" width="10" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-3" value="&lt;b&gt;FridgeService&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#99CCFF;" parent="1" vertex="1">
+          <mxGeometry x="480" y="100" width="100" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-7" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};gradientColor=none;fillColor=#E0FBFF;strokeColor=default;" parent="v21qgCGxmAFB9yMqXVoD-3" vertex="1">
+          <mxGeometry x="45" y="60" width="10" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-4" value="&lt;b&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;ServiceAccessGUI&lt;/font&gt;&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#99CCFF;" parent="1" vertex="1">
+          <mxGeometry x="314" y="100" width="100" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-8" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#E0FBFF;" parent="v21qgCGxmAFB9yMqXVoD-4" vertex="1">
+          <mxGeometry x="45" y="60" width="10" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-5" value="&lt;b&gt;Alarm Device&lt;/b&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#99CCFF;" parent="1" vertex="1">
+          <mxGeometry x="806" y="100" width="100" height="630" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-17" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};fillColor=#E0FBFF;" parent="v21qgCGxmAFB9yMqXVoD-5" vertex="1">
+          <mxGeometry x="45" y="60" width="10" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-10" value="Send Deposit request" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" target="v21qgCGxmAFB9yMqXVoD-8" edge="1">
+          <mxGeometry x="-0.0335" width="80" relative="1" as="geometry">
+            <mxPoint x="205" y="200" as="sourcePoint" />
+            <mxPoint x="339.5" y="200" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-11" value="Send deposit request" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" target="v21qgCGxmAFB9yMqXVoD-7" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="370" y="220" as="sourcePoint" />
+            <mxPoint x="510" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-12" value="Request accepted" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" target="v21qgCGxmAFB9yMqXVoD-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="260" as="sourcePoint" />
+            <mxPoint x="360" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-13" value="Request accepted" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" target="v21qgCGxmAFB9yMqXVoD-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="359" y="290" as="sourcePoint" />
+            <mxPoint x="240" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-15" value="Drive to INDOOR" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="205" y="320" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="235" y="350" />
+            </Array>
+            <mxPoint x="210" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-18" value="Enter ticket" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="v21qgCGxmAFB9yMqXVoD-6" target="v21qgCGxmAFB9yMqXVoD-8" edge="1">
+          <mxGeometry x="-0.0335" width="80" relative="1" as="geometry">
+            <mxPoint x="200" y="390.0000000000001" as="sourcePoint" />
+            <mxPoint x="354" y="390.0000000000001" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="280" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-20" value="Enter ticket" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry x="-0.0335" width="80" relative="1" as="geometry">
+            <mxPoint x="370" y="400" as="sourcePoint" />
+            <mxPoint x="524" y="400" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="445" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-21" value="ticket entered" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry x="-0.0335" width="80" relative="1" as="geometry">
+            <mxPoint x="535" y="419.9999999999999" as="sourcePoint" />
+            <mxPoint x="685" y="419.9999999999999" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-23" value="Drive to INDOOR" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="430" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="725" y="460" />
+            </Array>
+            <mxPoint x="700" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-24" value="charge taken" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" source="v21qgCGxmAFB9yMqXVoD-9" target="v21qgCGxmAFB9yMqXVoD-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="692.8400000000003" y="495.9999999999999" as="sourcePoint" />
+            <mxPoint x="367.150344827586" y="495.9999999999999" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="525" y="519" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-25" value="charge taken" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="359" y="542" as="sourcePoint" />
+            <mxPoint x="205" y="542" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="241" y="542" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-26" value="Leave INDOOR" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="205" y="565" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="235" y="595" />
+            </Array>
+            <mxPoint x="210" y="595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-27" value="Pickup food load" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="480" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="725" y="510" />
+            </Array>
+            <mxPoint x="700" y="510" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-28" value="&amp;nbsp;Store food load" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="530" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="725" y="560" />
+            </Array>
+            <mxPoint x="700" y="560" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-29" value="Return home" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="678" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="725" y="708" />
+            </Array>
+            <mxPoint x="700" y="708" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-32" value="Send STOP" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="v21qgCGxmAFB9yMqXVoD-17" target="v21qgCGxmAFB9yMqXVoD-9" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="730" y="590" as="sourcePoint" />
+            <mxPoint x="700" y="590" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="780" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v21qgCGxmAFB9yMqXVoD-33" value="Send RESUME" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" source="v21qgCGxmAFB9yMqXVoD-17" target="v21qgCGxmAFB9yMqXVoD-30" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="850" y="650" as="sourcePoint" />
+            <mxPoint x="700" y="650" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="785" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

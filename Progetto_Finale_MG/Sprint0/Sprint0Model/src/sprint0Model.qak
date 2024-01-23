@@ -1,0 +1,190 @@
+System coldstorageservice
+
+//MESSAGGI
+
+// ----- Messaggi per le interazioni con il basic robot -------
+Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
+Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
+Reply	engagerefused	: engagerefused(ARG) //risposta di rifiuto di ingaggio
+
+Dispatch disengage		: disengage(ARG) //messaggio di disingaggio
+
+Dispatch cmd			: cmd(MOVE) //messaggio di comando elementare di movimento (MOVE=w|s|d|a|r|l|h)
+Dispatch end			: end(ARG) //messaggio di terminazione del lavoro del robot
+
+Request step			: step(TIME) //messaggio di step elementare
+Reply stepdone			: stepdone(V) //risposta di conferma di step
+Reply stepfailed 		: stepfailed(DURATION, CAUSE) //risposta di step non riuscito
+
+Request doplan			: doplan(PATH, OWNER, STEPTIME) //richiesta di effettuare un piano di mosse
+Reply doplandone		: doplandone(ARG) //risposta di conferma nell'esecuzione del piano
+Reply doplanfailed		: doplanfailed(ARG) //risposta di piano non riuscito
+
+Request moverobot		: moverobot(TARGETX, TARGETY) //richiesta di muovere il robot in una determinata posizione
+Reply moverobotdone		: moverobotok(ARG) //risposta di conferma del movimento a posizione
+Reply moverobotfailed	: moverobotfailed(PLANDONE, PLANTODO) //risposta di movimento a posizione non riuscita
+
+Dispatch setrobotstate	: setpos(X,Y,D) //aggiorna la mappa con la nuova posizione e direzione
+Dispatch setdirection	: dir(D) //aggiorna la mappa con la nuova direzione
+
+Request getrobotstate	: getrobotstate(ARG) //richiesta di posizione e direzione del robot
+Reply robotstate		: robotstate(POS,DIR) //risposta di posizione e direzione del robot
+//-------------------------------------------------------------------
+
+//-----------------------Messaggi applicativi------------------------
+Request storerequest 	: storerequest(kg) //richiesta di depositare un food load
+
+Reply loadaccepted		: loadaccepted(_) //risposta di accettamento richiesta del load
+Reply loadrejected		: loadrejected(_) //risposta di rifiuto richiesta del load
+
+Dispatch gomoveToIndoor : gomoveToIndoor(_) //muovere il robot nella INDOOR
+
+Dispatch coapUpdate		: coapUpdate(SOURCE,ARG) //messaggio lanciato dal sistema quando una risorsa fa l'update
+//------------------------------------------------------------------
+
+//--------Messaggi per le interazioni con raspberry-----------------
+Dispatch stop : stop(_) //stoppa il trolley
+Dispatch resume : resume(_) //riattiva il trolley
+//------------------------------------------------------------------
+
+
+Context ctxcoldstorageservice ip [host="localhost" port=9990]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8090]
+Context ctxrasp ip [host="localhost" port=8070]
+Context ctxdriver ip [host="localhost" port=8060]
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+QActor fridgeservice context ctxcoldstorageservice{
+	State so initial{
+		println("fridgeservice START") color blue
+	}
+	Goto waitRequest
+	
+	State waitRequest{
+		println("waiting for requests...") color blue
+	}
+	Transition t0 whenRequest storerequest -> handle_request
+	
+	State handle_request{
+		printCurrentMessage color green
+		onMsg(storerequest: storerequest(KG)){
+			println("handle_request ${payloadArg(0)}") color green
+		}
+	}
+	Goto waitRequest
+}
+
+QActor serviceaccessgui context ctxcoldstorageservice{
+	State so initial{
+		println("GUI START") color blue
+		observeResource basicrobot
+		observeResource transporttrolley
+	}
+	Goto work
+	
+	State work{
+	}
+	Transition t0 whenMsg coapUpdate -> doObserve
+	
+	State doObserve{
+		onMsg(coapUpdate : coapUpdate(basicrobot, ARG)){
+			println("$name - From basicrobot: ${payloadArg(1)}") color yellow
+		}
+		onMsg(coapUpdate : coapUpdate(transporttrolley,ARG)){
+			println("$name - From trasporttrolley: ${payloadArg(1)}") color magenta
+		}
+	}
+	Goto work
+}
+
+QActor alarmdevice context ctxrasp{
+	State s0 initial{
+		println("$name | Started") color black
+	}
+	Goto sendstop
+	
+	State sendstop {
+		delay 3000
+		println("$name | Sending stop") color black
+		forward transporttrolley -m stop: stop(0)
+	}
+	Goto sendresume 
+	
+	State sendresume{
+		delay 2000
+		println("$name | Sending resume") color black
+		forward transporttrolley -m resume: resume(0)
+	}
+	Goto sendstop
+}
+
+QActor fridgetruckdriver context ctxdriver {
+	State s0 initial{
+		println("$name | Started") color black
+	}
+	Goto sendrequest
+	
+	State sendrequest{
+		println("$name | Sending request") color black
+	}
+}
+
+
+
+QActor transporttrolley context ctxcoldstorageservice{
+	State s0 initial{
+		println("$name | START, engage basicrobot") color yellow
+		request basicrobot -m engage: engage(transporttrolley,330)
+	}
+	Transition s0 whenReply engagedone -> waitCmd
+	
+	State waitCmd {
+		println("$name | waiting for cmd...") color yellow
+		updateResource [# "$name(waiting) " #]
+		[# CommUtils.waitTheUser("$name wait cmd. Pleas HIT ")#]
+		forward transporttrolley -m gomoveToIndoor : gomoveToIndoor(26)
+	}
+	Transition t0 whenMsg gomoveToIndoor -> moveToIndoor
+	
+	State moveToIndoor {
+		println("$name | moveToIndoor") color green
+		request basicrobot -m moverobot : moverobot (0,4)
+	}
+	Transition t0 whenReply moverobotdone -> loadTheCharge
+	
+	State loadTheCharge{
+		updateResource [# "$name(loading)" #]
+		println("$name | loading charge ...") color green
+		[# CommUtils.waitTheUser("$name loading charge. Please HIT ") #]
+	}
+	Goto moveToColdRoom
+	
+	State moveToColdRoom{
+		request basicrobot -m moverobot: moverobot(4,3)
+	}
+	Transition t0 whenReply moverobotdone -> storeTheCharge
+	
+	State storeTheCharge{
+		updateResource [# "$name(storing)" #]
+		println("$name | storing charge ...") color green
+		[# CommUtils.waitTheUser("$name storing charge. Please HIT")#]
+	}
+	Goto moveToHome
+	
+	State moveToHome{
+		println("$name | movetoHome ...") color green
+		request basicrobot -m moverobot: moverobot (0,0)
+	}
+	Transition t0 whenReply moverobotdone -> trolleyAtHome
+	
+	State trolleyAtHome{
+		println("$name | trolleyAtHome ... ") color green
+		forward basicrobot -m setdirection : dir(down) //request?
+		updateResource [# "$name(athome)" #]
+		delay 1000 //To avoid interrupt of plan related to setDirection
+		forward basicrobot -m disengage : disengage(transporttrolley)
+		delay 1000 //avoid to premature abort of connection
+		[# System.exit(0) #]
+	}
+}
