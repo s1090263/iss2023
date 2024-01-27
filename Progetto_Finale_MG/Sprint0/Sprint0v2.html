@@ -284,7 +284,7 @@ I requisiti del sistema da creare possono essere trovati in <a href="html/TemaFi
 Analizzando i requisiti del problema e dopo ulteriori colloqui con il committente possiamo dire che:
 <div class="sec remark-light">
 	Il servizio <span class="blue">ColdStorageService</span> è un processo difficilmente modellabile come un semplice oggetto, per via della sua complessità. Una migliore
-	rappresentazione ci è data dal concetto di <b>attore</b>, ovvero un ente logicamente attivo capace di inviare e ricevere messaggi in un contesto distrubuito. Il
+	rappresentazione ci è data dal concetto di <b>attore</b>, ovvero un ente logicamente attivo capace di inviare e ricevere messaggi in un contesto distribuito. Il
 	concetto di attore ci è reso disponibile sottoforma di software dal committente (si veda <a href="html/QakActors23.html">QakActors23</a> per maggiori informazioni),
 	che fornisce un modello per realizzare <b>actors</b> (<a href="html/Actors23.html">Actors23</a>, <a href="html/Actors23FSM.html">Actors23FSM</a>) e interazioni tra di essi.
 	</br>
@@ -303,7 +303,6 @@ Analizzando i requisiti del problema e dopo ulteriori colloqui con il committent
 	<pre><code class="language-java">
 class ServiceArea {
 	public int L1, L2, L3, L4;
-	
  };
 	</code></pre>
 	</br>
@@ -318,7 +317,7 @@ class ServiceArea {
 	</blockquote>
 	Il <b>ColdRoom</b> container è anch'esso rappresentato come una cella della <b>service area</b>, con cui il <b>DDR robot</b> può collidere (è quindi un 
 	ostacolo). <span class="red"><b>MAXW</b></span> è una costante del  <span class="blue">ColdStorageService</span> e indica la quantità massima di cibo depositabile.
-	Il sistema avrà una variabile <code class="language-java">float storedKG</code> per indicare la quantità di cibo al momento depositata nella <b>ColdRoom</b>
+	Il sistema avrà una variabile <code class="language-java">float currentlyStored</code> per indicare la quantità di cibo al momento depositata nella <b>ColdRoom</b>.
 	La ColdRoom è caratterizzata da una porta di ingresso <span class="red">PORT</span>, rappresentata come una cella della griglia adiacente ad essa.
 	</br>
 	</br>
@@ -329,7 +328,8 @@ class ServiceArea {
 	<a class="reference internal image-reference" href="./immagini/basicrobot23arc.png"><img alt="./immagini/basicrobot23arc.png" class="align-center" src="./immagini/basicrobot23arc.png" style="width: 20%;" /></a>
 	</blockquote>
 	Attraverso messaggi di <b>request</b> e <b>dispatch</b> è possibile ingaggiare il robot e farlo muovere nell'area o effettuare piani di mosse. 
-	
+	</br>
+	</br>
 	Il <span class="blue">Transport trolley</span> è un componente proattivo del sistema che interagisce con il robot tramite l'interfaccia <b>basicrobot23</b>, ed è pertinente modellarlo
 	come un <b>actor</b>. La <span class="red">HOME</span> è anch'essa una cella della rappresentazione a griglia della <b>service area</b>.
 	</br>
@@ -345,7 +345,7 @@ class ServiceArea {
 	</br>
 	</br>
 	Il <span class="blue">ServiceAccessGUI</span> è il componente del sistema che permette a un utente esterno (<span class="blue">Fridge truck driver</span>) di interagire con il sistema.
-	Ha quindi la necessità di inviare e ricevere messaggi ed è opportuno (almeno per questa prima fase di analisi) modellare anche questa entità come un <b>actor</b>. In particolare, la <span class="blue">ServiceAccessGUI</span>
+	Ha quindi la necessità di inviare e ricevere messaggi ed è opportuno (almeno per questa prima fase di analisi) modellare anche questa entità come un <b>actor</b>, per permettere la simulazione delle azioni svolte dal driver e per effettuare dei primi test sul sistema. In particolare, la <span class="blue">ServiceAccessGUI</span>
 	invia richieste al <span class="blue">ColdStorageService</span> che possono essere formalizzate come <code class="language-java">Request storerequest : storerequest(FW)</code>,
 	dove <span class="red"><b>FW</b></span> è il peso in kilogrammi del <b>food load</b> che si vuole depositare. Si nota che a questa richiesta possono corrispondere due tipi
 	di risposte (modellabili come <b>reply</b>) da parte del servizio: richiesta accettata con ritorno di un <b>ticket</b> <code class="language-java">Reply loadaccepted : loadaccepted(TICKET)</code>; oppure
@@ -356,13 +356,13 @@ class ServiceArea {
 	</br>
 	</br>
 	Il requisito della <span class="blue">ServiceStatusGUI</span> va trattato in maniera simile alla <span class="blue">ServiceAccessGUI</span>, in quanto deve poter ricevere messaggi
-	dal sistema e permettere a un utente esterno (il <span class="blue">Service-Manager</span>) di visualizzare informazioni. E' quindi opportuno modellarlo come un <b>attore</b>.
+	dal sistema e permettere a un utente esterno (il <span class="blue">Service-Manager</span>) di visualizzare informazioni. E' quindi opportuno modellarlo (almeno inizialmente), come un <b>attore</b>.
 	</br>
 	</br>
 	Per quel che riguarda gli <b>Alarm Requirements</b>, il <b>Sonar</b> e il <b>Led</b> sono dispositivi fisici per i quali il committente fornisce software di supporto nell'utilizzo
 	(<a href="html\RaspBasicCode.html#usiamo-un-sonar-hc-sr04">RaspBasicCode</a>, <a href="html\RaspApplCode.html">RaspApplCode</a> ). Il sonar deve essere utilizzato come <b>alarm device</b>
 	e il led come <b>warning device</b>. Come per il <span class="blue">Transport trolley</span> con il DDR robot, è possibile definire questi due componenti come un <b>attore</b> posto in
-	un contesto esterno al sistema, che utilizza i dispositivi fisici. La distanza <span class="blue">DLIMIT</span> sarà quindi una costante dell'attore. </br>
+	un contesto esterno al sistema, che utilizza i dispositivi fisici associati. La distanza <span class="blue">DLIMIT</span> sarà quindi una costante dell'attore. </br>
 	Non essendoci chiarezza su chi deve <b>stoppare</b> o far ripartire il trolley non è possibile, almeno in questa fase, formalizzare queste azioni.
 </div>	
 
@@ -814,21 +814,40 @@ Il modello eseguibile del <span class="blue">ColdStorageService</span> realizzat
 
 
 <h3>Piani di testing</h3>
-	
-	
-	
+//da realizzare </br>
+Concentrando l'attenzione solo sul modello del sistema realizzabile tramite l'analisi dei requisiti, possiamo pianificare i seguenti test:
+<div class="sec remark-light">
+<ul class="sep">
+<li><span class="red">testColdRoomFull</span>: Dopo che il sistema ha ricevuto la richiesta <b>storerequest</b>, occorre verificare che la <b>coldroom</b> abbia spazio per caricare il load.
+In caso non ci sia spazio disponibile, il sistema deve ritornare la risposta <b>loadrefused</b>.</li>
+<li><span class="red">testExpiredTicket</span>: Dopo che il sistema ha ricevuto la richiesta <b>sendticket</b>, occorre verificare che il <b>ticket</b> non sia scaduto. Se
+è scaduto, il sistema deve ritornare la risposta <b>ticketrefused</b>.</li>
+</ul>
+</div>
+
 
 <h2>Piano di lavoro</h2>
+Tenendo conto anche delle considerazioni fatte in <a href="Sprint0v1.html">Sprint0v1.html</a>, possiamo suddividere il lavoro nei seguenti sprint:
+<div class="sec remark-light">
+<ul class="sep">
+<li><span class="red">SPRINT1</span>: Si sviluppa il <b>core applicativo</b> del sistema (si terrà conto delle <span class="blue">userstories 1</span>,<span class="blue">2</span>,<span class="blue">3</span>,<span class="blue">4</span>).
+ Quindi si concentrano le risorse solo sulla realizzazione del <span class="blue">FridgeService</span>, del <span class="blue">TransportTrolley</span> e della <span class="blue">ServiceAccessGUI</span>.
+ In particolare, si gestiranno i problemi del <b>movimento del trolley</b> e <b>interazioni con basicrobot</b> (e <b>deposit action</b>) e la gestione di <b>richieste multiple</b>.
+ La parte di GUI della serviceAccessgui verrà ignorata in questo sprint e le interazioni con il <span class="blue">TruckDriver</span> saranno simulate dall'attore che modella la accessGUI. <b>(Tempo previsto per la realizzazione: 2 giornate lavorative)</b></li>
+<li><span class="red">SPRINT2</span>: Si estende il sistema prodotto nello SPRINT1 realizzando la fase reattiva del robot, andando a realizzare il componente distribuito <span class="blue">AlarmDevice</span>,
+che interagisce col robot tramite messaggi di <b>stop/resume</b>, e modellando anche le azioni del <i>warning device</i> . <b>(Tempo previsto per la realizzazione: 2 giornate lavorative)</b></li>
+<li><span class="red">SPRINT3</span>: Si sostituisce la <span class="blue">ServiceAccessGUI</span> realizzata come attore con una <b>web application</b> con interfaccia grafica, che interagisce
+con il sistema e permette al <span class="blue">TruckDriver</span> di inserire richieste e leggere le informazioni necessarie. <b>(Tempo previsto per la realizzazione: 2 giornate lavorative)</b></li>
+<li><span class="red">SPRINT4</span>: Si conclude il progetto sviluppando la <span class="blue">ServiceStatusGUI</span>, per permettere al <span class="blue">ServiceManager</span> di visualizzare
+lo stato del sistema. <b>(Tempo previsto per la realizzazione: 1 giornata lavorativa)</b></li>
 
-<h2>Test plans</h2> 
-//biglietto scaduto
-//più richieste (che viene prima che il precedente è andato nella indoor, oppure dopo. vedi come si gestiscono entrambe)
-//coldroom piena
-
-
+</ul>
 </div>
 </div>
-
+</div>
+</div> 
+</body>
+</html>
  
 <!-- USEFUL
 <table style="width:100%" border="1">
@@ -847,7 +866,4 @@ Il modello eseguibile del <span class="blue">ColdStorageService</span> realizzat
 By Matteo Giri email: matteo.giri@studio.unibo.it
 <br>
 Link GitHub Repo: https://github.com/s1090263/iss2023/
-<img src="./immagini/fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
-</div> 
-</body>
-</html>
+<img src="./immagini/fotoGiriMatteo.jpg" alt="foto" wi

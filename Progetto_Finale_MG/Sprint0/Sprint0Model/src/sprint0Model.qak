@@ -1,12 +1,5 @@
 System coldstorageservice
 
-//aggiorna png architettura
-//il service potrebbe ricevere una nuova richiesta mentre è ancora in esecuzione un'altra, devi modellarlo questo
-//nello sprint vero (o nei piani di testing) devi aggiornare anche la mappa per tenerla sincronizzata
-//nello sprint vero dovrai tenere conto anche delle situazioni in cui il robot fallisce il piano di mosse
-//mi sa che le interazioni col basicrobot, quindi tutti i movimenti non vanno fatti nello sprint0
-
-
 // ----- Messaggi per le interazioni con il basic robot -------
 Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
 Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
@@ -122,6 +115,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 	State trolleyAtHome{
 		println("$name - trolleyAtHome ... ") color green
 		forward basicrobot -m disengage : disengage(transporttrolley)
+		println("$name - disengaged") color green
 		delay 1000 //avoid to premature abort of connection
 		[# System.exit(0) #]
 	}

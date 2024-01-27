@@ -104,6 +104,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean  ) : 
 					action { //it:State
 						CommUtils.outgreen("$name - trolleyAtHome ... ")
 						forward("disengage", "disengage(transporttrolley)" ,"basicrobot" ) 
+						CommUtils.outgreen("$name - disengaged")
 						delay(1000) 
 						 System.exit(0)  
 						//genTimer( actor, state )
