@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope ){
+class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean  ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "s0"
@@ -22,45 +22,41 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						CommUtils.outyellow("$name | START, engage basicrobot")
+						CommUtils.outgreen("$name - START, engage basicrobot")
 						request("engage", "engage(transporttrolley,330)" ,"basicrobot" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="s02",targetState="waitCmd",cond=whenReply("engagedone"))
+					 transition(edgeName="s04",targetState="waitRequest",cond=whenReply("engagedone"))
 				}	 
-				state("waitCmd") { //this:State
+				state("waitRequest") { //this:State
 					action { //it:State
-						CommUtils.outyellow("$name | waiting for cmd...")
-						updateResourceRep( "$name(waiting) "  
-						)
-						 CommUtils.waitTheUser("$name wait cmd. Pleas HIT ") 
-						forward("gomoveToIndoor", "gomoveToIndoor(26)" ,"transporttrolley" ) 
+						CommUtils.outgreen("$name - waiting for a request...")
+						 CommUtils.waitTheUser("$name Please HIT to send takeCharge command to trolley ")  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t03",targetState="moveToIndoor",cond=whenDispatch("gomoveToIndoor"))
+					 transition( edgeName="goto",targetState="moveToIndoor", cond=doswitch() )
 				}	 
 				state("moveToIndoor") { //this:State
 					action { //it:State
-						CommUtils.outgreen("$name | moveToIndoor")
-						request("moverobot", "moverobot(0,4)" ,"basicrobot" )  
+						CommUtils.outgreen("$name - taking charge of request")
+						CommUtils.outgreen("$name - moving to Indoor")
+						delay(2000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t04",targetState="loadTheCharge",cond=whenReply("moverobotdone"))
+					 transition( edgeName="goto",targetState="loadTheCharge", cond=doswitch() )
 				}	 
 				state("loadTheCharge") { //this:State
 					action { //it:State
-						updateResourceRep( "$name(loading)"  
-						)
-						CommUtils.outgreen("$name | loading charge ...")
+						CommUtils.outgreen("$name - loading charge ...")
 						 CommUtils.waitTheUser("$name loading charge. Please HIT ")  
 						//genTimer( actor, state )
 					}
@@ -71,45 +67,42 @@ class Transporttrolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				}	 
 				state("moveToColdRoom") { //this:State
 					action { //it:State
-						request("moverobot", "moverobot(4,3)" ,"basicrobot" )  
+						CommUtils.outgreen("$name - moving to ColdRoom ...")
+						delay(2000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="storeTheCharge",cond=whenReply("moverobotdone"))
+					 transition( edgeName="goto",targetState="storeTheCharge", cond=doswitch() )
 				}	 
 				state("storeTheCharge") { //this:State
 					action { //it:State
-						updateResourceRep( "$name(storing)"  
-						)
-						CommUtils.outgreen("$name | storing charge ...")
+						CommUtils.outgreen("$name - storing charge ...")
 						 CommUtils.waitTheUser("$name storing charge. Please HIT") 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
+				 	 		stateTimer = TimerActor("timer_storeTheCharge", 
+				 	 					  scope, context!!, "local_tout_transporttrolley_storeTheCharge", 1000.toLong() )
 					}	 	 
-					 transition( edgeName="goto",targetState="moveToHome", cond=doswitch() )
+					 transition(edgeName="t05",targetState="moveToHome",cond=whenTimeout("local_tout_transporttrolley_storeTheCharge"))   
 				}	 
 				state("moveToHome") { //this:State
 					action { //it:State
-						CommUtils.outgreen("$name | movetoHome ...")
-						request("moverobot", "moverobot(0,0)" ,"basicrobot" )  
+						CommUtils.outgreen("$name - No more requests, moving to home ...")
+						delay(2000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t06",targetState="trolleyAtHome",cond=whenReply("moverobotdone"))
+					 transition( edgeName="goto",targetState="trolleyAtHome", cond=doswitch() )
 				}	 
 				state("trolleyAtHome") { //this:State
 					action { //it:State
-						CommUtils.outgreen("$name | trolleyAtHome ... ")
-						forward("setdirection", "dir(down)" ,"basicrobot" ) 
-						updateResourceRep( "$name(athome)"  
-						)
-						delay(1000) 
+						CommUtils.outgreen("$name - trolleyAtHome ... ")
 						forward("disengage", "disengage(transporttrolley)" ,"basicrobot" ) 
 						delay(1000) 
 						 System.exit(0)  

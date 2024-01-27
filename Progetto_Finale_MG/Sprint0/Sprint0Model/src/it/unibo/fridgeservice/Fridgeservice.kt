@@ -12,17 +12,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Fridgeservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope ){
+class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "so"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
+		
+				val MAXW = 100 //max storable kg in the ColdRoom
+				val TICKETTIME = 20 //seconds of ticket validity
+				var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+				val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()	//structure to mantain the ticket requests that are open (<Ticket number, KG, EmissionTime>)
+				var ticketValue = 0 //incrementing ticket value
 				return { //this:ActionBasciFsm
 				state("so") { //this:State
 					action { //it:State
-						CommUtils.outblue("fridgeservice START")
+						CommUtils.outblue("$name - START")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -32,21 +38,58 @@ class Fridgeservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( na
 				}	 
 				state("waitRequest") { //this:State
 					action { //it:State
-						CommUtils.outblue("waiting for requests...")
+						CommUtils.outblue("$name - waiting for requests...")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handle_request",cond=whenRequest("storerequest"))
+					 transition(edgeName="t06",targetState="handleRequest",cond=whenRequest("storerequest"))
+					transition(edgeName="t07",targetState="handleTicket",cond=whenRequest("sendticket"))
 				}	 
-				state("handle_request") { //this:State
+				state("handleRequest") { //this:State
 					action { //it:State
-						CommUtils.outgreen("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
-						 	   
-						if( checkMsgContent( Term.createTerm("storerequest(kg)"), Term.createTerm("storerequest(KG)"), 
+						if( checkMsgContent( Term.createTerm("storerequest(KG)"), Term.createTerm("storerequest(KG)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								CommUtils.outgreen("handle_request ${payloadArg(0)}")
+								if(  payloadArg(0).toFloat() < MAXW - CurrentlyStored  
+								 ){ val Ticket= ticketValue
+													ticketValue = ticketValue + 1
+								CommUtils.outblue("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket")
+								answer("storerequest", "loadaccepted", "loadaccepted($Ticket)","serviceaccessgui"   )  
+								 openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis()))  
+								}
+								else
+								 {CommUtils.outblue("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ")
+								 answer("storerequest", "loadrefused", "loadrefused(_)","serviceaccessgui"   )  
+								 }
+						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="waitRequest", cond=doswitch() )
+				}	 
+				state("handleTicket") { //this:State
+					action { //it:State
+						if( checkMsgContent( Term.createTerm("sendticket(TICKET)"), Term.createTerm("sendticket(TICKET)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								 
+												val Ticket = payloadArg(0).toInt()
+												val request = openRequestList.find { it?.first == Ticket }			
+												val elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+												val Kg = request.second //load of this request
+								if(  elapsedTime <= TICKETTIME  
+								 ){CommUtils.outblue("$name - accepting ticket $Ticket of request for $Kg Kg")
+								answer("sendticket", "chargetaken", "chargetaken(_)","serviceaccessgui"   )  
+								 CurrentlyStored += Kg  
+								CommUtils.outblue("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom")
+								}
+								else
+								 {CommUtils.outblue("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)")
+								 answer("sendticket", "ticketrefused", "ticketrefused(_)","serviceaccessgui"   )  
+								 }
+								 openRequestList.remove(request)  
 						}
 						//genTimer( actor, state )
 					}

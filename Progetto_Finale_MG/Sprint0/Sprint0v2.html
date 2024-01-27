@@ -1,0 +1,853 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<link rel="stylesheet" href="html/prism.css">
+<script src="html/prism.js"></script>
+<style type="text/css">
+body
+{
+    margin-left:  10px;
+    margin-right: 10px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+div.remark-light{
+	background-color: #F0FFFF;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 15px;
+}
+span.remark{
+	background-color: #6b9cff;
+    border: 1.5px solid #d5f2ed;
+    padding: 5px;
+    margin: 20px;
+	border-radius: 25px;
+	font-size: 120%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 0px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+.blue{
+    color: blue;
+}
+.red{
+	color: red;
+}
+.sep li{
+	padding-bottom: 10px;
+}
+div.sec{
+margin-top: 10px;
+margin-left: 30px;
+margin-right: 30px;
+}
+.align-center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+pre.language-java {
+      max-width: 800px; /* Adjust the max-width as needed */
+      overflow-x: auto;
+      display: inline-block; 
+	  padding-top: 0em;
+	  padding-bottom: 0em;
+	  margin-left: 100px;
+    }
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+	width: 50%;
+}  
+
+.flex-child.left {
+    margin-right: 20px;
+	width: 680px;
+	overflow: hidden;
+	 flex-shrink: 0;
+}
+
+.flex-child.right {
+	padding-top: 20px;
+	 flex-shrink: 1;
+}
+
+.small{
+font-size:65%;
+}
+</style>
+    
+<head>
+   
+<title>Sprint0 Giri Matteo</title>
+
+</head>
+    
+<body>
+<div id="top">
+<h1>TEMA FINALE SPRINT0<font size="5"></font> </h1>
+</div>
+
+<span class="blue"></span> 
+<span class="red"><b></b></span> 
+
+<div class="body"> 
+<h2>Introduction</h2>
+ Questo documento contiene lo sprint0 del progetto per il tema finale del corso.
+ 
+<h2>Requisiti</h2>
+
+<div class="remark">
+I requisiti del sistema da creare possono essere trovati in <a href="html/TemaFinale23.html">TemaFinale23</a>.
+</div>
+ 
+<h2>Analisi dei requisiti</h2>
+Analizzando i requisiti del problema e dopo ulteriori colloqui con il committente possiamo dire che:
+<div class="sec remark-light">
+	Il servizio <span class="blue">ColdStorageService</span> è un processo difficilmente modellabile come un semplice oggetto, per via della sua complessità. Una migliore
+	rappresentazione ci è data dal concetto di <b>attore</b>, ovvero un ente logicamente attivo capace di inviare e ricevere messaggi in un contesto distrubuito. Il
+	concetto di attore ci è reso disponibile sottoforma di software dal committente (si veda <a href="html/QakActors23.html">QakActors23</a> per maggiori informazioni),
+	che fornisce un modello per realizzare <b>actors</b> (<a href="html/Actors23.html">Actors23</a>, <a href="html/Actors23FSM.html">Actors23FSM</a>) e interazioni tra di essi.
+	</br>
+	Gli attori non hanno memoria condivisa e interagiscono tra di loro solo attraverso scambi di messaggi, che possono essere:
+	<ul class="sep">
+	<li><b>dispatch</b>: un messaggio inviato a un preciso destinatario senza attesa di una risposta (in modo detto anche fire-and-forget).</li>
+	<li><b>request</b>: un messaggio inviato a un preciso destinatario aspettandosi da parte di questi una <b>reply</b> logicamente correlata alla richiesta.</li>
+	<li><b>event</b>: un messaggio inviato a chiunque sia in grado di elaborarlo.</li>
+	
+	</ul>
+	</br>
+	</br>
+	La <b>service area</b> è rappresentabile come un rettangolo con lati <span class="red">L1</span>, <span class="red">L2</span>, <span class="red">L3</span>,
+	<span class="red">L4</span>:
+	</br>
+	<pre><code class="language-java">
+class ServiceArea {
+	public int L1, L2, L3, L4;
+	
+ };
+	</code></pre>
+	</br>
+	</br>
+	La <span class="red">INDOOR</span> area è una zona della <b>service area</b> posta in uno dei suoi 4 lati. Per permettere una migliore formalizzazione di questo e successivi
+	elementi è utile creare una rappresentazione a griglia dell'area. Per farlo si utilizza come riferimento il <b>DDR robot</b> e si va quindi a dividere la <b>service area</b>
+	in celle di dimensioni <span class="red"><b>RD</b></span>, ovvero della dimensione del robot. E' qui utile definire il concetto di <b>step</b>, ovvero un movimento elementare 
+	che sposta il robot della sua dimensione (utile per la creazione della rappresentazione in celle e per muovere il robot tra le celle). La <span class="red">INDOOR</span> diventa
+	quindi una cella della griglia, nell'esempio in figura nella posizione <b>(0,4)</b>:
+	<blockquote>
+	<a class="reference internal image-reference" href="./immagini/GrigliaRappr.png"><img alt="./immagini/GrigliaRappr.png" class="align-center" src="./immagini/GrigliaRappr.png" style="width: 20%;" /></a>
+	</blockquote>
+	Il <b>ColdRoom</b> container è anch'esso rappresentato come una cella della <b>service area</b>, con cui il <b>DDR robot</b> può collidere (è quindi un 
+	ostacolo). <span class="red"><b>MAXW</b></span> è una costante del  <span class="blue">ColdStorageService</span> e indica la quantità massima di cibo depositabile.
+	Il sistema avrà una variabile <code class="language-java">float storedKG</code> per indicare la quantità di cibo al momento depositata nella <b>ColdRoom</b>
+	La ColdRoom è caratterizzata da una porta di ingresso <span class="red">PORT</span>, rappresentata come una cella della griglia adiacente ad essa.
+	</br>
+	</br>
+	Un <b>DDR robot</b> è un robot che possiede due ruote motrici sullo stesso asse e una terza ruota condotta (non motrice). Il committente fornisce un servizio con cui è possibile interfacciarsi
+	col robot che sia fisico o virtuale (si veda <a href="html/BasicRobot23.html">BasicRobot23</a> per ulteriori informazioni). Il servizio è realizzato ad attori ed ha la seguente
+	architettura:
+	<blockquote>
+	<a class="reference internal image-reference" href="./immagini/basicrobot23arc.png"><img alt="./immagini/basicrobot23arc.png" class="align-center" src="./immagini/basicrobot23arc.png" style="width: 20%;" /></a>
+	</blockquote>
+	Attraverso messaggi di <b>request</b> e <b>dispatch</b> è possibile ingaggiare il robot e farlo muovere nell'area o effettuare piani di mosse. 
+	
+	Il <span class="blue">Transport trolley</span> è un componente proattivo del sistema che interagisce con il robot tramite l'interfaccia <b>basicrobot23</b>, ed è pertinente modellarlo
+	come un <b>actor</b>. La <span class="red">HOME</span> è anch'essa una cella della rappresentazione a griglia della <b>service area</b>.
+	</br>
+	</br>	
+	Il <span class="blue">Fridge truck</span> è un'entità esterna al sistema che interagisce con il <span class="blue">ColdStorageService</span> tramite l'interfaccia <span class="blue">ServiceAccessGUI</span>
+	</br>
+	Il <b>food load</b> è espresso in kilogrammi ed è un parametro della <b>deposit request</b>.
+	</br>
+	</br>
+	Una <b>deposit action</b> è una sequenza di azioni che il <span class="blue">Transport trolley</span> esegue quando prende in carica una richiesta di deposito. I requisiti non forniscono
+	dettagli che ne permettono un'immediata formalizzazione e quindi sarà necessario analizzare questa azione nell'analisi del problema, in quanto si devono gestire le problematiche
+	del far muovere il robot e farlo andare nelle determinate aree.
+	</br>
+	</br>
+	Il <span class="blue">ServiceAccessGUI</span> è il componente del sistema che permette a un utente esterno (<span class="blue">Fridge truck driver</span>) di interagire con il sistema.
+	Ha quindi la necessità di inviare e ricevere messaggi ed è opportuno (almeno per questa prima fase di analisi) modellare anche questa entità come un <b>actor</b>. In particolare, la <span class="blue">ServiceAccessGUI</span>
+	invia richieste al <span class="blue">ColdStorageService</span> che possono essere formalizzate come <code class="language-java">Request storerequest : storerequest(FW)</code>,
+	dove <span class="red"><b>FW</b></span> è il peso in kilogrammi del <b>food load</b> che si vuole depositare. Si nota che a questa richiesta possono corrispondere due tipi
+	di risposte (modellabili come <b>reply</b>) da parte del servizio: richiesta accettata con ritorno di un <b>ticket</b> <code class="language-java">Reply loadaccepted : loadaccepted(TICKET)</code>; oppure
+	richiesta rifiutata <code class="language-java">Reply loadrejected : loadrejected(_)</code>. Il sistema terrà conto in una variabile dell'orario di emissione del ticket, che scadrà
+	dopo un tempo di <span class="red"><b>TICKETTIME</b></span> secondi che è uguale per ogni ticket ed è un'informazione data preventivamente all'utente.</br>
+	La GUI avrà un campo di input che permette al driver di inviare la richiesta e uno per inviare il ticket quando il driver è nella <span class="red">INDOOR</span> (oltre a un campo
+	per visualizzare la variabile <b>storedKG</b> di sistema).
+	</br>
+	</br>
+	Il requisito della <span class="blue">ServiceStatusGUI</span> va trattato in maniera simile alla <span class="blue">ServiceAccessGUI</span>, in quanto deve poter ricevere messaggi
+	dal sistema e permettere a un utente esterno (il <span class="blue">Service-Manager</span>) di visualizzare informazioni. E' quindi opportuno modellarlo come un <b>attore</b>.
+	</br>
+	</br>
+	Per quel che riguarda gli <b>Alarm Requirements</b>, il <b>Sonar</b> e il <b>Led</b> sono dispositivi fisici per i quali il committente fornisce software di supporto nell'utilizzo
+	(<a href="html\RaspBasicCode.html#usiamo-un-sonar-hc-sr04">RaspBasicCode</a>, <a href="html\RaspApplCode.html">RaspApplCode</a> ). Il sonar deve essere utilizzato come <b>alarm device</b>
+	e il led come <b>warning device</b>. Come per il <span class="blue">Transport trolley</span> con il DDR robot, è possibile definire questi due componenti come un <b>attore</b> posto in
+	un contesto esterno al sistema, che utilizza i dispositivi fisici. La distanza <span class="blue">DLIMIT</span> sarà quindi una costante dell'attore. </br>
+	Non essendoci chiarezza su chi deve <b>stoppare</b> o far ripartire il trolley non è possibile, almeno in questa fase, formalizzare queste azioni.
+</div>	
+
+<h3>Analisi delle User Stories</h3>
+<div class="sec remark">
+<i>"A <span class="blue">Fridge truck driver</span> uses the <span class="blue">ServiceAcessGUI</span> to send a request to store its load of <span class="red"><b>FW</b></span>  kg. If the request is accepted, the driver 
+drives its truck to the <span class="red">INDOOR</span> of the service, before the ticket exipration time <span class="red"><b>TICKETTIME</b></span>."</i>
+</br>
+</br>
+<i>"When the truck is at the <span class="red">INDOOR</span> of the service, the driver uses the <span class="blue">ServiceAccessGUI</span> to enter the <b>ticket number</b> and waits until the message
+ <b>charge taken</b> (sent by the <span class="blue">ColdStorageService</span>) appears on the ServiceAcessGUI. At this point, the truck should leave the  <span class="red">INDOOR</span>."</i>
+</br>
+</br>
+<i"When the service accepts a ticket, the <span class="blue">transport trolley</span> reaches the <span class="red">INDOOR</span>, picks up the food, sends the <b>charge taken</b> message and then goes to the <b>ColdRoom</b> to store the food."</i>
+</div>
+<div class="sec remark-light">
+Si noti che il driver deve arrivare alla <span class="red">INDOOR</span> in tempo, questo significa che se inserisce il ticket nella <span class="blue">ServiceAccessGUI</span> dopo
+la scadenza, la <b>richiesta</b> deve essere rifiutata dal sistema. Quindi la <span class="blue">ServiceAccessGUI</span> invierà una richiesta <code class="language-java">Request sendticket : sendticket(TICKET)</code>
+al <span class="blue">ColdStorageService</span> alla quale corrisponderanno due possibili risposte: <code class="language-java">Reply ticketrejected : ticketrejected(_)</code> in caso
+di ticket scaduto e <code class="language-java">Reply chargetaken : chargetaken(TICKET)</code> proveniente dal <span class="blue">transport trolley</span> in caso di accettamento.
+</br>
+Quando il <span class="blue">ColdServiceStorage</span> accetta un <b>ticket</b>, il <span class="blue">transport trolley</span> deve essere informato tramite un messaggio che
+al momento viene modellato come un <code class="language-java">Dispatch takecharge : takecharge(TICKET)</code>.
+</div>
+</br>
+<div class="sec remark">
+<i>"When the deposit action is terminated, the <span class="blue">transport trolley</span> accepts another <b>ticket</b> (if any) or returns to <span class="red">HOME</span>."</i>
+</div>
+<div class="sec remark-light">
+Il trolley deve avere la possibilità di accettare un nuovo <b>ticket</b> se presente, mentre deve tornare a casa se non ci sono richieste. Questo requisito ha bisogno di un'analisi più
+approfondita e verrà quindi trattato in seguito.
+</div>
+</br>
+<div class="sec remark">
+<i>"While the <span class="blue">transport trolley</span> is moving, the <b>Alarm requirements</b> should be satisfied. However, the <span class="blue">transport trolley</span> should not
+ be stopped if some prefixed amount of time (<span class="red"><b>MINT</b></span> msecs) is not passed from the previous stop."</i>
+</div>
+<div class="sec remark-light">
+Anche questo requisito verrà affrontato successivamente, perchè c'è bisogno di fare chiarezza sul chi deve stoppare il robot e su come stopparlo/farlo ripartire.
+</div>
+</br>
+<div class="sec remark">
+<i>"A <b>Service-manager</b> migtht use the <span class="blue">ServiceStatusGUI</span> to see:
+<ul class="sep">
+<li>the current state of the <span class="blue">transport trolley</span> and it position in the room;</li>
+<li>the current weigth of the material stored in the <b>ColdRoom</b>;</li>
+
+<li>the number of <b>store-requests</b> rejected since the start of the service."</li>
+</ul>
+</i>
+</div>
+<div class="sec remark-light">
+Come gli ultimi due, anche questo requisito verrà affrontato successivamente, perchè bisogna pensare a come tenere aggiornato il <span class="blue">ServiceStatusGUI</span> con le
+informazioni necessarie.
+</div>
+
+	
+	
+	
+<h3>Modello del sistema</h3>
+Dall'analisi sono scaturite diverse informazioni che ci permettono di realizzare un primo modello eseguibile del sistema. Come accennato precedentemente, per realizzare questo modello
+si può fare uso del software di modellazione fornito dal committente (<a href="html/QakActors23.html">QakActors23</a>). Utilizzare questo software è vantaggioso poichè permette di
+creare in maniera rapida un prototipo eseguibile del servizio, fornendo strumenti e factory per creare <b>attori</b> e gestire le interazioni tra di essi (anche in nodi distribuiti).
+Gli attori sono modellati come <b>automi a stati finiti</b> (<a href="html/Actors23FSM.html">Actors23FSM</a>), per la necessità di distinguere i messaggi che si vuole ricevere in un certo
+momento (stato) del sistema (e per evitare problemi con messaggi provenienti da più entità).</br></br>
+
+Il modello ha la seguente architettuta:
+
+<a class="reference internal image-reference" href="./immagini/ArchitetturaLogicaSprint0.png"><img alt="./immagini/ArchitetturaLogicaSprint0.png" class="align-center" src="./immagini/ArchitetturaLogicaSprint0.png" style="width: 30%;" /></a>
+
+Di seguito sono mostrati i messaggi utilizzati dal sistema:</br>
+		<pre style="display:inline-block;">
+		<code>
+// ----- Messaggi per le interazioni con il basic robot ------------
+Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
+Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
+Reply	engagerefused	: engagerefused(ARG) //risposta di rifiuto di ingaggio
+
+Dispatch disengage		: disengage(ARG) //messaggio di disingaggio
+//------------------------------------------------------------------
+
+//-----------------------Messaggi applicativi-----------------------
+Request storerequest 	: storerequest(KG) //richiesta di depositare un food load
+Reply loadaccepted		: loadaccepted(TICKET) //risposta di accettamento richiesta del load
+Reply loadrefused		: loadrefused(_) //risposta di rifiuto richiesta del load
+
+Request sendticket : sendticket(TICKET) //messaggio per inviare il ticket al servizio
+Reply chargetaken : chargetaken(_) // messaggio che invia il servizio per prendere in carico una richiesta
+Reply ticketrefused : ticketrefused(_) //messaggio che invia il servizio se il ticket è scaduto
+//------------------------------------------------------------------
+		</code>
+		</pre>
+</br>
+	  
+Il sistema è composto da 4 <b>attori</b> posti in due <b>contesti</b>:
+</br>
+<div class="sec remark-light">
+Il <span class="blue">basicrobot</span> è posto nel contesto <b>ctxbasicrobot</b> ed è fornito dal commitente, ed è quindi utilizzato nel sistema come attore esterno. Gli altri attori
+sono invece posti nel contesto <b>ctxcoldstorageservice</b>
+</div>
+</br>
+</br>
+<div class="sec remark-light">
+	La <span class="blue">serviceaccessgui</span> è inizialmente modellata come un attore che simula le interazioni del <span class="blue">fridge truck driver</span> con il sistema
+	per permettere di effettuare test sul corretto funzionamento dei componenti e loro interazioni.
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+QActor serviceaccessgui context ctxcoldstorageservice{
+	State so initial{
+		println("$name - START") color magenta
+	}
+	Goto sendRequest
+	
+	State sendRequest{
+		delay 3000
+		println("$name - Sending store request: 30 Kg") color magenta
+		request fridgeservice -m storerequest: storerequest(30)	
+	}
+	Transition t0 whenReply loadaccepted -> sendTicket
+					whenReply loadrefused -> endWork
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Dopo essere partito da uno stato iniziale <b>s0</b>, la <span class="blue">serviceaccessgui</span> entra nello stato di <b>sendRequest</b>, dove dopo un'attesa per assicurarsi che il resto del
+		sistema sia partito, invia una richiesta di deposito al <span class="blue">fridgeservice</span> con l'informazione sul peso nel payload.
+		Successivamente, l'attore attende una risposta che può essere di accettazione o rifiuto della richiesta. </li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State sendTicket{		
+	onMsg( loadaccepted : loadaccepted(TICKET) ){
+		println("$name - Moving to the INDOOR") color magenta	      
+		delay 2000 //simulating driver taking time to go to indoor
+		[# val Ticket="${payloadArg(0)}" #]
+		println("$name - Sending ticket: $Ticket") color magenta	        
+		request fridgeservice -m sendticket: sendticket($Ticket)
+	}
+}
+Transition t0 whenReply chargetaken -> endWork
+				whenReply ticketrefused -> endWork
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Se la richiesta viene accettata dal sistema, si passa allo stato <b>sendticket</b>, nel quale si simula lo spostamento del driver nella <span class="red">INDOOR</span> e
+		l'inserimento del ticket nel sistema. Fatto questo si invia la richiesta di <b>sendticket</b> al <span class="blue">fridgeservice</span> (inviando nel paylod il <b>ticketnumber</b>)che la elaborerà e risponderà con
+		un messaggio di <b>chargetaken</b> se il ticket viene accettato, o con <b>ticketrefused</b> se il ticket è scadudo. Si noti che questo messaggio sarà modificato nell'analisi
+		del problema in quanto i requisiti non chiariscono chi nel sistema debba effettivamente rispondere alla richiesta.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State endWork{
+	onMsg( loadrefused : loadrefused(_) ){
+		println("$name - END WORK: load got refused") color magenta
+	}
+	onMsg( ticketrefused : ticketrefused(_) ){
+		println("$name - END WORK: ticket got refused") color magenta
+	}
+	onMsg( chargetaken : chargetaken(_) ){
+		println("$name - END WORK: food load taken") color magenta
+	}		
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>In base alle risposte ricevute, l'attore entrerà nello stato finale di <b>endWork</b> nel quale si stampa il motivo di fine lavoro.</li>
+		</ul>
+	  </div>
+	</div>
+	</br>
+	Il componente <span class="blue">transporttrolley</span> è modellato come segue:
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+QActor transporttrolley context ctxcoldstorageservice{
+	State s0 initial{
+		println("$name - START, engage basicrobot") color green
+		request basicrobot -m engage: engage(transporttrolley,330)
+	}
+	Transition s0 whenReply engagedone -> waitRequest
+	
+	State waitRequest {
+		println("$name - waiting for a request...") color green
+		[# CommUtils.waitTheUser("$name Please HIT to send takeCharge ") #]
+	}
+	Goto moveToIndoor	
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato iniziale <b>s0</b>, il trolley invia la richiesta di <b>engage</b> al basicrobot e attende la risposta di corretto ingaggio.</li>
+		<li>All'arrivo della risposta, l'attore passa allo stato di <b>waitRequest</b>, dove attende una richiesta di incaricarsi il load da depositare. In questo primo
+		prototipo questo passaggio è simulato dalla pressione di un tasto, perchè dai requisiti non è direttamente deducibile come ciò debba svolgersi, ed è quindi lasciato a
+		una futura analisi. Dopo l'arrivo della richiesta, si passa allo stato <b>moveToIndoor</b>.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State moveToIndoor {
+	println("$name - taking charge of request") color green	
+	println("$name - moving to Indoor") color green	
+	delay 2000	 //simulate moving to indoor			
+}
+Goto loadTheCharge
+	
+State loadTheCharge{
+	println("$name - loading charge ...") color green
+	[# CommUtils.waitTheUser("$name load charge. Please HIT ") #]
+}
+Goto moveToColdRoom
+
+State moveToColdRoom{
+	println("$name - moving to ColdRoom ...") color green
+	delay 2000 //simulate moving to coldroom
+}
+Goto storeTheCharge
+
+State storeTheCharge{
+	println("$name - storing charge ...") color green
+	[# CommUtils.waitTheUser("$name storing charge. Please HIT")#]
+}
+Transition t0 whenTime 1000 -> moveToHome	
+		</code>
+		</pre>
+	  </div>	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>moveToIndoor</b> inizia la deposit action del trolley. Si simula il movimento del robot nella <span class="red">INDOOR</span>, in quanto il reale 
+		movimento ha bisogno di un'ulteriore analisi.</li>
+		<li>Nello stato <b>loadTheCharge</b> si simula il caricamento del <b>food load</b> con la pressione di un tasto.</li>
+		<li>Nello stato <b>moveToColdRoom</b> si simula il movimento del robot nella <span class="red">PORT</span> della <b>ColdRoom</b>.</li>
+		<li>Nello stato <B>storeTheCarge</B> si simula il deposito del carico all'interno della <ColdRoom> con la pressione di un tasto. Dopo un secondo, il robot va allo stato
+		<b>moveToHome</b>.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+		<div class="flex-child left">
+		<pre>
+		<code>
+State moveToHome{
+	println("$name - No more requests, moving to home ...") color green
+	delay 2000 //simulate moving to Home (will be changed with real movement)
+}
+Goto trolleyAtHome
+
+State trolleyAtHome{
+	println("$name - trolleyAtHome ... ") color green
+	forward basicrobot -m disengage : disengage(transporttrolley)
+	delay 1000 //avoid to premature abort of connection
+	[# System.exit(0) #]
+}	
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>moveToHome</b> si simula il movimento del robot alla <span class="red">HOME</span>, lasciando la presa in carico di nuove richieste a una futura analisi.</li>
+		<li>Nello stato <b>trolleyAtHome</b> il robot si trova nella <span class="red">HOME</span> e invia il comando di <b>disingaggio</b> al robot, per poi chiudere il sistema.</li>
+		</ul>
+	  </div>
+	</div>
+	</br>
+	L'attore <span class="blue">firdgeservice</span> è modellato come segue:
+	<div class="flex-container">
+		<div class="flex-child left">
+		<pre>
+		<code>
+QActor fridgeservice context ctxcoldstorageservice{
+	[#
+		val MAXW = 100 //max storable kg in the ColdRoom
+		val TICKETTIME = 20 //seconds of ticket validity
+		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()
+		var ticketValue = 0 //incrementing ticket value
+	#]
+	
+	State so initial{
+		println("$name - START") color blue
+	}
+	Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Il <span class="blue">firdgeservice</span> tiene traccia di tutte le variabili di sistema. <span class="red"><b>MAXW</b></span> per indicare la quantità
+			massima di cibo depositabile nella <B>ColdRoom</b>, <span class="red"><b>TICKETTIME</b></span> che indica la validità in secondi del <b>ticket</b>,
+			<b>CurrentlyStored</b> per tenere traccia della quantità di cibo depositata, <b>opernRequestList</b> per salvare le richieste ancora aperte,
+			<b>ticketValue</b> per ottenere numeri incrementali dei <b>tickets</b>.</li>
+		<li>Dallo stato iniziale <b>so</b> il sistema passa allo stato di <b>waitRequest</b> dove attenderà l'arrivo di una richiesta.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+		<div class="flex-child left">
+		<pre>
+		<code>
+QActor fridgeservice context ctxcoldstorageservice{
+	[#
+		val MAXW = 100 //max storable kg in the ColdRoom
+		val TICKETTIME = 20 //seconds of ticket validity
+		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()
+		var ticketValue = 0 //incrementing ticket value
+	#]
+	
+	State so initial{
+		println("$name - START") color blue
+	}
+	Goto waitRequest
+	
+	State waitRequest{
+		println("$name - waiting for requests...") color blue
+	}
+	Transition t0 whenRequest storerequest -> handleRequest
+					whenRequest sendticket -> handleTicket
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Il <span class="blue">firdgeservice</span> tiene traccia di tutte le variabili di sistema. <span class="red"><b>MAXW</b></span> per indicare la quantità
+			massima di cibo depositabile nella <B>ColdRoom</b>, <span class="red"><b>TICKETTIME</b></span> che indica la validità in secondi del <b>ticket</b>,
+			<b>CurrentlyStored</b> per tenere traccia della quantità di cibo depositata, <b>opernRequestList</b> per salvare le richieste ancora aperte,
+			<b>ticketValue</b> per ottenere numeri incrementali dei <b>tickets</b>.</li>
+		<li>Dallo stato iniziale <b>so</b> il sistema passa allo stato di <b>waitRequest</b> dove attenderà l'arrivo di una richiesta.</li>
+		<li>Il sistema può attendere per i due tipi di richieste trovati nell'analisi dei requisiti. La <b>storerequest</b> per una richiesta di deposito che porterà allo stato
+		<b>handleRequest</b>, e la <b>sendticket</b> per il controllo sull'inserimento del biglietto nel sistema, che porterà allo stato <b>handleTicket</b>.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+		<div class="flex-child left">
+		<pre>
+		<code class="small">
+State handleRequest{
+	onMsg(storerequest: storerequest(KG)){			
+		if [# payloadArg(0).toFloat() < MAXW - CurrentlyStored #]{
+			[# val Ticket= ticketValue
+				ticketValue = ticketValue + 1
+			#]
+			println("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket") color blue
+			replyTo storerequest with loadaccepted : loadaccepted($Ticket)	caller== serviceaccessgui
+			[# openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis())) #]	
+		}
+		else {
+			println("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ") color blue
+			replyTo storerequest with loadrefused : loadrefused(_)	caller== serviceaccessgui
+		}	
+	}
+}
+Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>handleRequest</b>, il <span class="blue">fridgeservice</span> controlla che il peso del <b>food load</b> della richiesta non sia superiore alla
+		quantità depositabile. In caso affermativo si crea un biglietto e si invia la risposta di <b>loadaccepted</b> alla <span calss="blue">serviceaccessgui</span>, e si
+		salvano le informazioni relative alla richiesta (<b>ticket number</b>, <b>kg</b>, <b>data di emissione</b>) nella lista delle richieste attive.
+		In caso negativo invece la richiesta viene rifiutata con la risposta <b>loadrefused</b>.</li>
+		<li>Si noti che dopo che la richiesta è stata elaborata, sia in caso positivo che in caso negativo il sistema ritorna nello stato <b>waitrequest</b>, dove attenderà
+		una nuova richiesta di deposito o di inserimento di un biglietto.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+		<div class="flex-child left">
+		<pre>
+		<code class="small">
+State handleTicket{
+	onMsg(sendticket: sendticket(TICKET)){
+		[# 
+			val Ticket = payloadArg(0).toInt()
+			val request = openRequestList.find { it?.first == Ticket }			
+			val elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+			val Kg = request.second //load of this request
+		#] //request with the ticket value of the sendticket payload
+		
+		if [# elapsedTime <= TICKETTIME #]{
+			println("$name - accepting ticket $Ticket of request for $Kg Kg") color blue
+			replyTo sendticket with chargetaken : chargetaken(_) caller==serviceaccessgui
+			[# CurrentlyStored += Kg #]
+			println("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom")
+		}
+		else{
+			println("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)") color blue
+			replyTo sendticket with ticketrefused : ticketrefused(_) caller==serviceaccessgui
+		}
+		[# openRequestList.remove(request) #] //removing the request after we are done with it
+	}
+}
+Goto waitRequest
+}
+Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>handleTicket</b> si estrapolano i dati della richiesta dalla lista delle richieste attive utilizzando il <b>ticket</b> inviato nel payload della richiesta,
+		e si va a calcolare il tempo (in secondi) trascorso dall'emissione del biglietto. Se il tempo trascorso è minore o uguale di <span class="red"><b>TICKETTIME</b></span> il
+		biglietto viene accettato e il sistema invia la risposta di <b>chargetaken</b> (provvisorio) alla <span class="blue">serviceaccessgui</span>, e si aggiorna la quantità di cibo
+		depositata. Se invece il tempo trascorso è maggiore di <span class="red"><b>TICKETTIME</b></span></li> la richiesta viene rifiutata con la risposta <b>ticketrefused</b>. In
+		entrambi i casi la richiesta viene eliminata dalla lista delle richieste aperte </li>
+		<li>Si noti che dopo che la richiesta è stata elaborata, sia in caso positivo che in caso negativo il sistema ritorna nello stato <b>waitrequest</b>, dove attenderà
+		una nuova richiesta di deposito o di inserimento di un biglietto.</li>
+		</ul>
+	  </div>
+	</div>
+	
+Il modello eseguibile del <span class="blue">ColdStorageService</span> realizzato si può trovare nel progetto <a href="sprint0Model">sprint0Model</a>
+</div>
+
+
+
+
+
+
+
+<h3>Piani di testing</h3>
+	
+	
+	
+
+<h2>Piano di lavoro</h2>
+
+<h2>Test plans</h2> 
+//biglietto scaduto
+//più richieste (che viene prima che il precedente è andato nella indoor, oppure dopo. vedi come si gestiscono entrambe)
+//coldroom piena
+
+
+</div>
+</div>
+
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Matteo Giri email: matteo.giri@studio.unibo.it
+<br>
+Link GitHub Repo: https://github.com/s1090263/iss2023/
+<img src="./immagini/fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
+</div> 
+</body>
+</html>

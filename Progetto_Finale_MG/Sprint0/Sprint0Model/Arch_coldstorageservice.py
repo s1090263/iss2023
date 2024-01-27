@@ -22,19 +22,12 @@ with Diagram('coldstorageserviceArch', show=False, outformat='png', graph_attr=g
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxcoldstorageservice', graph_attr=nodeattr):
-          fridgeservice=Custom('fridgeservice','./qakicons/symActorSmall.png')
           serviceaccessgui=Custom('serviceaccessgui','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
+          fridgeservice=Custom('fridgeservice','./qakicons/symActorSmall.png')
      with Cluster('ctxbasicrobot', graph_attr=nodeattr):
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     with Cluster('ctxrasp', graph_attr=nodeattr):
-          alarmdevice=Custom('alarmdevice','./qakicons/symActorSmall.png')
-     with Cluster('ctxdriver', graph_attr=nodeattr):
-          fridgetruckdriver=Custom('fridgetruckdriver','./qakicons/symActorSmall.png')
-     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; moverobot &nbsp; >',  fontcolor='magenta') >> basicrobot
-     basicrobot >> Edge(color='blue', style='solid',  label='<coapUpdate &nbsp; >',  fontcolor='blue') >> serviceaccessgui
-     transporttrolley >> Edge(color='blue', style='solid',  label='<setdirection &nbsp; disengage &nbsp; >',  fontcolor='blue') >> basicrobot
-     transporttrolley >> Edge(color='blue', style='solid',  label='<gomoveToIndoor &nbsp; >',  fontcolor='blue') >> transporttrolley
-     transporttrolley >> Edge(color='blue', style='solid',  label='<coapUpdate &nbsp; >',  fontcolor='blue') >> serviceaccessgui
-     alarmdevice >> Edge(color='blue', style='solid',  label='<stop &nbsp; resume &nbsp; >',  fontcolor='blue') >> transporttrolley
+     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; >',  fontcolor='magenta') >> basicrobot
+     serviceaccessgui >> Edge(color='magenta', style='solid', decorate='true', label='<storerequest &nbsp; sendticket &nbsp; >',  fontcolor='magenta') >> fridgeservice
+     transporttrolley >> Edge(color='blue', style='solid',  label='<disengage &nbsp; >',  fontcolor='blue') >> basicrobot
 diag

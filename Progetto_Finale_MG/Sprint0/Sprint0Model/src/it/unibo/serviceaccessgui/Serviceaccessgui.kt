@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Serviceaccessgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope ){
+class Serviceaccessgui ( name: String, scope: CoroutineScope , bho: Boolean ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "so"
@@ -22,41 +22,64 @@ class Serviceaccessgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 				return { //this:ActionBasciFsm
 				state("so") { //this:State
 					action { //it:State
-						CommUtils.outblue("GUI START")
-						CoapObserverSupport(myself, "127.0.0.1","8090","ctxbasicrobot","basicrobot")
-						CoapObserverSupport(myself, "localhost","9990","ctxcoldstorageservice","transporttrolley")
+						CommUtils.outmagenta("$name - START")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="work", cond=doswitch() )
+					 transition( edgeName="goto",targetState="sendRequest", cond=doswitch() )
 				}	 
-				state("work") { //this:State
+				state("sendRequest") { //this:State
 					action { //it:State
+						delay(3000) 
+						CommUtils.outmagenta("$name - Sending store request: 30 Kg")
+						request("storerequest", "storerequest(30)" ,"fridgeservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t01",targetState="doObserve",cond=whenDispatch("coapUpdate"))
+					 transition(edgeName="t00",targetState="sendTicket",cond=whenReply("loadaccepted"))
+					transition(edgeName="t01",targetState="endWork",cond=whenReply("loadrefused"))
 				}	 
-				state("doObserve") { //this:State
+				state("sendTicket") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("coapUpdate(SOURCE,ARG)"), Term.createTerm("coapUpdate(basicrobot,ARG)"), 
+						if( checkMsgContent( Term.createTerm("loadaccepted(TICKET)"), Term.createTerm("loadaccepted(TICKET)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								CommUtils.outyellow("$name - From basicrobot: ${payloadArg(1)}")
-						}
-						if( checkMsgContent( Term.createTerm("coapUpdate(SOURCE,ARG)"), Term.createTerm("coapUpdate(transporttrolley,ARG)"), 
-						                        currentMsg.msgContent()) ) { //set msgArgList
-								CommUtils.outmagenta("$name - From trasporttrolley: ${payloadArg(1)}")
+								CommUtils.outmagenta("$name - Moving to the INDOOR")
+								delay(2000) 
+								 val Ticket="${payloadArg(0)}"  
+								CommUtils.outmagenta("$name - Sending ticket: $Ticket")
+								request("sendticket", "sendticket($Ticket)" ,"fridgeservice" )  
 						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="work", cond=doswitch() )
+					 transition(edgeName="t02",targetState="endWork",cond=whenReply("chargetaken"))
+					transition(edgeName="t03",targetState="endWork",cond=whenReply("ticketrefused"))
+				}	 
+				state("endWork") { //this:State
+					action { //it:State
+						if( checkMsgContent( Term.createTerm("loadrefused(_)"), Term.createTerm("loadrefused(_)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								CommUtils.outmagenta("$name - END WORK: load got refused")
+						}
+						if( checkMsgContent( Term.createTerm("ticketrefused(_)"), Term.createTerm("ticketrefused(_)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								CommUtils.outmagenta("$name - END WORK: ticket got refused")
+						}
+						if( checkMsgContent( Term.createTerm("chargetaken(_)"), Term.createTerm("chargetaken(_)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								CommUtils.outmagenta("$name - END WORK: food load taken")
+						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
 				}	 
 			}
 		}
