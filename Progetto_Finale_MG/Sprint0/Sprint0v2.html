@@ -281,7 +281,7 @@ font-size:65%;
 <h2>Requisiti</h2>
 
 <div class="remark">
-I requisiti del sistema da creare possono essere trovati in <a href="html/TemaFinale23.html">TemaFinale23</a>.
+I requisiti del sistema da creare possono essere trovati in <a href="../html/TemaFinale23.html">TemaFinale23</a>.
 </div>
  
 <h2>Analisi dei requisiti</h2>
@@ -289,8 +289,8 @@ Analizzando i requisiti del problema e dopo ulteriori colloqui con il committent
 <div class="sec remark-light">
 	Il servizio <span class="blue">ColdStorageService</span> è un processo difficilmente modellabile come un semplice oggetto, per via della sua complessità. Una migliore
 	rappresentazione ci è data dal concetto di <b>attore</b>, ovvero un ente logicamente attivo capace di inviare e ricevere messaggi in un contesto distribuito. Il
-	concetto di attore ci è reso disponibile sottoforma di software dal committente (si veda <a href="html/QakActors23.html">QakActors23</a> per maggiori informazioni),
-	che fornisce un modello per realizzare <b>actors</b> (<a href="html/Actors23.html">Actors23</a>, <a href="html/Actors23FSM.html">Actors23FSM</a>) e interazioni tra di essi.
+	concetto di attore ci è reso disponibile sottoforma di software dal committente (si veda <a href="../html/QakActors23.html">QakActors23</a> per maggiori informazioni),
+	che fornisce un modello per realizzare <b>actors</b> (<a href="../html/Actors23.html">Actors23</a>, <a href="../html/Actors23FSM.html">Actors23FSM</a>) e interazioni tra di essi.
 	</br>
 	Gli attori non hanno memoria condivisa e interagiscono tra di loro solo attraverso scambi di messaggi, che possono essere:
 	<ul class="sep">
@@ -326,7 +326,7 @@ class ServiceArea {
 	</br>
 	</br>
 	Un <b>DDR robot</b> è un robot che possiede due ruote motrici sullo stesso asse e una terza ruota condotta (non motrice). Il committente fornisce un servizio con cui è possibile interfacciarsi
-	col robot che sia fisico o virtuale (si veda <a href="html/BasicRobot23.html">BasicRobot23</a> per ulteriori informazioni). Il servizio è realizzato ad attori ed ha la seguente
+	col robot che sia fisico o virtuale (si veda <a href="../html/BasicRobot23.html">BasicRobot23</a> per ulteriori informazioni). Il servizio è realizzato ad attori ed ha la seguente
 	architettura:
 	<blockquote>
 	<a class="reference internal image-reference" href="./immagini/basicrobot23arc.png"><img alt="./immagini/basicrobot23arc.png" class="align-center" src="./immagini/basicrobot23arc.png" style="width: 20%;" /></a>
@@ -364,7 +364,7 @@ class ServiceArea {
 	</br>
 	</br>
 	Per quel che riguarda gli <b>Alarm Requirements</b>, il <b>Sonar</b> e il <b>Led</b> sono dispositivi fisici per i quali il committente fornisce software di supporto nell'utilizzo
-	(<a href="html\RaspBasicCode.html#usiamo-un-sonar-hc-sr04">RaspBasicCode</a>, <a href="html\RaspApplCode.html">RaspApplCode</a> ). Il sonar deve essere utilizzato come <b>alarm device</b>
+	(<a href="..\html\RaspBasicCode.html#usiamo-un-sonar-hc-sr04">RaspBasicCode</a>, <a href="..\html\RaspApplCode.html">RaspApplCode</a> ). Il sonar deve essere utilizzato come <b>alarm device</b>
 	e il led come <b>warning device</b>. Come per il <span class="blue">Transport trolley</span> con il DDR robot, è possibile definire questi due componenti come un <b>attore</b> posto in
 	un contesto esterno al sistema, che utilizza i dispositivi fisici associati. La distanza <span class="blue">DLIMIT</span> sarà quindi una costante dell'attore. </br>
 	Non essendoci chiarezza su chi deve <b>stoppare</b> o far ripartire il trolley non è possibile, almeno in questa fase, formalizzare queste azioni.
@@ -428,9 +428,9 @@ informazioni necessarie.
 	
 <h3>Modello del sistema</h3>
 Dall'analisi sono scaturite diverse informazioni che ci permettono di realizzare un primo modello eseguibile del sistema. Come accennato precedentemente, per realizzare questo modello
-si può fare uso del software di modellazione fornito dal committente (<a href="html/QakActors23.html">QakActors23</a>). Utilizzare questo software è vantaggioso poichè permette di
+si può fare uso del software di modellazione fornito dal committente (<a href="../html/QakActors23.html">QakActors23</a>). Utilizzare questo software è vantaggioso poichè permette di
 creare in maniera rapida un prototipo eseguibile del servizio, fornendo strumenti e factory per creare <b>attori</b> e gestire le interazioni tra di essi (anche in nodi distribuiti).
-Gli attori sono modellati come <b>automi a stati finiti</b> (<a href="html/Actors23FSM.html">Actors23FSM</a>), per la necessità di distinguere i messaggi che si vuole ricevere in un certo
+Gli attori sono modellati come <b>automi a stati finiti</b> (<a href="../html/Actors23FSM.html">Actors23FSM</a>), per la necessità di distinguere i messaggi che si vuole ricevere in un certo
 momento (stato) del sistema (e per evitare problemi con messaggi provenienti da più entità).</br></br>
 
 Il modello ha la seguente architettuta:
@@ -696,7 +696,7 @@ QActor fridgeservice context ctxcoldstorageservice{
 		val MAXW = 100 //max storable kg in the ColdRoom
 		val TICKETTIME = 20 //seconds of ticket validity
 		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
-		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()
+		val openRequestList =  mutableListOf&lt;Triple&lt;Int, Float, Long&gt;?&gt;()
 		var ticketValue = 0 //incrementing ticket value
 	#]
 	
@@ -732,7 +732,7 @@ QActor fridgeservice context ctxcoldstorageservice{
 		<code class="small">
 State handleRequest{
 	onMsg(storerequest: storerequest(KG)){			
-		if [# payloadArg(0).toFloat() < MAXW - CurrentlyStored #]{
+		if [# payloadArg(0).toFloat() &lt; MAXW - CurrentlyStored #]{
 			[# val Ticket= ticketValue
 				ticketValue = ticketValue + 1
 			#]
@@ -775,7 +775,7 @@ State handleTicket{
 			val Kg = request.second //load of this request
 		#] //request with the ticket value of the sendticket payload
 		
-		if [# elapsedTime <= TICKETTIME #]{
+		if [# elapsedTime &lt;= TICKETTIME #]{
 			println("$name - accepting ticket $Ticket of request for $Kg Kg") color blue
 			replyTo sendticket with chargetaken : chargetaken(_) caller==serviceaccessgui
 			[# CurrentlyStored += Kg #]
