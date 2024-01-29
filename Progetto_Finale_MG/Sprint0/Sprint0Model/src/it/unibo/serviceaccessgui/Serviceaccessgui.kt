@@ -33,8 +33,6 @@ class Serviceaccessgui ( name: String, scope: CoroutineScope, bho: Boolean  ) : 
 				state("sendRequest") { //this:State
 					action { //it:State
 						delay(3000) 
-						CommUtils.outmagenta("$name - Sending store request: 30 Kg")
-						request("storerequest", "storerequest(30)" ,"fridgeservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

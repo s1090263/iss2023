@@ -23,7 +23,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean  ) : 
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - START, engage basicrobot")
-						request("engage", "engage(transporttrolley,330)" ,"basicrobot" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -103,7 +102,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean  ) : 
 				state("trolleyAtHome") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - trolleyAtHome ... ")
-						forward("disengage", "disengage(transporttrolley)" ,"basicrobot" ) 
 						CommUtils.outgreen("$name - disengaged")
 						delay(1000) 
 						 System.exit(0)  

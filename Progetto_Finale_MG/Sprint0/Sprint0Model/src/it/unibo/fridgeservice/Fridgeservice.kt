@@ -55,12 +55,12 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 								 ){ val Ticket= ticketValue
 													ticketValue = ticketValue + 1
 								CommUtils.outblue("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket")
-								answer("storerequest", "loadaccepted", "loadaccepted($Ticket)","serviceaccessgui"   )  
+								answer("storerequest", "loadaccepted", "loadaccepted($Ticket)"   )  
 								 openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis()))  
 								}
 								else
 								 {CommUtils.outblue("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ")
-								 answer("storerequest", "loadrefused", "loadrefused(_)","serviceaccessgui"   )  
+								 answer("storerequest", "loadrefused", "loadrefused(_)"   )  
 								 }
 						}
 						//genTimer( actor, state )
@@ -81,13 +81,13 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 												val Kg = request.second //load of this request
 								if(  elapsedTime <= TICKETTIME  
 								 ){CommUtils.outblue("$name - accepting ticket $Ticket of request for $Kg Kg")
-								answer("sendticket", "chargetaken", "chargetaken(_)","serviceaccessgui"   )  
+								answer("sendticket", "chargetaken", "chargetaken(_)"   )  
 								 CurrentlyStored += Kg  
 								CommUtils.outblue("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom")
 								}
 								else
 								 {CommUtils.outblue("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)")
-								 answer("sendticket", "ticketrefused", "ticketrefused(_)","serviceaccessgui"   )  
+								 answer("sendticket", "ticketrefused", "ticketrefused(_)"   )  
 								 }
 								 openRequestList.remove(request)  
 						}

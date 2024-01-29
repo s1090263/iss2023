@@ -27,7 +27,5 @@ with Diagram('coldstorageserviceArch', show=False, outformat='png', graph_attr=g
           fridgeservice=Custom('fridgeservice','./qakicons/symActorSmall.png')
      with Cluster('ctxbasicrobot', graph_attr=nodeattr):
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; >',  fontcolor='magenta') >> basicrobot
-     serviceaccessgui >> Edge(color='magenta', style='solid', decorate='true', label='<storerequest &nbsp; sendticket &nbsp; >',  fontcolor='magenta') >> fridgeservice
-     transporttrolley >> Edge(color='blue', style='solid',  label='<disengage &nbsp; >',  fontcolor='blue') >> basicrobot
+     serviceaccessgui >> Edge(color='magenta', style='solid', decorate='true', label='<sendticket &nbsp; >',  fontcolor='magenta') >> fridgeservice
 diag
