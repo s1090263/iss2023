@@ -1,0 +1,758 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<link rel="stylesheet" href="html/prism.css">
+<script src="html/prism.js"></script>
+<style type="text/css">
+body
+{
+    margin-left:  10px;
+    margin-right: 10px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+div.remark-light{
+	background-color: #F0FFFF;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 15px;
+}
+span.remark{
+	background-color: #6b9cff;
+    border: 1.5px solid #d5f2ed;
+    padding: 5px;
+    margin: 20px;
+	border-radius: 25px;
+	font-size: 120%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 0px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+.blue{
+    color: blue;
+}
+.red{
+	color: red;
+}
+.sep li{
+	padding-bottom: 10px;
+}
+div.sec{
+margin-top: 10px;
+margin-left: 30px;
+margin-right: 30px;
+}
+.align-center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+pre.language-java {
+      max-width: 800px; /* Adjust the max-width as needed */
+      overflow-x: auto;
+      display: inline-block; 
+	  padding-top: 0em;
+	  padding-bottom: 0em;
+	  margin-left: 100px;
+    }
+	
+pre{
+overflow: auto;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+	width: 50%;
+	flex:1;
+}  
+
+.flex-child.left {
+    margin-right: 20px;
+	overflow: hidden;
+	 flex-shrink: 0;
+}
+
+.flex-child.right {
+	padding-top: 20px;
+	 flex-shrink: 1;
+}
+
+.small{
+font-size:65%;
+}
+
+.inline{
+display: inline-block;
+padding: 0px;
+}
+</style>
+    
+<head>
+   
+<title>Sprint1 Giri Matteo</title>
+
+</head>
+    
+<body>
+<div id="top">
+<h1>TEMA FINALE SPRINT1<font size="5"></font> </h1>
+</div>
+
+<span class="blue"></span> 
+<span class="red"><b></b></span> 
+
+<div class="body"> 
+<h2>Introduzione</h2>
+Nello <a href="../Sprint0/Sprint0v2.html"><span class="red">SPRINT0</span></a> è stata effettuata l'<b>analisi dei requisiti</b> del sistema <span class="blue">ColdStorageService</span>
+da realizzare, che si è conclusa con un primo modello del sistema con la seguente architettura:
+
+<blockquote>
+<a class="reference internal image-reference" href="../Sprint0/immagini/ArchitetturaLogicaSprint0.png"><img alt="../Sprint0/immagini/ArchitetturaLogicaSprint0.png" class="align-center" src="../Sprint0/immagini/ArchitetturaLogicaSprint0.png" style="width: 30%;" /></a>
+</blockquote>
+
+In questo sprint andrò ad affrontare il problema della creazione del <span class="blue"><b>core applicativo</b></span> del sistema.
+<h2>Requisiti</h2>
+Nello <span class="red">SPRINT1</span> si terrà conto solo dei requisiti associati alle seguenti <b>user-stories</b>:
+<div class="sec remark">
+<i><b>1.</b> "A <span class="blue">Fridge truck driver</span> uses the <span class="blue">ServiceAcessGUI</span> to send a request to store its load of <span class="red"><b>FW</b></span>  kg. If the request is accepted, the driver 
+drives its truck to the <span class="red">INDOOR</span> of the service, before the ticket exipration time <span class="red"><b>TICKETTIME</b></span>."</i>
+</br>
+</br>
+<i><b>2.</b> "When the truck is at the <span class="red">INDOOR</span> of the service, the driver uses the <span class="blue">ServiceAccessGUI</span> to enter the <b>ticket number</b> and waits until the message
+ <b>charge taken</b> (sent by the <span class="blue">ColdStorageService</span>) appears on the ServiceAcessGUI. At this point, the truck should leave the  <span class="red">INDOOR</span>."</i>
+</br>
+</br>
+<i><b>3.</b> "When the service accepts a ticket, the <span class="blue">transport trolley</span> reaches the <span class="red">INDOOR</span>, picks up the food, sends the <b>charge taken</b> message and then goes to the <b>ColdRoom</b> to store the food."</i>
+</br>
+</br>
+<i><b>4.</b> "When the deposit action is terminated, the <span class="blue">transport trolley</span> accepts another <b>ticket</b> (if any) or returns to <span class="red">HOME</span>."</i>
+</div>
+
+In particolare: si andrà a realizzare il il cuore del sistema sviluppando il <span class="blue">FridgeService</span>, il <span class="blue">TransportTrolley</span> e la <span class="blue">ServiceAccessGUI</span>.
+In aggiunta al modello già prodotto precedentemente, si dovranno gestire i problemi del <b>movimento del trolley</b> e <b>interazioni con basicrobot</b> (e <b>deposit action</b>), la gestione di <b>richieste multiple</b> e l'interazione tra i tre componenti principali.
+ La parte di GUI della <span class="blue">ServiceAccessGUI</span> verrà ignorata in questo sprint e le interazioni con il <span class="blue">TruckDriver</span> saranno simulate dall'attore che modella la <span class="blue">ServiceAccessGUI</span> che ho già realizzato.
+ 
+<h2>Analisi del problema</h2>
+<h3>Il problema del posizionamento del trolley</h3>
+<div class="sec remark-light">
+	Nel modello dello SPRINT0 i movimenti del <span class="blue">Transport Trolley</span> sono solo simulati. E' necessario trovare un modo per poter muovere il robot in posizioni specifiche della
+	<b>service area</b> per permettergli di effettuare tutte le azioni della <b>deposit action</b>.
+	</br>
+	</br>
+	Nello SPRINT0 ho già introdotto il concetto di service area come una <b>griglia</b> con celle di dimensioni <span class="red"><b>RD</b></span> (dimensione del robot):
+	<blockquote>
+	<a class="reference internal image-reference" href="../Sprint0/immagini/GrigliaRappr.png"><img alt="../Sprint0/immagini/GrigliaRappr.png" class="align-center" src="../Sprint0/immagini/GrigliaRappr.png" style="width: 20%;" /></a>
+	</blockquote>
+	Introducendo il concetto di <b>step</b> come un movimento elementare del <b>DDR Robot</b> che lo sposta in avanti di una lunghezza <span class="red"><b>RD</b></span> (unità robotica),
+	è possibile costruire questa rappresentazione dell'area a celle (di dimensioni RD x RD). Lo <b>step</b> è incluso nel progetto <a href="../html/BasicRobot23.html">BasicRobot23</a> fornito dal committente attraverso un comando <code>step:step(TIME)</code>, dove <span class0"red"><b>TIME</b></span>
+	è il tempo necessario in millisecondi per muovere il robot di un'unità robotica.
+	</br>
+	Per la realizzazione della mappa il committente fornisce il progetto <span class="blue">unibo.mapperQak23</span> (si veda anche <a href="../html/_static/LabPlanner.html">Planner</a>). Il BasicRobot carica la mappa della stanza quando viene inizializzato.
+	Nel caso del sistema da realizzare, la mappa avrà una rappresentazione del tipo:
+	</br>
+	</br>
+	<code>
+	|r, 1, 1, 1, 1, 1, 1,</br> 
+	|1, 1, 1, 1, X, X, 1, </br>
+	|1, 1, 1, 1, X, X, 1, </br>
+	|1, 1, X, 1, 1, 1, 1, </br>
+	|1, 1, 1, 1, 1, 1, 1, </br>
+	|X, X, X, X, X, X, X, </br>
+	</code>
+	</br>
+	<ul class="sep">
+	<li><b>0</b> denota una cella mai percorsa</li>
+	<li><b>1</b> denota una cella libera</li>
+	<li><b>X</b> denota un ostacolo</li>
+	<li><b>r</b> denota la posizione corrente del robot</li>
+	</ul>
+	Il <b>BasicRobot23</b> utilizza questa rappresentazione della stanza per poter muovere il robot all'interno dell'area.
+	</br>
+	</br>
+	Rimane ora il problema di far muovere il robot in posizioni specifiche della <b>service area</b>. Un modo per costruire dinamicamente una sequenza di mosse con cui il robot
+	può muoversi dalla posizione corrente <b>r</b> a un’altra posizione (libera) sulla mappa, consiste nell’utilizzo di un <b>pianificatore</b> (si veda 
+	<a href="../html/_static/LabPlanner.html">Planning</a>) come quello fornito dal committente in <span class="blue">unibo.planner23-1.0.jar</span>. </br>
+	E' possibile inviare al basicrobot la richiesta </br><pre class="inline"><code>Request moverobot : moverobot(TARGETX, TARGETY)</code></pre></br> per poter muovere il robot in una posizione specifica (<span class="red">TARGETX</span>,<span class="red">TARGETY</span>)
+	 dell'area. Quando si invia questo messaggio al basicrobot, il servizio delega la sua gestione al componente <span class="blue">robotpos</span>, che facendo uso del <b>planner</b>,
+	determina un piano di movimento per raggiungere la destinazione, e fa poi uso del componente <span class="blue">planexec</span> per eseguire il piano di mosse. Alla richiesta <b>moverobot</b> 
+	possono corrispondere due tipi di risposte:</br><pre class="inline"><code>Reply moverobotdone: moverobotok(ARG)</code></pre></br> che implica la corretta riuscita del piano di mosse, e </br><pre class="inline"><code>Reply moverobotfailed : moverobotfailed(PLANDONE, PLANTODO)</code></pre></br>
+    che corrisponde al fallimento del piano. Nell'ultimo caso, vengono ritornati la parte di piano svolta correttamente (<span class="red">PLANDONE</span>) e quella rimasta da svolgere (<span class="red">PLANTODO</span>)(si veda <a href="../html/robotpos.html">robotPos</a> per ulteriori informazioni).
+	</br>
+	</br>
+	Un altro comando utile del basicrobot è </br><pre class="inline"><code>Dispatch setdirection : dir( D )</code></pre></br> che permette di cambiare l'orientamento del robot fornendo come payload
+	del messaggio la direzione richiesta (<span class="red">down</span>|<span class="red">up</span>|<span class="red">left</span>|<span class="red">right</span>).
+</div>
+<div class="sec remark-light">
+	Nel caso in cui la richiesta <b>moverobot</b> fallisca, ho deciso di far riprovare l'ultima mossa al robot finchè non riesce. Per fare questo ho introdotto una enum class di utilità chiamata
+	<b>MoveType</b>:
+	</br>
+	<pre style="display:inline-block;">
+<code>
+enum class MoveType {
+    MOVETOINDOOR, //moving action to INDOOR
+    MOVETOCR, //moving action to PORT of coldroom
+    MOVETOHOME //moving action to HOME
+}
+</code>
+</pre>
+</br>
+Tramite questa classe mi salvo in una variabile <b>LastAction</b> l'ultima azione di movimento provata ad eseguire. Quando arriva la risposta <b>moverobotfailed</b> il <span class="blue">Trolley</span>
+passa a uno stato <b>tryAgain</b> dove in base al valore di LastAction riprova ad effettuare l'azione. Questo viene fatto a un massimo di <span class="red">N</span> mosse fallite, oltre le quali
+il sistema si chiude per troppi errori.
+
+	
+</div>
+
+<h3>Interazione tra i componenti del sistema</h3>
+<div class="sec remark-light">
+Il <span class="blue">Transport Trolley</span> deve in qualche modo essere informato di una richiesta di cui prendersi carico. Questo passaggio viene effettuato dal <span class="blue">FridgeService</span>
+che invia la richiesta </br><pre class="inline"><code>Request takecharge : takecharge(TICKET)</code></pre></br> al trolley aspettandosi la risposta </br><pre class="inline"><code>Reply chargetaken : chargetaken(_)</code></pre></br>
+Questo tipo di interazione non congestiona il servizio perchè anche se il <span class="blue">FridgeService</span> deve mettersi in attesa di una risposta dal robot, anche la <span class="blue">ServiceAccessGUI</span>
+sarà in attesa di una risposta dal servizio, e quindi  in quel lasso di tempo il servizio non potrebbe comunque ricevere nuove richieste di deposito nel mentre. In questo modo inoltre, il <span class="blue">FridgeService</span>
+può avere conferma della vera presa in carica dell'ordine dal robot. L'attesa terminerà quando il robot raggiunge la <span class="red">INDOOR</span> e carica il <b>food load</b>, in quanto
+dovrà inivare la risposta di <b>chargetaken</b> al <span class="blue">FridgeService</span> che poi girerà alla <span class="blue">ServiceAccessGUI</span>.
+</br>
+</br>
+Questa interazione può essere ulteriormente migliorata andando ad utilizzare un "trucchetto" di delegazione. Se il <span class="blue">FridgeService</span> delega la gestione del messaggio di reply
+ <b>chargetaken</b> al <span class="blue">ServiceAccessGUI</span>, non ha più bisogno di aspettare esplicitamente la risposta del <span class="blue">TransportTrolley</span>, in quanto appena la risposta
+ arriva, questa viene passata direttamente alla <span class="blue">ServiceAccessGUI</span> che sta comunque aspettando lo stesso tipo di risposta. Utilizzare questo metodo permette al servizio di
+ non essere bloccato in attesa che il robot prenda carico della richiesta (cosiccè in futuro potrebbe essere utilizzato per altri tipi di richieste nel mentre), e permette inoltre di non complicare troppo
+ il sistema con l'aggiunta di stati specifici per l'handling della risposta del trolley (come accade invece per la prima soluzione trovata).
+</div>
+<h3>Gestione di richieste multiple</h3>
+<div class="sec remark-light">
+Il sistema è già impostato per permettere l'arrivo di richieste multiple. Infatti, dopo l'arrivo di una <b>storerequest</b>, il <span class="blue">FridgeService</span> si rimette in attesa
+di nuove richieste, che possono essere l'inserimento di un <b>ticket</b> ma anche una nuova <b>storerequest</b>. Il servizio tiene già traccia delle richieste aperte salvandole in una lista
+(openRequestList), che permette anche la differenziazione tra le tali (associando la scadenza del biglietto e il peso del carico al numero di biglietto).
+</br>
+</br>
+Ci sono però alcuni cambiamenti da fare alla logica del sistema per far sì che questo funzioni correttamente. Nel primo prototipo realizzato, la variabile che tiene conto della quantità
+di cibo depositata nella coldroom (<b>CurrentlyStored</b>) viene aggiornata con la nuova quantità della richiesta subito dopo che il relativo <b>ticket</b> viene accettato. Questo però
+può creare problemi nel caso in cui più richieste di deposito vengano inviate prima che il <span class="blue">truck driver</span> arrivi ad inserire il biglietto, perchè ogni nuova richiesta
+farebbe il check della quantità depositabile con la variabile <b>CurrentlyStored</b> non ancora aggiornata con le quantità delle precedenti richieste accettate. </br> Quindi è opportuno aggiornare la variabile <b>CurrentlyStored</b> 
+subito dopo che la <b>storerequest</b> viene accettata (quindi prima che il driver arrivi nella <span class="red">INDOOR</span> a caricare il biglietto). Facendo in questo modo bisogna
+però tenere conto della possibilità che il <b>ticket</b> scada e quindi che la richiesta <b>sendticket</b> venga rifiutata. In questo caso si sottrae dalla variabile il carico del ticket rifiutato.
+</br>
+</br>
+Un ultima aggiunta da fare è quella di permettere al <span class="blue">Transport Trolley</span> di prendersi in carico di un'altra richiesta subito dopo aver terminato la precedente <b>deposit action</b>.
+Possiamo sfruttare le code di messaggi di cui ogni <b>actor</b> è fornito: il <span class="blue">FridgeService</span> non deve preoccuparsi del fatto che il robot stia o non stia eseguendo una deposit action
+prima di inviargli una richiesta, perchè grazie al funzionamento degli <b>ActorFSM</b> se il robot è in uno stato diverso dal <b>waitingRequest</b> semplicemente inserirà ogni nuova richiesta nella sua coda dei
+messaggi, per elaborarla solo dopo che avrà finito con la richiesta precedente. Più in particolare, possiamo sfruttare la direttiva <b>whenTime</b> del linguaggio <i>Qak</i> per dare tempo al
+robot di verificare se ci siano nuove richieste, e in caso contrario tornarsene alla <span class="red">HOME</span>:</br>
+<pre style="display:inline-block;">
+<code>
+Transition t0 whenTime 1000 -> moveToHome
+		whenRequest takecharge -> moveToIndoor
+</code>
+</pre>
+</div>
+
+<h2>Progettazione</h2>
+<div class="sec remark-light">
+Di seguito sono mostrati i messaggi utilizzati dal sistema:
+</br>
+<pre style="display:inline-block;">
+<code>
+// ----- Messaggi per le interazioni con il basic robot -------
+Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
+Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
+Reply	engagerefused	: engagerefused(ARG) //risposta di rifiuto di ingaggio
+
+Dispatch disengage		: disengage(ARG) //messaggio di disingaggio
+
+Request moverobot		: moverobot(TARGETX, TARGETY) //richiesta di muovere il robot in una determinata posizione
+Reply moverobotdone		: moverobotok(ARG) //risposta di conferma del movimento a posizione
+Reply moverobotfailed	: moverobotfailed(PLANDONE, PLANTODO) //risposta di movimento a posizione non riuscita
+
+Dispatch setrobotstate	: setpos(X,Y,D) //aggiorna la mappa con la nuova posizione e direzione
+Dispatch setdirection	: dir(D) //aggiorna la posizione del robot con la nuova direzione
+
+//--------------------------------------------------------------------
+
+//-----------------------Messaggi applicativi------------------------
+Request storerequest 	: storerequest(KG) //richiesta di depositare un food load
+Reply loadaccepted		: loadaccepted(TICKET) //risposta di accettamento richiesta del load
+Reply loadrefused		: loadrefused(_) //risposta di rifiuto richiesta del load
+
+Request sendticket : sendticket(TICKET) //richiesta per inviare il ticket al servizio
+Reply chargetaken : chargetaken(_) // messaggio che invia il servizio per prendere in carico una richiesta
+Reply ticketrefused : ticketrefused(_) //messaggio che invia il servizio se il ticket è scaduto
+
+Request takecharge: takecharge(TICKET) // richiesta che il servizio invia al robot per prendersi in carica di una deposit request
+
+Dispatch tryagain: tryagain(_) // messaggio che si invia il robot per riprovare una mossa fallita
+
+//------------------------------------------------------------------
+</code>
+</pre>
+</br>
+</div>
+<h3>ServiceAccessGUI</h3>
+<div class="sec remark-light">
+	La <span class="blue">ServiceAccessGUI</span> è rimasta invariata rispetto allo <span class="red">SPRINT0</span>.
+</div>
+<h3>FridgeService</h3>
+<div class="sec remark-light">
+<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+QActor fridgeservice context ctxcoldstorageservice{
+[#
+	val MAXW = 100 //max storable kg in the ColdRoom
+	val TICKETTIME = 20 //seconds of ticket validity
+	var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+	val openRequestList =  mutableListOf&lt;Triple&lt;Int, Float, Long&gt;?&gt;()
+	var ticketValue = 0 //incrementing ticket value
+#]
+
+State so initial{
+	delegate "chargetaken" to serviceaccessgui
+	println("$name - START") color blue
+}
+Goto waitRequest
+
+State waitRequest{
+	println("$name - waiting for requests...") color blue
+}
+Transition t0 whenRequest storerequest -> handleRequest
+				whenRequest sendticket -> handleTicket
+
+State handleRequest{
+	onMsg(storerequest: storerequest(KG)){			
+		if [# payloadArg(0).toFloat() &lt; MAXW - CurrentlyStored #]{
+			[# val Ticket= ticketValue
+				ticketValue = ticketValue + 1
+			#]
+			println("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket") color blue
+			replyTo storerequest with loadaccepted : loadaccepted($Ticket)	caller== serviceaccessgui
+			[# CurrentlyStored += payloadArg(0).toFloat() #]
+			println("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom") color blue
+			[# openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis())) #]	
+		}
+		else {
+			println("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ") color blue
+			replyTo storerequest with loadrefused : loadrefused(_)	caller== serviceaccessgui
+		}	
+	}
+}
+Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>so</b> il servizio delega il messaggio <b>chargetaken</b> alla serviceaccessgui, in modo che non debba aspettare la risposta del trolley alla richiesta
+		<b>takecharge</b>, e possa così mettersi in attesa di nuove richieste.</li>
+		<li>Nello stato <b>handleRequest</b> la variabile <b>CurrentlyStored</b> viene aggiornata con il peso della nuova richiesta, a differenza di come accadeva prima che veniva fatto in <b>handleTicket</b>.</li>
+		<li>Per il resto il servizio si comporta esattamente come già modellato nello SPRINT0.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State handleTicket{
+onMsg(sendticket: sendticket(TICKET)){
+	[# 
+		val Ticket = payloadArg(0).toInt()
+		val request = openRequestList.find { it?.first == Ticket }			
+		val elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+		val Kg = request.second //load of this request
+	#] //request with the ticket value of the sendticket payload
+	
+	if [# elapsedTime &lt;= TICKETTIME #]{
+		println("$name - accepting ticket $Ticket of request for $Kg Kg. Asking trolley to take charge") color blue
+		request transporttrolley -m takecharge : takecharge($Ticket)
+	}
+	else{
+		println("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)") color blue
+		replyTo sendticket with ticketrefused : ticketrefused(_) caller==serviceaccessgui
+		[# CurrentlyStored -= Kg #] //updating currentlystored if ticket got refused
+	}
+	[# openRequestList.remove(request) #] //removing the request after we are done with it
+}
+}
+Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>handleTicket</b>, se il biglietto viene accettato il <span class="blue">FridgeService</span> invia al <span class="blue">TransportTrolley</span> la richiesta
+		<b>takecharge</b> per avvisare il robot dell'arrivo di una nuova richiesta da incaricarsi.</li>
+		<li>Se il biglietto viene rifiutato, la variabile <b>CurrentlyStored</b> viene aggiornata andando a togliere il peso della richiesta rifiutata.</li>
+		<li>Per il resto il servizio si comporta esattamente come già modellato nello SPRINT0.</li>
+		</ul>
+	  </div>
+	</div>
+</div>
+<h3>TransportTrolley</h3>
+<div class="sec remark-light">
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+QActor transporttrolley context ctxcoldstorageservice{
+[# var LastAction = MoveType.MOVETOINDOOR //last action tried
+   var FailedCounter = 0; //number of failed moves
+#] 
+State s0 initial{
+	println("$name - START, engage basicrobot") color green
+	request basicrobot -m engage: engage(transporttrolley,330)
+}
+Transition s0 whenReply engagedone -> waitRequest
+
+State waitRequest {
+	forward basicrobot -m setrobotstate : setpos(0,0,down) //just to be sure
+	println("$name - waiting for a request...") color green
+}
+Transition t0 whenRequest takecharge -> moveToIndoor
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Al trolley sono state aggiunte due variabili: <b>LastAction</b> per ricordarsi dell'ultimo movimento provato ad eseguire; <b>FailedCounter</b> per ricordarsi il numero di mosse fallite.</li>
+		<li>Il trolley richiede di ingaggiare il robot con uno step time di <span class="red">330</span> ms, tempo calcolato per fare in modo che il robot si sposti di una unità robotica a ogni <b>step</b> che esegue.</li>
+		<li>All'inizio dello stato <b>waitRequest</b> il trolley invia al basicrobot il dispatch <b>setrobotstate : setpos(0,0,down)</b>. Questo comando serve per impostare lo stato del robot nella
+		rappresentazione a griglia alla posizione 0,0 (looking down), ovvero la posizione di <span class="red">HOME</span>. Questo viene fatto solo per essere sicuri che all'avvio del servizio lo
+		stato sia settato correttamente, per evitare problemi.</li>
+		<li>Il trolley si sposta allo stato <b>moveToIndoor</b> quando riceve una richiesta di <b>takecharge</b>.</li>
+		</ul>
+	  </div>
+	</div>
+		<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State moveToIndoor {
+	onMsg( takecharge : takecharge(TICKET) ){
+		[# val Ticket="${payloadArg(0)}" #]
+		println("$name - moving to INDOOR to take charge of ticket $Ticket") color green				
+	}
+	[# LastAction = MoveType.MOVETOINDOOR #]
+	request basicrobot -m moverobot : moverobot (0,4) //(0,4) position of INDOOR in the map
+						
+}
+Transition t0 whenReply moverobotdone -> loadTheCharge
+				whenReply moverobotfailed -> failedAction
+
+State loadTheCharge{
+	println("$name - loading charge ...") color green
+	delay 4000 //simulate the loading
+	println("$name - taken charge of the load ...") color green
+	replyTo takecharge with chargetaken: chargetaken(_) caller== fridgeservice
+}
+Goto moveToColdRoom
+
+State moveToColdRoom{
+	println("$name - moving to ColdRoom ...") color green
+	[# LastAction = MoveType.MOVETOCR #]
+	request basicrobot -m moverobot: moverobot(4,3) //(4,3) position of PORT of coldroom
+}
+Transition t0 whenReply moverobotdone -> storeTheCharge
+					whenReply moverobotfailed -> failedAction
+					
+State storeTheCharge{
+	println("$name - depositing load ...") color green
+	delay 4000 //simulate the deposit
+	println("$name - load deposited ...") color green
+}
+Transition t0 whenTime 1000 -> moveToHome
+			whenRequest takecharge -> moveToIndoor
+
+State moveToHome{
+	println("$name - No more requests, moving to home ...") color green
+	[# LastAction = MoveType.MOVETOHOME #]
+	request basicrobot -m moverobot: moverobot (0,0) //(0,0) position of HOME
+}
+Transition t0 whenReply moverobotdone -> trolleyAtHome
+					whenReply moverobotfailed -> failedAction
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>moveToIndoor</b> il trolley aggiora la variabile <b>LastAction</b> e invia una richiesta di <b>moverobot</b> al basicRobot per spostarlo alla posizione
+		(0,4), che è la posizione della <span class="red">INDOOR</span>. Se moverobot ha successo il trolley si sposta allo stato <b>loadTheCharge</b>, altrimenti va allo stato
+		<b>failedAction</b>.</li>
+		<li>Nello stato <b>loadTheCharge</b> il trolley carica il load e invia la risposta <b>chargetaken</b>, per informare la ServiceAccessGUI che il load è stato preso in carico.</li>
+		<li>Nello stato <b>moveToColdRoom</b> il trolley aggiora la variabile <b>LastAction</b> e invia una richiesta di <b>moverobot</b> al basicRobot per spostarlo alla posizione
+		(4,3), che è la posizione della <span class="red">PORT</span> della <b>coldroom</b>. Se moverobot ha successo il trolley si sposta allo stato <b>storeTheCharge</b>, altrimenti va allo stato
+		<b>failedAction</b>.</li>
+		<li>Nello stato <b>storeTheCharge</b> il trolley deposita il carico nella coldRoom. Se ci sono nuove richieste da prendersi in carico, ci si sposta allo stato <b>moveToIndoor</b> per ripetere
+		le operazioni mostrate sopra. Se invece dopo un secondo non sono arrivate nuove richieste di deposito, il trolley si sposta allo stato <b>moveToHome</b></li>
+		<li>Nello stato <b>moveToHome</b> il trolley aggiora la variabile <b>LastAction</b> e invia una richiesta di <b>moverobot</b> al basicRobot per spostarlo alla posizione
+		(0,0), che è la posizione della <span class="red">HOME</span>. Se moverobot ha successo il trolley si sposta allo stato <b>trolleyAtHome</b>, altrimenti va allo stato
+		<b>failedAction</b>.</li>
+		</ul>
+	  </div>
+	</div>
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State trolleyAtHome{
+	println("$name - trolleyAtHome ... ") color green
+	forward basicrobot -m setdirection : dir(down)
+	delay 1000 //To avoid interrupt of plan related to setDirection		
+}
+Goto exitSystem
+
+State failedAction{
+	[# FailedCounter += 1 #]
+	println("$name - The last action (${LastAction.name}) failed, trying again") color green
+	forward transporttrolley -m tryagain : tryagain(_)
+}
+Transition t0
+	whenMsg tryagain and [# FailedCounter >= 10 #] -> exitSystem
+	whenMsg tryagain and [# LastAction == MoveType.MOVETOINDOOR #] -> moveToIndoor
+	whenMsg tryagain and [# LastAction == MoveType.MOVETOCR #] -> moveToColdRoom
+	whenMsg tryagain and [# LastAction == MoveType.MOVETOHOME #] -> moveToHome
+
+
+State exitSystem {
+	onMsg( tryagain : tryagain(_)){
+		println("$name - Too many fails, exiting the system") color green
+	}
+	forward basicrobot -m disengage : disengage(transporttrolley)
+	println("$name - disengaged") color green
+	delay 1000 //avoid to premature abort of connection
+	[# System.exit(0) #]
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <B>trolleyAthome</B> il trolley invia al robot un comando di <b>setdirection</b> per ruotare il suo orientamento a <span class="red">down</span>.</li>
+		<li>Nello stato <b>exitSystem</b> si disingaggia il robot attraverso il dispatch <b>disengage</b> e si esce dal sistema.</li>
+		<li>Nello stato <b>failedAction</b> si incrementa il valore della varaibile <b>FailedCounter</b> e si torna allo stato che ha causato il problema, facendo uso delle guardie di
+		transizione. Se ci sono state troppe failedMoves si passa invece allo stato <b>exitSystem</b> per uscire dal sistema.</li>
+		</ul>
+	  </div>
+	</div>
+</div>
+
+
+<h3>Architettura logica del sistema</h3>
+Il prototipo realizzato in questo sprint può essere riassunto nella seguente architettuta:
+<blockquote>
+<a class="reference internal image-reference" href="./immagini/ArchitetturaLogicaSprint1.png"><img alt="./immagini/ArchitetturaLogicaSprint1.png" class="align-center" src="./immagini/ArchitetturaLogicaSprint1.png" style="width: 30%;" /></a>
+</blockquote>
+<h2>Piani di testing</h2>
+Per effettuare i test si è realizzata una variante del modello (<a href="Sprint1Model/src/Sprint1ModelTest.qak">Sprint1ModelTest.qak</a>)in cui l'unica differenza è che la <span class="blue">ServiceAccessGUI</span> non invia nessun messaggio in maniera automatica (non simula l'interazione con il driver), in modo che possiamo
+usare un test class per inviare e ricevere messaggi.
+
+<h2>Piano di lavoro</h2>
+Nello <span class="red">SPRINT2</span> si estenderà il sistema prodotto nello SPRINT1 realizzando la fase reattiva del robot, andando a realizzare il componente distribuito <span class="blue">AlarmDevice</span>,
+che interagisce col robot tramite messaggi di <b>stop/resume</b>, e modellando anche le azioni del <i>warning device</i> .
+
+
+</div>
+</body>
+</html>
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Matteo Giri email: matteo.giri@studio.unibo.it
+<br>
+Link GitHub Repo: https://github.com/s1090263/iss2023/
+<img src="./immagini/fotoGiriMatteo.jpg" alt="foto" wi

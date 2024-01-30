@@ -1,0 +1,4 @@
+{"actor":"transporttrolley", "msgType":"dispatch", "curstate":"failedAction", "nextstate":"exitSystem", "msgId":"tryagain"}
+{"actor":"transporttrolley", "msgType":"dispatch", "curstate":"failedAction", "nextstate":"moveToIndoor", "msgId":"tryagain"}
+{"actor":"transporttrolley", "msgType":"dispatch", "curstate":"failedAction", "nextstate":"moveToColdRoom", "msgId":"tryagain"}
+{"actor":"transporttrolley", "msgType":"dispatch", "curstate":"failedAction", "nextstate":"moveToHome", "msgId":"tryagain"}

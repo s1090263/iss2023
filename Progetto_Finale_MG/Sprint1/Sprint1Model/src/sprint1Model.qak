@@ -1,0 +1,237 @@
+System coldstorageservice
+
+// ----- Messaggi per le interazioni con il basic robot -------
+Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
+Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
+Reply	engagerefused	: engagerefused(ARG) //risposta di rifiuto di ingaggio
+
+Dispatch disengage		: disengage(ARG) //messaggio di disingaggio
+
+Request moverobot		: moverobot(TARGETX, TARGETY) //richiesta di muovere il robot in una determinata posizione
+Reply moverobotdone		: moverobotok(ARG) //risposta di conferma del movimento a posizione
+Reply moverobotfailed	: moverobotfailed(PLANDONE, PLANTODO) //risposta di movimento a posizione non riuscita
+
+Dispatch setrobotstate	: setpos(X,Y,D) //aggiorna la mappa con la nuova posizione e direzione
+Dispatch setdirection	: dir(D) //aggiorna la posizione del robot con la nuova direzione
+
+//--------------------------------------------------------------------
+
+//-----------------------Messaggi applicativi------------------------
+Request storerequest 	: storerequest(KG) //richiesta di depositare un food load
+Reply loadaccepted		: loadaccepted(TICKET) //risposta di accettamento richiesta del load
+Reply loadrefused		: loadrefused(_) //risposta di rifiuto richiesta del load
+
+Request sendticket : sendticket(TICKET) //richiesta per inviare il ticket al servizio
+Reply chargetaken : chargetaken(_) // messaggio che invia il servizio per prendere in carico una richiesta
+Reply ticketrefused : ticketrefused(_) //messaggio che invia il servizio se il ticket è scaduto
+
+Request takecharge: takecharge(TICKET) // richiesta che il servizio invia al robot per prendersi in carica di una deposit request
+
+Dispatch tryagain: tryagain(_) // messaggio che si invia il robot per riprovare una mossa fallita
+
+//------------------------------------------------------------------
+
+
+
+Context ctxcoldstorageservice ip [host="localhost" port=9990]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+QActor serviceaccessgui context ctxcoldstorageservice{
+	State so initial{
+		println("$name - START") color magenta
+	}
+	Goto sendRequest
+	
+	State sendRequest{
+		delay 3000
+		println("$name - Sending store request: 30 Kg") color magenta
+		request fridgeservice -m storerequest: storerequest(30)	
+	}
+	Transition t0 whenReply loadaccepted -> sendTicket
+					whenReply loadrefused -> endWork
+	
+	State sendTicket{		
+		onMsg( loadaccepted : loadaccepted(TICKET) ){
+			println("$name - Moving to the INDOOR") color magenta	      
+			delay 4000 //simulating driver taking time to go to indoor
+			[# val Ticket="${payloadArg(0)}" #]
+			println("$name - Sending ticket: $Ticket") color magenta	        
+	        request fridgeservice -m sendticket: sendticket($Ticket)
+      	}
+	}
+	Transition t0 whenReply chargetaken -> endWork
+					whenReply ticketrefused -> endWork
+	
+	State endWork{
+		onMsg( loadrefused : loadrefused(_) ){
+			println("$name - END WORK: load got refused") color magenta
+		}
+		onMsg( ticketrefused : ticketrefused(_) ){
+			println("$name - END WORK: ticket got refused") color magenta
+		}
+		onMsg( chargetaken : chargetaken(_) ){
+			println("$name - END WORK: food load taken") color magenta
+		}		
+	}
+}
+
+
+QActor transporttrolley context ctxcoldstorageservice{
+	[# var LastAction = MoveType.MOVETOINDOOR //last action tried
+	   var FailedCounter = 0; //number of failed moves
+		#] 
+	State s0 initial{
+		println("$name - START, engage basicrobot") color green
+		request basicrobot -m engage: engage(transporttrolley,330)
+	}
+	Transition s0 whenReply engagedone -> waitRequest
+	
+	State waitRequest {
+		forward basicrobot -m setrobotstate : setpos(0,0,down) //just to be sure
+		println("$name - waiting for a request...") color green
+	}
+	Transition t0 whenRequest takecharge -> moveToIndoor	
+		
+	State moveToIndoor {
+		onMsg( takecharge : takecharge(TICKET) ){
+			[# val Ticket="${payloadArg(0)}" #]
+			println("$name - moving to INDOOR to take charge of ticket $Ticket") color green				
+      	}
+      	[# LastAction = MoveType.MOVETOINDOOR #]
+      	request basicrobot -m moverobot : moverobot (0,4) //(0,4) position of INDOOR in the map
+							
+	}
+	Transition t0 whenReply moverobotdone -> loadTheCharge
+					whenReply moverobotfailed -> failedAction
+	
+	State loadTheCharge{
+		println("$name - loading charge ...") color green
+		delay 4000 //simulate the loading
+		println("$name - taken charge of the load ...") color green
+		replyTo takecharge with chargetaken: chargetaken(_) caller== fridgeservice
+	}
+	Goto moveToColdRoom
+	
+	State moveToColdRoom{
+		println("$name - moving to ColdRoom ...") color green
+		[# LastAction = MoveType.MOVETOCR #]
+		request basicrobot -m moverobot: moverobot(4,3) //(4,3) position of PORT of coldroom
+	}
+	Transition t0 whenReply moverobotdone -> storeTheCharge
+						whenReply moverobotfailed -> failedAction
+						
+	State storeTheCharge{
+		println("$name - depositing load ...") color green
+		delay 4000 //simulate the deposit
+		println("$name - load deposited ...") color green
+	}
+	Transition t0 whenTime 1000 -> moveToHome
+				whenRequest takecharge -> moveToIndoor
+	
+	State moveToHome{
+		println("$name - No more requests, moving to home ...") color green
+		[# LastAction = MoveType.MOVETOHOME #]
+		request basicrobot -m moverobot: moverobot (0,0) //(0,0) position of HOME
+	}
+	Transition t0 whenReply moverobotdone -> trolleyAtHome
+						whenReply moverobotfailed -> failedAction
+						
+	State trolleyAtHome{
+		println("$name - trolleyAtHome ... ") color green
+		forward basicrobot -m setdirection : dir(down)
+		delay 1000 //To avoid interrupt of plan related to setDirection		
+	}
+	Goto exitSystem
+	
+	State failedAction{
+		[# FailedCounter += 1 #]
+		println("$name - The last action (${LastAction.name}) failed, trying again") color green
+		forward transporttrolley -m tryagain : tryagain(_)
+	}
+	Transition t0
+		whenMsg tryagain and [# FailedCounter >= 10 #] -> exitSystem
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOINDOOR #] -> moveToIndoor
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOCR #] -> moveToColdRoom
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOHOME #] -> moveToHome
+
+	
+	State exitSystem {
+		onMsg( tryagain : tryagain(_)){
+			println("$name - Too many fails, exiting the system") color green
+		}
+		forward basicrobot -m disengage : disengage(transporttrolley)
+		println("$name - disengaged") color green
+		delay 1000 //avoid to premature abort of connection
+		[# System.exit(0) #]
+	}
+}
+
+QActor fridgeservice context ctxcoldstorageservice{
+	[#
+		val MAXW = 100 //max storable kg in the ColdRoom
+		val TICKETTIME = 20 //seconds of ticket validity
+		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()	//structure to mantain the ticket requests that are open (<Ticket number, KG, EmissionTime>)
+		var ticketValue = 0 //incrementing ticket value
+	#]
+	
+	State so initial{
+		delegate "chargetaken" to serviceaccessgui
+		println("$name - START") color blue
+	}
+	Goto waitRequest
+	
+	State waitRequest{
+		println("$name - waiting for requests...") color blue
+	}
+	Transition t0 whenRequest storerequest -> handleRequest
+					whenRequest sendticket -> handleTicket
+	
+	State handleRequest{
+		onMsg(storerequest: storerequest(KG)){			
+			if [# payloadArg(0).toFloat() < MAXW - CurrentlyStored #]{
+				[# val Ticket= ticketValue
+					ticketValue = ticketValue + 1
+				#]
+				println("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket") color blue
+				replyTo storerequest with loadaccepted : loadaccepted($Ticket)	caller== serviceaccessgui
+				[# CurrentlyStored += payloadArg(0).toFloat() #]
+				println("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom") color blue
+				[# openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis())) #]	
+			}
+			else {
+				println("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ") color blue
+				replyTo storerequest with loadrefused : loadrefused(_)	caller== serviceaccessgui
+			}	
+		}
+	}
+	Goto waitRequest
+	
+	State handleTicket{
+		onMsg(sendticket: sendticket(TICKET)){
+			[# 
+				val Ticket = payloadArg(0).toInt()
+				val request = openRequestList.find { it?.first == Ticket }			
+				val elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+				val Kg = request.second //load of this request
+			#] //request with the ticket value of the sendticket payload
+			
+			if [# elapsedTime <= TICKETTIME #]{
+				println("$name - accepting ticket $Ticket of request for $Kg Kg. Asking trolley to take charge") color blue
+				request transporttrolley -m takecharge : takecharge($Ticket)
+				
+				//replyTo sendticket with chargetaken : chargetaken(_) caller==serviceaccessgui
+			}
+			else{
+				println("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)") color blue
+				replyTo sendticket with ticketrefused : ticketrefused(_) caller==serviceaccessgui
+				[# CurrentlyStored -= Kg #] //updating currentlystored if ticket got refused
+			}
+			[# openRequestList.remove(request) #] //removing the request after we are done with it
+		}
+	}
+	Goto waitRequest
+	
+}
