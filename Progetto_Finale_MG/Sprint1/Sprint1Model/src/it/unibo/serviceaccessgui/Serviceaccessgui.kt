@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Serviceaccessgui ( name: String, scope: CoroutineScope, bho: Boolean   ) : ActorBasicFsm( name, scope ){
+class Serviceaccessgui ( name: String, scope: CoroutineScope, bho: Boolean  ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "so"

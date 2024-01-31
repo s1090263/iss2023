@@ -161,8 +161,8 @@ div.remark-light{
 span.remark{
 	background-color: #6b9cff;
     border: 1.5px solid #d5f2ed;
-    padding: 5px;
-    margin: 20px;
+    padding: 1px;
+    margin: 5px;
 	border-radius: 25px;
 	font-size: 120%;
 }
@@ -311,6 +311,21 @@ In aggiunta al modello già prodotto precedentemente, si dovranno gestire i prob
  La parte di GUI della <span class="blue">ServiceAccessGUI</span> verrà ignorata in questo sprint e le interazioni con il <span class="blue">TruckDriver</span> saranno simulate dall'attore che modella la <span class="blue">ServiceAccessGUI</span> che ho già realizzato.
  
 <h2>Analisi del problema</h2>
+<div class="sec remark-light">
+	<span class="remark">KeyPoints - Analisi del problema</span>
+	</br>
+	</br>
+	<ul class="sep">
+	<li>E' necessario utilizzare la <b>rappresentazione a griglia</b> della stanza e il concetto di <b>step</b> per sapere dove il <span class="blue">Trolley</span> è posizionato e per poterlo 
+	muovere in altre zone della <b>service area</b>.</li>
+	<li>Si utilizza il messaggio <b>moverobot</b> del <span class="blue">BasicRobot23</span> per spostare il <span class="blue">Trolley</span> in posizioni specifiche dell'area.</li>
+	<li>Per provare ad ovviare al problema delle mosse fallite, si ritenta il posizionamento del robot inviando nuovi messaggi <b>moverobot</b> relativi alla posizione finale del movimento fallito.</li>
+	<li>Il <span class="blue">Trolley</span> deve essere informato da qualcuno dell'arrivo di una richiesta. Questo viene fatto dal <span class="blue">FridgeService</span> tramite una richiesta <b>takecharge</b>, la cui risposta viene delegata alla <span class="blue">ServiceAccessGUI</span> per
+	evitare di mettere in attesa il servizio. </li>
+	<li>Il sistema deve permettere la gestione di richieste multiple. Si sfruttano le code di messaggi degli attori e la direttiva <b>whenTime</b> del linguaggio Qak per permettere al
+	robot di prendere in gestione una nuova richiesta dopo il termine della precedente.</li>
+	</ul>
+</div>
 <h3>Il problema del posizionamento del trolley</h3>
 <div class="sec remark-light">
 	Nel modello dello SPRINT0 i movimenti del <span class="blue">Transport Trolley</span> sono solo simulati. E' necessario trovare un modo per poter muovere il robot in posizioni specifiche della
@@ -324,6 +339,8 @@ In aggiunta al modello già prodotto precedentemente, si dovranno gestire i prob
 	Introducendo il concetto di <b>step</b> come un movimento elementare del <b>DDR Robot</b> che lo sposta in avanti di una lunghezza <span class="red"><b>RD</b></span> (unità robotica),
 	è possibile costruire questa rappresentazione dell'area a celle (di dimensioni RD x RD). Lo <b>step</b> è incluso nel progetto <a href="../html/BasicRobot23.html">BasicRobot23</a> fornito dal committente attraverso un comando <code>step:step(TIME)</code>, dove <span class0"red"><b>TIME</b></span>
 	è il tempo necessario in millisecondi per muovere il robot di un'unità robotica.
+	</br>
+	Questa rappresentazione è necessaria perchè c'è la necessità di sapere in qualche modo dove il robot si trovi nella stanza per farlo spostare in altre zone della stessa.
 	</br>
 	Per la realizzazione della mappa il committente fornisce il progetto <span class="blue">unibo.mapperQak23</span> (si veda anche <a href="../html/_static/LabPlanner.html">Planner</a>). Il BasicRobot carica la mappa della stanza quando viene inizializzato.
 	Nel caso del sistema da realizzare, la mappa avrà una rappresentazione del tipo:
@@ -345,8 +362,8 @@ In aggiunta al modello già prodotto precedentemente, si dovranno gestire i prob
 	<li><b>r</b> denota la posizione corrente del robot</li>
 	</ul>
 	Il <b>BasicRobot23</b> utilizza questa rappresentazione della stanza per poter muovere il robot all'interno dell'area.
-	</br>
-	</br>
+</div>
+<div class="sec remark-light">
 	Rimane ora il problema di far muovere il robot in posizioni specifiche della <b>service area</b>. Un modo per costruire dinamicamente una sequenza di mosse con cui il robot
 	può muoversi dalla posizione corrente <b>r</b> a un’altra posizione (libera) sulla mappa, consiste nell’utilizzo di un <b>pianificatore</b> (si veda 
 	<a href="../html/_static/LabPlanner.html">Planning</a>) come quello fornito dal committente in <span class="blue">unibo.planner23-1.0.jar</span>. </br>
@@ -728,6 +745,224 @@ Il prototipo realizzato in questo sprint può essere riassunto nella seguente ar
 <h2>Piani di testing</h2>
 Per effettuare i test si è realizzata una variante del modello (<a href="Sprint1Model/src/Sprint1ModelTest.qak">Sprint1ModelTest.qak</a>)in cui l'unica differenza è che la <span class="blue">ServiceAccessGUI</span> non invia nessun messaggio in maniera automatica (non simula l'interazione con il driver), in modo che possiamo
 usare un test class per inviare e ricevere messaggi.
+<div class="sec remark-light">
+<span class="remark"> L'osservibilità CoaP</span></br></br>
+Al fine di realizzare dei test più completi è opportuno introdurre una proprietà degli <b>Actors Qak</b>: Ogni attore del sistema è una risporsa <span class="red">COAP</span> osservabile.
+Questo significa che un alieno esterno al sistema (come la nostra test class) può diventare un <b>observer coap</b> di un attore del sistema, se conosce l'host address, la porta e il nome dell'attore
+e del contesto in cui è implementato (se invece un attore vuole osservare un altro attore può semplicemente usare la direttiva qak <b>observeResource</b>). Un attore può
+ inviare aggiornamenti alle risorse che lo stanno osservando tramite la direttiva <b>updateResource</b> (si veda <a href="../html/AppuntiTecnologie.html#coap">CoaP</a>, <a href="../html/Actors23Coap.html">Actors23Coap</a> e <a href="../html/QakActors23.html">QakActors23</a> per ulteriori informazioni).
+</br>
+</br>
+Tramite l'osservabilità COAP è possibile far mandare dai componenti del sistema un <b>updateResource</b> per ogni operazione che si svolge o ogni stato in cui si entra, in modo tale che
+una <b>test application</b> possa ottenere informazioni dal sistema e fare vari check per verificare che un'azione si sia svolta correttamente.
+</br> 
+In particolare, ogni <span class="blue">test class</span> avrà la seguente struttura:
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+class TestClass : CoapHandler {
+    lateinit var client : CoapClient
+    lateinit var obsRel : CoapObserveRelation
+    val host : String = "localhost"
+    val port : Int = 9990
+    val path : String = "ctxcoldstorageservice/actorToObserve"
+
+    val contentList = mutableListOf<String>() //list of the content received by the observable resource
+
+
+    override fun onLoad(response: CoapResponse?) {
+        var content: String? = response?.responseText
+        var payload = getPayloadArgs(content)[0]
+        contentList.add(payload)
+    }
+
+    override fun onError() {
+        println("TestClass - ERROR")
+    }
+
+    fun createObserver(host: String, port: Int, path: String){
+        val url = host + ":" + port + "/" + path
+        client = CoapClient("coap://" + url)
+        obsRel = client.observe(this)
+    }
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            it.unibo.ctxcoldstorageservice.main()
+            CommUtils.delay(5000)
+
+        }
+    }
+
+    @Before
+    fun initTest() {
+        createObserver(host, port, path)
+    }
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>La classe implementa l'interfaccia <b>CoapHandler</b> che definisce due metodi: <b>OnLoad()</b> che viene chiamato quando un attore osservato effettua una updateResource e
+		inserisce il payload del messaggio arrivato all'interno di una lista <b>contentList</b>, per tenere traccia dei messaggi arrivati; <b>OnError</b> in caso di errore.</li>
+		<li>Il metodo <b>createObserver</b> crea il <span class="blue">CoapClient</span> che osserverà la risorsa CoaP posta all'indirizzo <b>host</b>, porta <b>port</b>, e path <b>path</b> ("ctx/actor").</li>
+		</ul>
+	  </div>
+	</div>
+</div>
+</br>
+Al fine di testare il corretto funzionamento del sistema, sono stati introdotti i seguenti <b>piani di testing</b>, che vanno ad aggiungersi ai due test <span class="red">TestColdRoomFull</span>
+ e <span class="red">TestTicketRefused</span> creati nello SPRINT0 e che sono ancora validi per questo sprint:
+<div class="sec remark-light">
+<ul class="sep">
+<li><span class="remark">TestRequestAcceptedFull</span>: Test del normale funzionamento del sistema. Si invia una richiesta che non sfori il limite massimo della <b>coldRoom</b> e si verifica che il ticket venga accettato e che
+il trolley ritorni correttamente nella home al termine dell'azione di deposito.</li>
+</ul>
+<div class="flex-container">
+  <div class="flex-child left">
+	<pre>
+	<code>
+@Test
+fun testRequestAccepted() {
+	val conn: Interaction = ConnectionFactory.createClientSupport23(
+		ProtocolType.tcp, "localhost", "9990")
+
+	println("TestApplication - Sending store request of 30 kg")
+	val storeRequest: IApplMessage = CommUtils.buildRequest("testApplication", "storerequest", "storerequest(30)", "fridgeservice")
+	val storeReply: IApplMessage? = conn.request(storeRequest)
+	val ticket: String = getPayloadArgs(storeReply?.msgContent())[0]
+
+	//If everything goes as it should, the reply to the storerequest will be loadaccepted
+	Assert.assertEquals("loadaccepted", storeReply?.msgId())
+
+	println("TestApplication - Simulating going to indoor to send ticket")
+	CommUtils.delay(4000)
+	conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+
+	//wait for the "at home" response of the robot
+	var limit = 0
+	while ( "at home" !in contentList AND limit &lt; 15){
+		limit += 1
+		CommUtils.delay(2000)
+	}
+
+	//if everything goes as it should, the robot must reach home when it finishes
+	assertTrue("at home" in contentList)
+}
+	</code>
+	</pre>
+  </div>
+  
+  <div class="flex-child right">
+	<ul class="sep">
+	<li>All'inizo del test si crea una connessione TCP con il contesto del <span class="blue">ColdStorageService</span>.</li>
+	<li>Poi si crea e invia la richiesta <b>storeRequest</b> per un carico di 30kg, e si attende la risposta del sistema con il <b>ticket</b> da inserire. Poi si fa il check della risposta,
+	che dovrebbe essere <b>loadaccepted</b>.</li>
+	<li>In seguito si aspetta una quantità di tempo (minore del tempo massimo per inserire un biglietto) per simulare l'arrivo nella <span class="red">INDOOR</span> e si invia una nuova richiesta <b>sendticket</b> al sistema.</li>
+	<li>Infine si attende in un ciclo while che la test application riceva il messaggio <b>"at home"</b>, che viene inviato dal <span class="blue">TransportTrolley</span> quando tutte le richieste
+	sono state eseguite e il trolley è tornato nella <span class="red">HOME</span>. Quindi se entro un certo tempo massimo questo messaggio arriva, significa che l'azione di deposito si è
+	 conclusa correttamente.</li>
+	</ul>
+  </div>
+</div>
+
+</div>
+<div class="sec remark-light">
+<ul class="sep">
+<li><span class="remark">TestMultipleRequest</span>: Si testa il funzionamento del sistema nel caso arrivino più richieste in successione. In particolare, si testa l'invio di 3
+richieste in successione rapida (prima che il trolley riesca ad elaborare la precedente), di cui l'ultima sfora il limite massimo di peso nella <b>ColdRoom</b>, per verificare
+se il <span class="blue">FridgeService</span> riesce a processare più richieste insieme e se il <span class="blue">TransportTrolley</span> prende in carico una nuova richiesta
+dopo averne conclusa una precedente.</li>
+</ul>
+<div class="flex-container">
+  <div class="flex-child left">
+	<pre>
+	<code>
+@Test
+fun testRequestAccepted() {
+	val conn: Interaction = ConnectionFactory.createClientSupport23(
+		ProtocolType.tcp, "localhost", "9990")
+
+	//first request
+	println("TestApplication - Sending first store request of 30 kg")
+	val storeRequest1: IApplMessage = CommUtils.buildRequest("testApplication", "storerequest", "storerequest(30)", "fridgeservice")
+	val storeReply1: IApplMessage? = conn.request(storeRequest1)
+	val ticket1: String = getPayloadArgs(storeReply1?.msgContent())[0]
+
+	//If everything goes as it should, the reply to the storerequest will be loadaccepted
+	Assert.assertEquals("loadaccepted", storeReply1?.msgId())
+
+	//second request
+	println("TestApplication - Sending second store request of 50 kg")
+	val storeRequest2: IApplMessage = CommUtils.buildRequest("testApplication", "storerequest", "storerequest(50)", "fridgeservice")
+	val storeReply2: IApplMessage? = conn.request(storeRequest2)
+	val ticket2: String = getPayloadArgs(storeReply2?.msgContent())[0]
+
+	//If everything goes as it should, the reply to the storerequest will be loadaccepted
+	Assert.assertEquals("loadaccepted", storeReply2?.msgId())
+
+	//third request
+	println("TestApplication - Sending third store request of 40 kg")
+	val storeRequest3: IApplMessage = CommUtils.buildRequest("testApplication", "storerequest", "storerequest(40)", "fridgeservice")
+	val storeReply3: IApplMessage? = conn.request(storeRequest3)
+
+	//If the coldroom can't fit the third load, it has to return loadrefused
+	Assert.assertEquals("loadrefused", storeReply3?.msgId())
+
+	//sending first ticket
+	CommUtils.delay(4000)
+	println("TestApplication - Inserting first ticket")
+	conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket1+"),1)")
+
+	//sending second ticket
+	CommUtils.delay(3000)
+	println("TestApplication - Inserting second ticket")
+	conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket2+"),1)")
+
+	//wait for the "at home" response of the robot
+	var limit = 0
+	while ( "at home" !in contentList AND limit &lt; 35){
+		limit += 1
+		CommUtils.delay(4000)
+	}
+
+	//if everything goes as it should, the robot must reach home when it finishes
+	Assert.assertTrue("at home" in contentList)
+
+	//if everything goes as it should, the contentlist should containt 2 times the charge taken message
+	var count = contentList.count { it.contains("charge taken") }
+	Assert.assertEquals(2, count)
+}
+	</code>
+	</pre>
+  </div>
+  
+  <div class="flex-child right">
+	<ul class="sep">
+	<li>All'inizo del test si crea una connessione TCP con il contesto del <span class="blue">ColdStorageService</span>.</li>
+	<li>Poi si crea e invia una prima richiesta <b>storeRequest</b> per un carico di 30kg, e si attende la risposta del sistema con il <b>ticket</b> da inserire. Poi si fa il check della risposta,
+	che dovrebbe essere <b>loadaccepted</b>.</li>
+	<li>Si effettua poi una seconda richiesta di 50kg seguendo lo stesso procedimento della prima.</li>
+	<li>Si effettua poi una terza richiesta di 40kg. Questa richiesta sforerebbe il limite della <b>ColdRoom</b>: 30kg + 50kg + 40kg &gt; 100Kg. Quindi se il sistema funziona
+	correttamente la risposta dovrà essere <b>loadRefused</b>.</li>
+	<li>In seguito si aspetta una quantità di tempo (minore del tempo massimo per inserire un biglietto) per simulare l'arrivo nella <span class="red">INDOOR</span> e si invia una nuova richiesta <b>sendticket</b> al sistema,
+	con il primo ticket ricevuto come payload. Si fa poi la stessa cosa per il secondo ticket ricevuto.</li>
+	<li>Infine si attende in un ciclo while che la test application riceva il messaggio <b>"at home"</b>, che viene inviato dal <span class="blue">TransportTrolley</span> quando tutte le richieste
+	sono state eseguite e il trolley è tornato nella <span class="red">HOME</span>. Quindi se entro un certo tempo massimo questo messaggio arriva, significa che le azioni di deposito si sono
+	 concluse correttamente.</li> 
+	<li>Per essere però sicuri che il <span class="blue">TransportTrolley</span> abbia effettivamente preso in carico tutte le richieste e non solo una si va a contare il numero delle volte
+	 che il messaggio <b>"charge taken"</b> (che invia con un <b>updateResource</b> dopo aver preso un carico) è presente nella <b>contentList</b>. Se il messaggio è presente due volte significa
+	 che tutte e due le richieste sono state prese in carico.</li>
+	</ul>
+  </div>
+</div>
+
+</div>
+
 
 <h2>Piano di lavoro</h2>
 Nello <span class="red">SPRINT2</span> si estenderà il sistema prodotto nello SPRINT1 realizzando la fase reattiva del robot, andando a realizzare il componente distribuito <span class="blue">AlarmDevice</span>,
@@ -755,4 +990,7 @@ che interagisce col robot tramite messaggi di <b>stop/resume</b>, e modellando a
 By Matteo Giri email: matteo.giri@studio.unibo.it
 <br>
 Link GitHub Repo: https://github.com/s1090263/iss2023/
-<img src="./immagini/fotoGiriMatteo.jpg" alt="foto" wi
+<img src="../Sprint0/immagini/fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
+</div> 
+</body>
+</html>

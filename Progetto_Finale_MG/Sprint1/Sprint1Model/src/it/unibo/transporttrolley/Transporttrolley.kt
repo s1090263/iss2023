@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) : ActorBasicFsm( name, scope ){
+class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean  ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "s0"
@@ -32,17 +32,20 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="s04",targetState="waitRequest",cond=whenReply("engagedone"))
+					transition(edgeName="s05",targetState="s0",cond=whenReply("engagerefused"))
 				}	 
 				state("waitRequest") { //this:State
 					action { //it:State
 						forward("setrobotstate", "setpos(0,0,down)" ,"basicrobot" ) 
 						CommUtils.outgreen("$name - waiting for a request...")
+						updateResourceRep( "transporttrolley(waiting request)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="moveToIndoor",cond=whenRequest("takecharge"))
+					 transition(edgeName="t06",targetState="moveToIndoor",cond=whenRequest("takecharge"))
 				}	 
 				state("moveToIndoor") { //this:State
 					action { //it:State
@@ -50,6 +53,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 val Ticket="${payloadArg(0)}"  
 								CommUtils.outgreen("$name - moving to INDOOR to take charge of ticket $Ticket")
+								updateResourceRep( "transporttrolley(moving to indoor)"  
+								)
 						}
 						 LastAction = MoveType.MOVETOINDOOR  
 						request("moverobot", "moverobot(0,4)" ,"basicrobot" )  
@@ -58,14 +63,18 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t06",targetState="loadTheCharge",cond=whenReply("moverobotdone"))
-					transition(edgeName="t07",targetState="failedAction",cond=whenReply("moverobotfailed"))
+					 transition(edgeName="t07",targetState="loadTheCharge",cond=whenReply("moverobotdone"))
+					transition(edgeName="t08",targetState="failedAction",cond=whenReply("moverobotfailed"))
 				}	 
 				state("loadTheCharge") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - loading charge ...")
+						updateResourceRep( "transporttrolley(loading charge)"  
+						)
 						delay(4000) 
 						CommUtils.outgreen("$name - taken charge of the load ...")
+						updateResourceRep( "transporttrolley(charge taken)"  
+						)
 						answer("takecharge", "chargetaken", "chargetaken(_)","fridgeservice"   )  
 						//genTimer( actor, state )
 					}
@@ -77,6 +86,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 				state("moveToColdRoom") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - moving to ColdRoom ...")
+						updateResourceRep( "transporttrolley(moving to coldroom)"  
+						)
 						 LastAction = MoveType.MOVETOCR  
 						request("moverobot", "moverobot(4,3)" ,"basicrobot" )  
 						//genTimer( actor, state )
@@ -84,12 +95,14 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t08",targetState="storeTheCharge",cond=whenReply("moverobotdone"))
-					transition(edgeName="t09",targetState="failedAction",cond=whenReply("moverobotfailed"))
+					 transition(edgeName="t09",targetState="storeTheCharge",cond=whenReply("moverobotdone"))
+					transition(edgeName="t010",targetState="failedAction",cond=whenReply("moverobotfailed"))
 				}	 
 				state("storeTheCharge") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - depositing load ...")
+						updateResourceRep( "transporttrolley(depositing load)"  
+						)
 						delay(4000) 
 						CommUtils.outgreen("$name - load deposited ...")
 						//genTimer( actor, state )
@@ -99,12 +112,14 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 				 	 		stateTimer = TimerActor("timer_storeTheCharge", 
 				 	 					  scope, context!!, "local_tout_transporttrolley_storeTheCharge", 1000.toLong() )
 					}	 	 
-					 transition(edgeName="t010",targetState="moveToHome",cond=whenTimeout("local_tout_transporttrolley_storeTheCharge"))   
-					transition(edgeName="t011",targetState="moveToIndoor",cond=whenRequest("takecharge"))
+					 transition(edgeName="t011",targetState="moveToHome",cond=whenTimeout("local_tout_transporttrolley_storeTheCharge"))   
+					transition(edgeName="t012",targetState="moveToIndoor",cond=whenRequest("takecharge"))
 				}	 
 				state("moveToHome") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - No more requests, moving to home ...")
+						updateResourceRep( "transporttrolley(moving to home)"  
+						)
 						 LastAction = MoveType.MOVETOHOME  
 						request("moverobot", "moverobot(0,0)" ,"basicrobot" )  
 						//genTimer( actor, state )
@@ -112,12 +127,14 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t012",targetState="trolleyAtHome",cond=whenReply("moverobotdone"))
-					transition(edgeName="t013",targetState="failedAction",cond=whenReply("moverobotfailed"))
+					 transition(edgeName="t013",targetState="trolleyAtHome",cond=whenReply("moverobotdone"))
+					transition(edgeName="t014",targetState="failedAction",cond=whenReply("moverobotfailed"))
 				}	 
 				state("trolleyAtHome") { //this:State
 					action { //it:State
 						CommUtils.outgreen("$name - trolleyAtHome ... ")
+						updateResourceRep( "transporttrolley(at home)"  
+						)
 						forward("setdirection", "dir(down)" ,"basicrobot" ) 
 						delay(1000) 
 						//genTimer( actor, state )
@@ -137,13 +154,13 @@ class Transporttrolley ( name: String, scope: CoroutineScope, bho: Boolean   ) :
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t014",targetState="exitSystem",cond=whenDispatchGuarded("tryagain",{ FailedCounter >= 10  
+					 transition(edgeName="t015",targetState="exitSystem",cond=whenDispatchGuarded("tryagain",{ FailedCounter >= 10  
 					}))
-					transition(edgeName="t015",targetState="moveToIndoor",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOINDOOR  
+					transition(edgeName="t016",targetState="moveToIndoor",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOINDOOR  
 					}))
-					transition(edgeName="t016",targetState="moveToColdRoom",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOCR  
+					transition(edgeName="t017",targetState="moveToColdRoom",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOCR  
 					}))
-					transition(edgeName="t017",targetState="moveToHome",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOHOME  
+					transition(edgeName="t018",targetState="moveToHome",cond=whenDispatchGuarded("tryagain",{ LastAction == MoveType.MOVETOHOME  
 					}))
 				}	 
 				state("exitSystem") { //this:State

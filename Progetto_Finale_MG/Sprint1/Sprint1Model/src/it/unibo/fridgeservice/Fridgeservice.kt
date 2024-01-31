@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
 	
-class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : ActorBasicFsm( name, scope ){
+class Fridgeservice ( name: String, scope: CoroutineScope , bho: Boolean ) : ActorBasicFsm( name, scope ){
 
 	override fun getInitialState() : String{
 		return "so"
@@ -28,6 +28,7 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 				return { //this:ActionBasciFsm
 				state("so") { //this:State
 					action { //it:State
+						delay(1000) 
 						delegate("chargetaken", "serviceaccessgui") 
 						CommUtils.outblue("$name - START")
 						//genTimer( actor, state )
@@ -40,13 +41,15 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 				state("waitRequest") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name - waiting for requests...")
+						updateResourceRep( "fridgeservice(waiting requests)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t018",targetState="handleRequest",cond=whenRequest("storerequest"))
-					transition(edgeName="t019",targetState="handleTicket",cond=whenRequest("sendticket"))
+					 transition(edgeName="t019",targetState="handleRequest",cond=whenRequest("storerequest"))
+					transition(edgeName="t020",targetState="handleTicket",cond=whenRequest("sendticket"))
 				}	 
 				state("handleRequest") { //this:State
 					action { //it:State
@@ -56,6 +59,8 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 								 ){ val Ticket= ticketValue
 													ticketValue = ticketValue + 1
 								CommUtils.outblue("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket")
+								updateResourceRep( "fridgeservice(accepting request)"  
+								)
 								answer("storerequest", "loadaccepted", "loadaccepted($Ticket)","serviceaccessgui"   )  
 								 CurrentlyStored += payloadArg(0).toFloat()  
 								CommUtils.outblue("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom")
@@ -63,6 +68,8 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 								}
 								else
 								 {CommUtils.outblue("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ")
+								 updateResourceRep( "fridgeservice(refusing request)"  
+								 )
 								 answer("storerequest", "loadrefused", "loadrefused(_)","serviceaccessgui"   )  
 								 }
 						}
@@ -84,10 +91,14 @@ class Fridgeservice ( name: String, scope: CoroutineScope, bho: Boolean  ) : Act
 												val Kg = request.second //load of this request
 								if(  elapsedTime <= TICKETTIME  
 								 ){CommUtils.outblue("$name - accepting ticket $Ticket of request for $Kg Kg. Asking trolley to take charge")
+								updateResourceRep( "fridgeservice(accepting ticket)"  
+								)
 								request("takecharge", "takecharge($Ticket)" ,"transporttrolley" )  
 								}
 								else
 								 {CommUtils.outblue("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)")
+								 updateResourceRep( "fridgeservice(refusing ticket)"  
+								 )
 								 answer("sendticket", "ticketrefused", "ticketrefused(_)","serviceaccessgui"   )  
 								  CurrentlyStored -= Kg  
 								 }
