@@ -1,0 +1,142 @@
+System alarmdevice
+
+//-------------------------Messaggi---------------------------------
+Event obstacle  : obstacle(D)   //emitted as stream by distancefilter
+Event free		: free(D)       //emitted as stream by distancefilter
+
+Dispatch stoptrolley : stoptrolley(ARG) //message sent to fridgeservice to stop trolley
+Dispatch resumetrolley : resumetrolley(ARG) //message sent to fridgeservice to resume trolley
+Dispatch coapUpdate: coapUpdate(RESOURCE, VALUE)
+//------------------------------------------------------------------
+
+
+Context ctxalarmdevice ip [ host= "localhost"     port= 9980 ]
+Context ctxcoldstorageservice ip [host="127.0.0.1" port=9990]
+
+ExternalQActor fridgeservice context ctxcoldstorageservice
+ExternalQActor transporttrolley context ctxcoldstorageservice
+
+
+CodedQActor sonar  context ctxalarmdevice className "sonarSimulator"           //IN LOCALE
+//CodedQActor sonar  context ctxalarmdevice className "sonarHCSR04Support23"   //SU RASP
+CodedQActor datacleaner    context ctxalarmdevice className "rx.dataCleaner"
+CodedQActor distancefilter context ctxalarmdevice className "rx.distanceFilter"
+
+QActor alarmdevice context ctxalarmdevice{ 
+	[#	val MINT = 10					//seconds to wait before robot can be stopped again
+		var stopped: Boolean = false 	//true if the robot is stopped
+		var lastStopped : Long = 0	//when the robot got stopped the last time
+		
+	#]
+	
+	State s0 initial{  
+		println("$name - START") color cyan
+		[# subscribeToLocalActor("distancefilter").subscribeToLocalActor("datacleaner").subscribeToLocalActor("sonar") #]
+	}
+	Goto work
+	
+	State work{	
+		updateResource [# "sonar23 waiting ..." #]
+	}
+	Transition t0 whenEvent obstacle  -> handleobstacle
+	              whenEvent free	  -> handlefree
+		
+	State handleobstacle{
+		onMsg( obstacle : obstacle(D)){
+			[# val elapsedTime = (System.currentTimeMillis() - lastStopped) / 1000 //elapsed time in seconds #]
+			if 	[# elapsedTime > MINT && !stopped #] {		
+				println("$name - distance is: ${payloadArg(0)}, sending STOP message") color red
+				forward fridgeservice -m stoptrolley : stoptrolley(stop)
+				[# stopped = true
+				   lastStopped = System.currentTimeMillis()
+				#]
+				updateResource [# "alarmdevice(stop)" #]
+			}
+			else {
+				if [# stopped #] { 
+					//println("$name - trolley already stopped") color cyan
+				}
+				else { 
+					println("$name - $MINT seconds have to pass before stopping again") color cyan
+					updateResource [# "alarmdevice(nostop)" #]
+				}
+			}
+		}	
+	}
+	Goto work
+	
+	State handlefree{
+		onMsg( free : free(D)){
+			if [# stopped #] {
+				[# stopped = false #]
+				println("$name - distance is: ${payloadArg(0)}, sending RESUME message") color red
+				forward fridgeservice -m resumetrolley : resumetrolley(resume)
+				updateResource [# "alarmdevice(resume)" #]
+			}
+		}
+	}
+	Goto work
+}
+
+QActor warningdevice context ctxalarmdevice {
+	[# var process = Runtime.getRuntime().exec("python LedOff.py") #]
+	State s0 initial {
+		println("$name - START") color magenta
+		observeResource transporttrolley
+		observeResource fridgeservice
+	}
+	Goto observing
+
+	State observing{
+	
+	}
+	Transition t0 whenMsg coapUpdate -> doObserve
+	State doObserve{
+		onMsg(coapUpdate : coapUpdate(transporttrolley, ARG)){
+			[# var Message : String = "${payloadArg(1)}"
+			   var Payload : String = SystemUtilities.getPayloadArgs(Message)[0]
+			#]
+			if [# Payload == "waitingRequest" || Payload == "atHome"#] {
+				println("$name - LED OFF") color magenta
+				[#
+					process.destroy()
+					process = Runtime.getRuntime().exec("python LedOff.py") 
+				#]
+				updateResource [# "warningdevice(off)" #]				
+			}
+			if [# Payload == "movingToIndoor" || Payload == "loadingCharge" || 
+				Payload == "chargeTaken" || Payload == "movingToColdRoom"|| Payload == "depositingLoad"
+				 || Payload == "MovingToHome" #] {
+				 	println("$name - LED BLINKING") color magenta
+				 	[#
+						process.destroy()
+						process = Runtime.getRuntime().exec("python LedBlink.py") 
+					#]
+				 	updateResource [# "warningdevice(blink)" #]
+			}
+		}
+		onMsg(coapUpdate : coapUpdate(fridgeservice, ARG)){
+			[# var Message : String = "${payloadArg(1)}"
+			   var Payload : String = SystemUtilities.getPayloadArgs(Message)[0]
+			#]
+			if [# Payload == "stoppingTrolley"#] {
+				println("$name - LED ON") color magenta
+			[#
+				process.destroy()
+				process = Runtime.getRuntime().exec("python LedOn.py") 
+			#]
+				updateResource [# "warningdevice(on)" #]
+			}
+			if [# Payload == "resumingTrolley"#] {
+				println("$name - LED BLINKING") color magenta
+				[#
+					process.destroy()
+					process = Runtime.getRuntime().exec("python LedBlink.py") 
+				#]
+				updateResource [# "warningdevice(blink)" #]
+			}		
+		}
+	}
+  Goto observing
+	
+}

@@ -1,0 +1,319 @@
+System coldstorageservice
+
+// ----- Messaggi per le interazioni con il basic robot -------
+Request engage			: engage(OWNER,STEPTIME) //richiesta di ingaggio
+Reply	engagedone		: engagedone(ARG) //risposta di conferma di ingaggio
+Reply	engagerefused	: engagerefused(ARG) //risposta di rifiuto di ingaggio
+
+Dispatch disengage		: disengage(ARG) //messaggio di disingaggio
+
+Request moverobot		: moverobot(TARGETX, TARGETY) //richiesta di muovere il robot in una determinata posizione
+Reply moverobotdone		: moverobotok(ARG) //risposta di conferma del movimento a posizione
+Reply moverobotfailed	: moverobotfailed(PLANDONE, PLANTODO) //risposta di movimento a posizione non riuscita
+
+Dispatch setrobotstate	: setpos(X,Y,D) //aggiorna la mappa con la nuova posizione e direzione
+Dispatch setdirection	: dir(D) //aggiorna la posizione del robot con la nuova direzione
+
+Event alarm				: alarm(X) //stoppa il basicrobot
+
+//--------------------------------------------------------------------
+
+//-----------------------Messaggi applicativi------------------------
+Request storerequest 	: storerequest(KG) //richiesta di depositare un food load
+Reply loadaccepted		: loadaccepted(TICKET) //risposta di accettamento richiesta del load
+Reply loadrefused		: loadrefused(ARG) //risposta di rifiuto richiesta del load
+
+Request sendticket : sendticket(TICKET) //richiesta per inviare il ticket al servizio
+Reply chargetaken : chargetaken(ARG) // messaggio che invia il servizio per prendere in carico una richiesta
+Reply ticketrefused : ticketrefused(ARG) //messaggio che invia il servizio se il ticket è scaduto
+
+Request takecharge: takecharge(TICKET) // richiesta che il servizio invia al robot per prendersi in carica di una deposit request
+
+Dispatch tryagain: tryagain(ARG) // messaggio che si invia il robot per riprovare una mossa fallita
+
+Dispatch stoptrolley : stoptrolley(ARG) //message sent from AlarmDevice to fridgeservice to stop trolley
+Dispatch resumetrolley : resumetrolley(ARG) //message sent from AlarmDevice to fridgeservice to resume trolley
+
+//------------------------------------------------------------------
+
+
+
+Context ctxcoldstorageservice ip [host="localhost" port=9990]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
+
+ExternalQActor basicrobot context ctxbasicrobot
+
+QActor serviceaccessgui context ctxcoldstorageservice{
+	State so initial{
+		println("$name - START") color magenta
+	}
+	Goto sendRequest
+	
+	State sendRequest{
+//		[# CommUtils.waitTheUser("$name Please HIT to send request")#]
+		delay 3000
+//		println("$name - Sending store request: 30 Kg") color magenta
+//		request fridgeservice -m storerequest: storerequest(30)	
+	}
+	Transition t0 whenReply loadaccepted -> sendTicket
+					whenReply loadrefused -> endWork
+	
+	State sendTicket{		
+		onMsg( loadaccepted : loadaccepted(TICKET) ){
+			println("$name - Moving to the INDOOR") color magenta	      
+			delay 4000 //simulating driver taking time to go to indoor
+			[# val Ticket="${payloadArg(0)}" #]
+			println("$name - Sending ticket: $Ticket") color magenta	        
+	        request fridgeservice -m sendticket: sendticket($Ticket)
+      	}
+	}
+	Transition t0 whenReply chargetaken -> endWork
+					whenReply ticketrefused -> endWork
+	
+	State endWork{
+		onMsg( loadrefused : loadrefused(ARG) ){
+			println("$name - END WORK: load got refused") color magenta
+		}
+		onMsg( ticketrefused : ticketrefused(ARG) ){
+			println("$name - END WORK: ticket got refused") color magenta
+		}
+		onMsg( chargetaken : chargetaken(ARG) ){
+			println("$name - END WORK: food load taken") color magenta
+		}		
+	}
+}
+
+
+QActor transporttrolley context ctxcoldstorageservice{
+	[# var LastAction = MoveType.MOVETOINDOOR //last action tried
+	   var FailedCounter = 0 //number of failed moves
+	   var Stopped : Boolean = false //whether or not the trolley is stopped
+		#] 
+	State s0 initial{
+		println("$name - START, engage basicrobot") color green
+		request basicrobot -m engage: engage(transporttrolley,330)
+	}
+	Transition s0 whenReply engagedone -> waitRequest
+						whenReply engagerefused -> s0
+	State waitRequest {
+		if [# Stopped #] { [# Stopped = false #] } else {
+			forward basicrobot -m setrobotstate : setpos(0,0,down) //just to be sure
+		}
+		println("$name - waiting for a request...") color green
+		updateResource [# "transporttrolley(waitingRequest)" #]
+		[# LastAction = MoveType.WAITREQUEST #]
+	}
+	Transition t0 whenMsg stoptrolley -> stop
+					whenRequest takecharge -> moveToIndoor
+					
+		
+	State moveToIndoor {
+		if [# Stopped #] { [# Stopped = false #] } else {
+			onMsg( takecharge : takecharge(TICKET) ){
+				[# val Ticket="${payloadArg(0)}" #]			
+				println("$name - moving to INDOOR to take charge of ticket $Ticket") color green
+				updateResource [# "transporttrolley(movingToIndoor)" #]				
+		  	}
+		  	[# LastAction = MoveType.MOVETOINDOOR #]
+		  	request basicrobot -m moverobot : moverobot (0,4) //(0,4) position of INDOOR in the map
+      	}
+							
+	}
+	Transition t0 whenMsg stoptrolley -> stop
+					whenReply moverobotdone -> loadTheCharge
+					whenReply moverobotfailed -> failedAction
+					
+	
+	State loadTheCharge{
+		if [# Stopped #] { [# Stopped = false #] } else {
+			println("$name - loading charge ...") color green
+			updateResource [# "transporttrolley(loadingCharge)" #]		
+			delay 4000 //simulate the loading
+			println("$name - taken charge of the load ...") color green
+			updateResource [# "transporttrolley(chargeTaken)" #]
+			replyTo takecharge with chargetaken: chargetaken(ARG) caller== fridgeservice
+			[# LastAction = MoveType.LOADCHARGE #]
+		}
+	}
+	
+	Transition t0 whenTime 50 -> moveToColdRoom
+					whenMsg stoptrolley -> stop
+		
+					
+	
+	State moveToColdRoom{
+		if [# Stopped #] { [# Stopped = false #] } else {
+			println("$name - moving to ColdRoom ...") color green
+			updateResource [# "transporttrolley(movingToColdroom)" #]
+			[# LastAction = MoveType.MOVETOCR #]
+			request basicrobot -m moverobot: moverobot(4,3) //(4,3) position of PORT of coldroom
+		}
+	}
+	Transition t0 whenMsg stoptrolley -> stop
+					whenReply moverobotdone -> storeTheCharge
+					whenReply moverobotfailed -> failedAction
+					
+						
+	State storeTheCharge{
+		if [# Stopped #] { [# Stopped = false #] } else {
+			println("$name - depositing load ...") color green
+			updateResource [# "transporttrolley(depositingLoad)" #]
+			delay 4000 //simulate the deposit
+			println("$name - load deposited ...") color green
+			[# LastAction = MoveType.STORECHARGE #]
+		}
+	}
+	Transition t0 whenTime 1000 -> moveToHome
+					whenMsg stoptrolley -> stop
+					whenRequest takecharge -> moveToIndoor			
+				
+	State moveToHome{
+		if [# Stopped #] { [# Stopped = false #] } else {
+			println("$name - No more requests, moving to home ...") color green
+			updateResource [# "transporttrolley(movingToHome)" #]
+			[# LastAction = MoveType.MOVETOHOME #]
+			request basicrobot -m moverobot: moverobot (0,0) //(0,0) position of HOME
+		}
+	}
+	Transition t0 whenMsg stoptrolley -> stop
+					whenReply moverobotdone -> trolleyAtHome
+					whenReply moverobotfailed -> failedAction
+				
+						
+	State trolleyAtHome{
+		println("$name - trolleyAtHome ... ") color green
+		updateResource [# "transporttrolley(atHome)" #]
+		forward basicrobot -m setdirection : dir(down)
+		delay 1000 //To avoid interrupt of plan related to setDirection		
+	}
+	Goto exitSystem
+	
+	State failedAction{
+		[# FailedCounter += 1 #]
+		println("$name - The last action (${LastAction.name}) failed, trying again") color green
+		forward transporttrolley -m tryagain : tryagain(ARG)
+	}
+	Transition t0
+		whenMsg tryagain and [# FailedCounter >= 10 #] -> exitSystem
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOINDOOR #] -> moveToIndoor
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOCR #] -> moveToColdRoom
+		whenMsg tryagain and [# LastAction == MoveType.MOVETOHOME #] -> moveToHome
+
+	State stop{
+		onMsg(stoptrolley: stoptrolley(ARG)){
+			[# Stopped = true #]
+			println("$name - STOPPED, waiting to be resumed") color green	
+			updateResource [# "transporttrolley(stopped)" #]		
+		}
+	}
+	Transition t0
+		whenMsg resumetrolley and [# LastAction == MoveType.WAITREQUEST #] -> waitRequest
+		whenMsg resumetrolley and [# LastAction == MoveType.MOVETOINDOOR #] -> moveToIndoor
+		whenMsg resumetrolley and [# LastAction == MoveType.LOADCHARGE #] -> loadTheCharge
+		whenMsg resumetrolley and [# LastAction == MoveType.MOVETOCR #] -> moveToColdRoom
+		whenMsg resumetrolley and [# LastAction == MoveType.STORECHARGE #] -> storeTheCharge
+		whenMsg resumetrolley and [# LastAction == MoveType.MOVETOHOME #] -> moveToHome
+	
+	State exitSystem {
+		onMsg( tryagain : tryagain(ARG)){
+			println("$name - Too many fails, exiting the system") color green
+		}
+		forward basicrobot -m disengage : disengage(transporttrolley)
+		println("$name - disengaged") color green
+		delay 1000 //avoid to premature abort of connection
+		[# System.exit(0) #]
+	}
+}
+
+QActor fridgeservice context ctxcoldstorageservice{
+	[#
+		val MAXW = 100 //max storable kg in the ColdRoom
+		val TICKETTIME = 20 //seconds of ticket validity
+		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
+		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()	//structure to mantain the ticket requests that are open (<Ticket number, KG, EmissionTime>)
+		var ticketValue = 0 //incrementing ticket value
+	#]
+	
+	State so initial{
+		delay 1000
+		delegate "chargetaken" to serviceaccessgui
+		println("$name - START") color blue
+	}
+	Goto waitRequest
+	
+	State waitRequest{
+		println("$name - waiting for requests...") color blue
+		updateResource [# "fridgeservice(waitingRequests)" #]
+	}
+	Transition t0 whenRequest storerequest -> handleRequest
+					whenRequest sendticket -> handleTicket
+					whenMsg stoptrolley -> handleStop
+					whenMsg resumetrolley -> handleStop
+	
+	State handleRequest{
+		onMsg(storerequest: storerequest(KG)){			
+			if [# payloadArg(0).toFloat() < MAXW - CurrentlyStored #]{
+				[# val Ticket= ticketValue
+					ticketValue = ticketValue + 1
+				#]
+				println("$name - accepting request of ${payloadArg(0)} Kg, returning ticket: $Ticket") color blue
+				updateResource [# "fridgeservice(acceptingRequest)" #]
+				replyTo storerequest with loadaccepted : loadaccepted($Ticket)
+				[# CurrentlyStored += payloadArg(0).toFloat() #]
+				println("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom") color blue
+				[# openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis())) #]	
+			}
+			else {
+				println("$name - refusing request of ${payloadArg(0)} Kg (Not enough room) ") color blue
+				updateResource [# "fridgeservice(refusingRequest)" #]
+				replyTo storerequest with loadrefused : loadrefused(ARG)
+			}	
+		}
+	}
+	Goto waitRequest
+	
+	State handleTicket{
+		onMsg(sendticket: sendticket(TICKET)){
+			[# 
+				val Ticket = payloadArg(0).toInt()
+				val request = openRequestList.find { it?.first == Ticket }			
+				val elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+				val Kg = request.second //load of this request
+			#] //request with the ticket value of the sendticket payload
+			
+			if [# elapsedTime <= TICKETTIME #]{
+				println("$name - accepting ticket $Ticket of request for $Kg Kg. Asking trolley to take charge") color blue
+				updateResource [# "fridgeservice(acceptingTicket)" #]
+				request transporttrolley -m takecharge : takecharge($Ticket)
+				
+				//replyTo sendticket with chargetaken : chargetaken(_) caller==serviceaccessgui
+			}
+			else{
+				println("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)") color blue
+				updateResource [# "fridgeservice(refusingTicket)" #]
+				replyTo sendticket with ticketrefused : ticketrefused(ARG)
+				[# CurrentlyStored -= Kg #] //updating currentlystored if ticket got refused
+			}
+			[# openRequestList.remove(request) #] //removing the request after we are done with it
+		}
+	}
+	Goto waitRequest
+	
+	State handleStop{
+		onMsg(stoptrolley: stoptrolley(ARG)){
+			println("$name - Stopping the trolley") color blue		
+			forward transporttrolley -m stoptrolley: stoptrolley(ARG) //first we stop the trolley
+			delay 100
+			emit alarm : alarm(X) //then we stop the basicrobot
+			updateResource [# "fridgeservice(stoppingTrolley)" #]
+			
+		}
+		onMsg(resumetrolley: resumetrolley(ARG)){
+			println("$name - Resuming the trolley") color blue
+			forward transporttrolley -m resumetrolley: resumetrolley(ARG)
+			updateResource [# "fridgeservice(resumingTrolley)" #]
+		}	
+	}
+	Goto waitRequest
+	
+}
