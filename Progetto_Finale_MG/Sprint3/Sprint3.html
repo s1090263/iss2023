@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<link rel="stylesheet" href="html/prism.css">
+<script src="html/prism.js"></script>
+<style type="text/css">
+body
+{
+    margin-left:  10px;
+    margin-right: 10px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+div.remark-light{
+	background-color: #F0FFFF;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 15px;
+}
+span.remark{
+	background-color: #6b9cff;
+    border: 1.5px solid #d5f2ed;
+    padding: 1px;
+    margin: 5px;
+	border-radius: 25px;
+	font-size: 120%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 0px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+.blue{
+    color: blue;
+}
+.red{
+	color: red;
+}
+.sep li{
+	padding-bottom: 10px;
+}
+div.sec{
+margin-top: 10px;
+margin-left: 30px;
+margin-right: 30px;
+}
+.align-center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+pre.language-java {
+      max-width: 800px; /* Adjust the max-width as needed */
+      overflow-x: auto;
+      display: inline-block; 
+	  padding-top: 0em;
+	  padding-bottom: 0em;
+	  margin-left: 100px;
+    }
+	
+pre{
+overflow: auto;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+	width: 50%;
+	flex:1;
+}  
+
+.flex-child.left {
+    margin-right: 20px;
+	overflow: hidden;
+	 flex-shrink: 0;
+}
+
+.flex-child.right {
+	padding-top: 20px;
+	 flex-shrink: 1;
+}
+
+.small{
+font-size:65%;
+}
+
+.inline{
+display: inline-block;
+padding: 0px;
+}
+</style>
+    
+<head>
+   
+<title>Sprint3 Giri Matteo</title>
+
+</head>
+    
+<body>
+<div id="top">
+<h1>TEMA FINALE SPRINT3<font size="5"></font> </h1>
+</div>
+
+<span class="blue"></span> 
+<span class="red"><b></b></span> 
+
+<div class="body"> 
+<h2>Introduzione</h2>
+Nello <a href="../Sprint2/Sprint2.html"><span class="red">SPRINT2</span></a> abbiamo affrontato i requisiti dell' <span class="blue"><b>Alarm Device</b></span>, andando a realizzare
+un prototipo eseguibile con la seguente architettura:
+
+<blockquote>
+<a class="reference internal image-reference" href="../Sprint2/immagini/ArchitetturaLogicaSprint2.png"><img alt="../Sprint2/immagini/ArchitetturaLogicaSprint2.png" class="align-center" src="../Sprint2/immagini/ArchitetturaLogicaSprint2.png" style="width: 30%;" /></a>
+</blockquote>
+
+
+In questo sprint andrò ad affrontare il problema della realizzazione della <span class="blue"><b>ServiceAccessGUI</b></span>, che era finora stata simulata con un <b>attore</b>.
+<h2>Requisiti</h2>
+Nello <span class="red">SPRINT3</span> ci concentriamo solo sui seguenti requisiti:
+<div class="sec remark">
+a <span class="blue">ServiceAcessGUI</span>  that allows an human being to see the current current weigth of the material stored
+in the ColdRoom and to send to the <span class="blue">ColdStorageService</span> a request to store new <strong>FW</strong> kg
+of food.
+If the request is accepted, the services return a ticket that expires after a prefixed amount of time
+(<strong>TICKETTIME</strong> secs) and provides a field to enter the  ticket number when a <cite>Fridge truck</cite> is at the
+<span class="red">INDOOR</span> of the service.
+</div>
+In questa fase ci interessano solo le seguenti user story:
+<div class="sec remark">
+<ol class="sep">
+<li><p><i>A <cite>Fridge truck</cite> driver uses the <span class="blue">ServiceAcessGUI</span> to send
+a request to store  its load of <strong>FW</strong> kg. If the request is accepted, the driver drives its truck
+to the <span class="red">INDOOR</span> of the service, before the ticket exipration time <strong>TICKETTIME</strong>.</i></p></li>
+<li><p><i>When the truck is at the <span class="red">INDOOR</span> of the service, the driver uses the <span class="blue">ServiceAcessGUI</span> to
+enter the ticket number and waits until the message <strong>charge taken</strong>   (sent by the <cite>ColdStorageService</cite>)
+appears on the <span class="blue">ServiceAcessGUI</span>. At this point, the truck should leave the <span class="red">INDOOR</span>.</i></p></li>
+</div>
+
+<h2>Analisi del problema</h2>
+<div class="sec remark-light">
+
+	<span class="remark">KeyPoints - Analisi del problema</span>
+	</br>
+	</br>
+	<ul class="sep">
+	<li>Si realizza la <span class="blue">ServiceAccessGUI</span> come applicazione web, facendo uso del progetto <span class="red">ServiceFacade24</span>,</li>
+	<li>Cambiamenti al <span class="blue">ColdStorageService</span>: si rimuove l'attore che simula la serviceAccessGui e si modifica il FridgeService per gestire al meglio la
+	rimozione dell'attore.</li>
+	</ul>
+</div>
+
+<h3>ServiceAccessGUI come Applicazione Web</h3>
+<div class="sec remark-light">
+Si è deciso di realizzare la <span class="blue">ServiceAccessGUI</span> come <b>applicazione web</b> dotata di interfaccia grafica e che scambia messaggi con il <span class="blue">ColdStorageService</Span> per permettere l'invio
+di richieste e la ricezione di risposte e update da parte del servizio. </br></br>
+<span class="remark">ServiceFacade24 per dotare il servizio di una Facade</span>: Il committente fornisce un progetto specifico (<span class="red">ServiceFacade24</span>) che permette di dotare un modello <b>qak</b> di una <span class="red">Facade</span> con la quale un utente può
+interfacciarsi al sistema. Il progetto realizza la Facade come un'applicazione web basata su <a href="https://spring.io/projects/spring-boot">SpringBoot</a>.</br>
+<span class="red">ServiceFacade24</span> realizza un applicativo con la seguente architettura:
+
+<blockquote>
+<a class="reference internal image-reference" href="immagini/Facade24Creation.PNG"><img alt="immagini/Facade24Creation.PNG" class="align-center" src="immagini/Facade24Creation.PNG" style="width: 45%;" /></a>
+</blockquote>
+
+<ul class="sep">
+<li><span class="blue">ServivceFacadeController</span>: controller del modello MVC. Si occupa solo di dare la parte grafica e costruire <span class="blue">FacadeBuilder</span>, che costruisce tutti i componenti del sistema.</li>
+<li><span class="blue">WebSocketConfiguration</span> e <span class="blue">WSHandler</span> sono Adapter che si occupano di gestire la connessione websocket con il client.</li>
+<li><span class="blue">ActorOutIn</span> che lavora come Adapter per la connessione (<b>TCP</b> E <b>CoaP</b>) con l'attore <span class="blue">FridgeService</span> del servizio.</li>
+<li><span class="blue">CoapObserver</span> è l'osservatore CoaP che gestisce la ricezione di messaggi inviati con l'<b>updateResource</b> di qak.</li>
+<li><span class="blue">ApplicationGUICore</span> è il componente che si occupa della logica applicativa dell'applicazione.</li>
+<li><span class="blue">Guimain.js</span> è il file javascript che si occupa della connessione <b>ws</b> del client con il server.</li>
+</ul>
+La presenza di tutti questi componenti è legata all'idea dei principi <b>SOLID</b> e della <b>Clean Architecture</b> di separare le responsabilità dei componenti, in modo da avere una separazione
+tra <b>Adapters</b>, <b>interfacce utente</b> e <b>logica applicativa</b>. Per ulteriori informazioni, si consulti <a href="../html/Facade24.html">Facade24.html</a>.
+</div>
+<div class="sec remark-light">
+Alcuni componenti di <span class="red">ServiceFacade24</span> sono specifici per il servizio su cui stiamo lavorando.</br>
+L'<a href="#applguicore"><span class="blue">ApplicationGUICore</span></a> si occupa della gestione dei messaggi che gli arrivano dai vari adapters, va quindi modificato in base alle esigenza dell'applicazione.
+Nel mio caso ridireziono all'interfaccia grafica (client) solo i messaggi dell'applicazione di interesse (filtro tutti i messaggi CoaP arrivati dal <span class="blue">CoapObserver</span>).
+Inoltre, gestisco i messaggi che arrivano tramite <b>ws</b> dal client con struttura <i>message/messageID/messqageContent</i> (es: "request/storerequest/storerequest(30)").
+</br>
+</br>
+Il <a href="#guimainjs"><span class="blue">guimain.js</span></a> va adattato alla nostra applicazione, in quanto si occupa di inviare messaggi specifici dell'applicazione al server e deve aggiornare i componenti
+dell'interfaccia html quando arrivano messaggi dal server.
+</div>
+<div class="sec remark-light">
+Per poter dotare il servizio della <b>Facade</b>, si utilizza la seguente direttiva:
+<pre>
+<code>
+Facade f port 8088 usingactor fridgeservice inctx ctxcoldstorageservice  
+	   appl "unibo.servicefacade24.Servicefacade24Application" 
+	   UserLibs -f "servicefacade24-1.0" -f "servicefacade24-1.0-plain"
+</code>
+</pre>
+Dove <b>port</b> è la porta su cui vogliamo attivare la facade; <b>usingactor</b> e <b>inctx</b> è l'attore e contesto con cui vogliamo che l'applicazione web si interfacci al servizio;
+<b>appl</b> è la applicazione da usare come facade; <b>UserLibs</b> sono le librerie per usare l'applicazione.
+</br>
+</br>
+Aprendo un browser sulla porta 8088 dell'indirizzo del servizio si viene presentati alla seguente interfaccia:
+<blockquote>
+<a class="reference internal image-reference" href="immagini/gui.JPG"><img alt="immagini/gui.JPG" class="align-center" src="immagini/gui.JPG" style="width: 45%;" /></a>
+</blockquote>
+tramite la quale è possibile visualizzare il carico corrente della <b>ColdRoom</b>, inviare <b>richieste di deposito</b> e di <b>inserimento ticket</b>, e visualizzare le risposte
+ricevute dal servizio.
+
+</div>
+<h3>Cambiamenti al ColdStorageService</h3>
+<div class="sec remark-light">
+Nel contesto del <b>ColdStorageService</b> l'attore <span class="blue">ServiceAccessGUI</span> è ora superfluo e viene quindi eliminato. Questo cambiamento porta a dover modificare leggermente la struttura
+ del <span class="blue">FridgeService</span> in quanto prima il messaggio <b>chargetaken</b> proveniente dal <span class="blue">TransportTrolley</span> veniva delegato all'attore della serviceaccessgui che ora
+ non c'è più.</br></br>
+ <span class="remark">Un nuovo stato del FridgeService per gestire il chargetaken</span>: Ora il FridgeService risponde alla Facade con un messaggio <b>ticketaccepted</b>(nel caso di accettazione del ticket) e invia come già accadeva una request <b>takecharge</b> al trolley. Il messaggio <b>ticketaccepted</b> viene inviato
+ per evitare di mantenere in attesa la <span class="blue">ServiceAccessGUI</span> del chargetaken, in modo che possa continuare a inivare nuove richieste nel mentre.
+ Quando il trolley prende in carico il load, invia la risposta <b>chargetaken</b> al <span class="blue">FridgeService</span>, che alla ricezione si sposta in un nuovo stato <b>handleCharge</b>
+ in cui effettua una <b>updateResource(chargeTaken,ticket)</b> captabile dall'applicazione web. L'updateResource deve essere fatto dal fridgeservice perchè è il componente che
+ abbiamo scelto per interfaccarsi con la GUI.</br></br>
+ Inoltre, ho dotato il servizio di un meccanismo per rifiutare ticket inesistenti.
+</div>
+
+
+<h3>Architettura logica</h3>
+<div class="sec remark-light">
+L'architettura logica del <span class="blue">ColdStorageService</span> ricavata nello <span class="red">SPRINT3</span> è mostrata nella seguente figura:
+
+<blockquote>
+<a class="reference internal image-reference" href="immagini/ArchitetturaLogicaSprint3.png"><img alt="immagini/ArchitetturaLogicaSprint3.png" class="align-center" src="immagini/ArchitetturaLogicaSprint3.png" style="width: 40%;" /></a>
+</blockquote>
+
+Mentre l'interazione completa della <span class="blue">ServiceAccessGUI</span> con il servizio è mostrata qui sotto:
+<blockquote>
+<a class="reference internal image-reference" href="immagini/InterazioniComplete.png"><img alt="immagini/InterazioniComplete.png" class="align-center" src="immagini/InterazioniComplete.png" style="width: 60%;" /></a>
+</blockquote>
+
+</div>
+<h2>Progettazione - ServiceAccessGUI</h2>
+In questa sezione sono riportati i dettagli di realizzazione più importanti della <span class="blue">ServiceAccessGUI</span> come applicazione web.
+<h3 id="applguicore">ApplicationGUICore</h3>
+<div class="sec remark-light">
+<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+//returns payload of message as a list
+public static List&lt;String> getPayload(String input) {
+	List&lt;String> resultList = new ArrayList&lt;>();
+
+	int startIndex = input.indexOf('(');
+	int endIndex = input.lastIndexOf(')');
+
+	if (startIndex != -1 AND endIndex != -1 AND startIndex &lt; endIndex) {
+		String contentBetweenParentheses = input.substring(startIndex + 1, endIndex);
+		String[] tokens = contentBetweenParentheses.split("\\s*,\\s*"); // Split by commas, trimming whitespace
+
+		for (String token : tokens) {
+			resultList.add(token);
+		}
+	}
+
+	return resultList;
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Funzione di utilità per ricavare il payload di un messaggio da una stringa.</li>
+		</ul>
+	  </div>
+	</div>	
+	<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+//Chiamato by CoapObserver
+public void handleMsgFromActor(String msg, String requestId) {
+	//CommUtils.outcyan("AGC | hanldeMsgFromActor " + msg + " requestId=" + requestId) ;
+	if (Objects.equals(getPayload(msg).get(0), "currentlyStored") ||
+			Objects.equals(getPayload(msg).get(0), "chargeTaken")) { //we want only the currently stored message or chargetaken to be sent to the gui
+		updateMsg(msg);
+	}
+}
+
+ //Handling Messages from the FacadeGUI
+public void handleWsMsg(String msg ) {
+	//CommUtils.outcyan("AGC | handleWsMsg msg " + msg  );
+	String[] parts = msg.split("/");
+	String message = parts[0];
+	String msgID = parts[1];
+	String msgContent = "";
+	if (parts.length > 2)
+		msgContent = parts[2];
+	//CommUtils.outcyan("AGC | handleWsMsg " + message  );
+
+	switch (message) {
+		 case "request":
+			dorequest(msgID, msgContent );
+			break;
+		case "cmd":
+			docmd(msgContent );
+			break;
+		case "requestInfo":
+			dorequestInfo();
+			break;
+		case "exit":
+			System.exit(0);
+			break;
+		default:
+			break;
+	}
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>La funzione <b>handleMsgFromActor</b> viene chiamata dal <span class="blue">CoapObserver</span> quando l'attore osservato effettua una updateresource e la utilizzo per filtrare i messaggi che voglio ricevere prima di
+		mandarli al client.</li>
+		<li>La funzione <b>handleWsMsg</b> viene chiamata dal <span class="blue">WShandler</span> quando arriva un messaggio su WS dal client. Il messaggio viene diviso nelle sue 
+		componenti e in base al tipo di messaggio viene elaborato e poi inviato al servizio su TCP tramite <span class="blue">ActorOutIn</span>.</li>
+		</ul>
+	  </div>
+	</div>
+</div>
+
+<h3 id="guimainjs">guimain.js</h3>
+<div class="sec remark-light">
+<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+function submitDepositRequest() {
+     console.log("submitRequest "+ depositRequestInput.value);
+    sendMessage("request/storerequest/storerequest(" + depositRequestInput.value + ")"); //arriva a ApplGuiCore via WSHandler
+    depositRequestInput.value = "";
+}
+function submitTicketRequest() {
+     console.log("submitRequest "+ ticketRequestInput.value);
+    sendMessage("request/sendticket/sendticket(" + ticketRequestInput.value + ")"); //arriva a ApplGuiCore via WSHandler
+    ticketRequestInput.value = "";
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li><b>submitDepositRequest</b> e <b>submitTicketRequest</b> sono chiamate al click dei corrispondenti bottoni dell'html, e servono per inviare il messaggio con payload inserito
+		nella input box all'<span class="blue">ApplicationGUICore</span> che li elabora.</li>
+		</ul>
+	  </div>
+	</div>	
+<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+function showMsg(message) {
+  switch (getSender(message)) {
+      case "fridgeservice" :
+        if (getPayload(message)[0] == "chargeTaken")
+            msgArea.innerHTML +=  '- Charge Taken of ticket: ' + getPayload(message)[1] + '\n';
+        else
+            capacityText.innerText =  getPayload(message)[1];
+          break;
+      case "loadaccepted" :
+          msgArea.innerHTML +=  '- The Store request has been accepted. Your ticket number is: ' + getPayload(message)[0] + '\n'
+          break;
+      case "loadrefused" :
+                msgArea.innerHTML +=  '- The Store request has been refused (not enough space) \n'
+                break;
+      case "ticketaccepted" :
+                msgArea.innerHTML +=  '- The ticket ' +getPayload(message)[0] + ' has been accepted. Taking charge...\n'
+                break;
+      case "ticketrefused" :
+                if (getPayload(message)[0] == "expired")
+                    msgArea.innerHTML +=  '- The ticket has been refused (expired)\n'
+                else
+                     msgArea.innerHTML +=  '- The ticket number is inexistent \n'
+                break;
+      default :
+          console.log("Not handled message");
+    }
+}
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li><b>showMsg</b> è la callback chiamata quando arriva un messaggio sulla connessione WS. In base al messaggio arrivato si scrive qualcosa nella textarea dell'html.</li>
+		</ul>
+	  </div>
+	</div>	
+</div>
+
+ <h2>Progettazione - ColdStorageService</h2>
+In questa sezione ho riportato i cambiamenti effettuati al sistema. Per il resto il sistema è come quello dello SPRINT2.
+
+<h3>FridgeService</h3>
+<div class="sec remark-light">
+<div class="flex-container">
+	  <div class="flex-child left">
+		<pre>
+		<code>
+State waitRequest{
+		println("$name - waiting for requests...") color blue
+		updateResource [# "fridgeservice(waitingRequests)" #]
+	}
+	Transition t0 whenRequest storerequest -> handleRequest
+					whenRequest sendticket -> handleTicket
+					whenMsg stoptrolley -> handleStop
+					whenMsg resumetrolley -> handleStop
+					whenReply chargetaken -> handleCharge
+
+State handleTicket{
+	onMsg(sendticket: sendticket(TICKET)){
+		[# 
+			val Ticket = payloadArg(0).toInt()
+			var request : Triple<Int, Float, Long>? = Triple<Int, Float, Long>(-1, -1.0f, -1)
+			var elapsedTime : Long = -1
+			var Kg : Float = -1.0f
+			try{
+				request = openRequestList.find { it?.first == Ticket }									
+				elapsedTime = (System.currentTimeMillis() - request!!.third) / 1000 //elapsed time in seconds			
+				Kg = request.second //load of this request
+				
+			} catch (e: NullPointerException){				
+			}						
+		#] //request with the ticket value of the sendticket payload
+		
+		if [# elapsedTime != -1L AND elapsedTime &lt;= TICKETTIME #]{
+			println("$name - accepting ticket $Ticket of request for $Kg Kg. Asking trolley to take charge") color blue
+			updateResource [# "fridgeservice(acceptingTicket)" #]
+			replyTo sendticket with ticketaccepted : ticketaccepted($Ticket)
+			request transporttrolley -m takecharge : takecharge($Ticket)
+		}
+		else{
+			if [# elapsedTime != -1L  #] {
+				println("$name - refusing ticket $Ticket of request for $Kg Kg (ticket expired)") color blue
+				updateResource [# "fridgeservice(refusingTicket)" #]
+				replyTo sendticket with ticketrefused : ticketrefused(expired)
+				[# CurrentlyStored -= Kg #] //updating currentlystored if ticket got refused
+				updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored)" #]				
+			}
+			else{
+				replyTo sendticket with ticketrefused : ticketrefused(nonexistent)
+			}
+		}
+		[# if (elapsedTime!=-1L) {openRequestList.remove(request)} #] //removing the request after we are done with it
+	}
+}
+Goto waitRequest
+
+State handleCharge{
+	onMsg(chargetaken: chargetaken(TICKET)){
+		[# val Tick = payloadArg(0).toInt() #]
+		updateResource [# "fridgeservice(chargeTaken,$Tick)" #]
+	}
+}
+Goto waitRequest
+		</code>
+		</pre>
+	  </div>
+	  
+	  <div class="flex-child right">
+		<ul class="sep">
+		<li>Nello stato <b>waitRequest</b> ora il fridgeservice aspetta anche una reply <b>chargetaken</b> dal trolley, che lo manda al nuovo stato <b>handleCharge</b>.</li>
+		<li>Nello stato <b>handleTicket</b> si fanno dei check per vedere se il biglietto esiste. Se non esiste si ritorna <b>ticketrefused(nonexistent)</b>.
+		Inoltre ora se il ticket viene accettato viene ritornata la risposta <b>ticketaccepted</b>.</li>
+		<li>Nello stato <b>handleCharge</b> il servizio effettua una <b>updateResource</b> per informare la <span="class">ServiceAccessGUI</span> dell'avvenuta presa in carica.</li>
+		</ul>
+	  </div>
+	</div>	
+</div>
+ 
+ 
+ 
+ 
+ 
+<h2>Piani di testing</h2>
+
+Al fine di testare il corretto funzionamento del sistema, sono stati introdotti i seguenti <b>piani di testing</b>:
+<div class="sec remark-light">
+<ul class="sep">
+<li><span class="remark">TestRequestAccepted</span>:  Test del normale funzionamento del sistema. Si utilizza la nuova <span class="blue">ServiceAccessGUI</span> per inviare
+una richiesta di deposito al sistema. Si attende il ticket e si invia il ticket ricevuto prima dello scadere del tempo <b>TICKETTIME</b>. Si controlla che il messaggio di accettazione
+del ticket e successivamente quello di chargetaken vengano correttamente ricevuti nella textArea del client. Si controlla inoltre che la capacità della <b>ColdRoom</b> venga aggiornata.</li>
+<li><span class="remark">TestRequestRefused</span>: Si prova ad inviare una richiesta di deposito troppo grande e si controlla che il messaggio ricevuto nella textarea sia quello di rifiuto
+della richiesta. </li>
+<li><span class="remark">TestTicketRefused</span>: Si prova ad inviare un ticket dopo che il tempo <b>TICKETTIME</b> è scaduto. Si verifica che il messaggio ricevuto dal servizio nella
+text area sia di ticket rifiutato per tempo scaduto </li>
+<li><span class="remark">TestNonExistentTicket</span>: Si prova ad inviare un ticket non esistente e si verifica che il sistema ritorni il messaggio di rifiuto per ticket inesistente nella
+textarea. </li>
+<li><span class="remark">TestMultipleRequests</span>: Si provano ad inviare richieste multiple e si verifica che tutte le richieste vengono correttamente gestite e che tutti i messaggi di <b>chargetaken</b> vengano
+correttamente ricevuti nella textArea.</li>
+
+</div>
+
+
+<h2>Piano di lavoro</h2>
+Nello <span class="red">SPRINT4</span> si andrà a realizzare la <span class="blue">ServiceStatusGUI</span> come applicazione web con interfaccia grafica.
+
+</div>
+</body>
+</html>
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Matteo Giri email: matteo.giri@studio.unibo.it
+<br>
+Link GitHub Repo: https://github.com/s1090263/iss2023/
+<img src="../Sprint0/immagini/fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
+</div> 
+</body>
+</html>

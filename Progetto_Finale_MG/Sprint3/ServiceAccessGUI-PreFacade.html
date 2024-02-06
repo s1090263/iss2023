@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<link rel="stylesheet" href="html/prism.css">
+<script src="html/prism.js"></script>
+<style type="text/css">
+body
+{
+    margin-left:  10px;
+    margin-right: 10px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+div.remark-light{
+	background-color: #F0FFFF;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 15px;
+}
+span.remark{
+	background-color: #6b9cff;
+    border: 1.5px solid #d5f2ed;
+    padding: 1px;
+    margin: 5px;
+	border-radius: 25px;
+	font-size: 120%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 0px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+.blue{
+    color: blue;
+}
+.red{
+	color: red;
+}
+.sep li{
+	padding-bottom: 10px;
+}
+div.sec{
+margin-top: 10px;
+margin-left: 30px;
+margin-right: 30px;
+}
+.align-center{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+pre.language-java {
+      max-width: 800px; /* Adjust the max-width as needed */
+      overflow-x: auto;
+      display: inline-block; 
+	  padding-top: 0em;
+	  padding-bottom: 0em;
+	  margin-left: 100px;
+    }
+	
+pre{
+overflow: auto;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+	width: 50%;
+	flex:1;
+}  
+
+.flex-child.left {
+    margin-right: 20px;
+	overflow: hidden;
+	 flex-shrink: 0;
+}
+
+.flex-child.right {
+	padding-top: 20px;
+	 flex-shrink: 1;
+}
+
+.small{
+font-size:65%;
+}
+
+.inline{
+display: inline-block;
+padding: 0px;
+}
+</style>
+    
+<head>
+   
+<title>Sprint3 Giri Matteo</title>
+
+</head>
+    
+<body>
+<div id="top">
+<h1>TEMA FINALE SPRINT3<font size="5"></font> </h1>
+</div>
+
+<span class="blue"></span> 
+<span class="red"><b></b></span> 
+<div class="body"> 
+
+<h2>Architettura ServiceAccessGUI prima di Facade24</h2>
+Questo documento serve solo a mostrare come avrei creato la ServiceAccessGUI come applicazione web in SprinBoot prima di conoscere le nuove funzionalità delle <span class="red">FACADE</span>.
+
+<blockquote>
+<a class="reference internal image-reference" href="immagini/ArchitetturaPreFacade.png"><img alt="immagini/ArchitetturaPreFacade.png" class="align-center" src="immagini/ArchitetturaPreFacade.png" style="width: 60%;" /></a>
+</blockquote>
+
+<ul class="sep">
+<li><span class="blue">WebSocketHandler</span> è il gestore della connessione websocket con il browser. Permette l'invio e la ricezione di messaggi sul canale websocket. Deve essere aggiunto come
+handler dell'applicazione dal componente <span class="blue">WSConfiguration</span>.</li>
+<li><span class="blue">ConnectionHandler</span> è il gestore delle connessioni con il <b>ColdStorageService</b>: crea la connessione TCP e CoaP e si occupa di inviare e ricevere messaggi via TCP,
+che vengono poi inoltrati al client tramite WebSocketHandler.</li>
+<li><span class="blue">CoaPObserver</span> è l'osservatore sulla connessione CoaP. Quando uno degli attori del servizio osservati effettua una <b>updateResource</b>, l'osserver li riceve e li inoltra
+al client tramite WebSocketHandler.</li>
+<li><span class="blue">serviceaccessgui.html</span> è il template html attivato dal controller. Contiene campi per inviare richieste di deposito e di consegna del ticket, una label in cui visualizzare il contenuto
+della <b>ColdRoom</b> e una textarea in cui visualizzare le informazioni ricevute dal servizio.</li>
+<li><span class="blue">wsminimal.js</span> contiene il codice per la connessione websocket con il server applicativo. All'arrivo di messaggi dal server applicativo li mostra all'utente attraverso la textarea e label del template.</li>
+<li><span class="blue">ioutils.js</span> ocntiene il codice di utilità per aggiornare il contenuto di elementi html della pagina e permette di inviare richieste <b>POST</b> Http al controller.</li>
+<li><span class="blue">Controller</span> è il controller del modello MVC di SpringBoot. Crea i vari componenti dell'applicazione e mostra il template html all'utente nella porta prestabilita. Inoltre contiene
+i metodi per la gestione delle richieste che arrivano tramite http dal client. Il controller elabora le richieste e le spedisce al ColdStorageService tramite il Connectionhandler.</li>
+</ul>
+</body>
+</html>
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Matteo Giri email: matteo.giri@studio.unibo.it
+<br>
+Link GitHub Repo: https://github.com/s1090263/iss2023/
+<img src="../Sprint0/immagini/fotoGiriMatteo.jpg" alt="foto" width="20%" height="20%">
+</div> 
+</body>
+</html>
