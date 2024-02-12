@@ -21,9 +21,9 @@ class Alarmdevice ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
-			val MINT = 10					//seconds to wait before robot can be stopped again
+			val MINT = SystemUtilities.readJsonVariable("alarmConfig.json","MINT") as Long					//seconds to wait before robot can be stopped again
 				var stopped: Boolean = false 	//true if the robot is stopped
-				var lastStopped : Long = 0	//when the robot got stopped the last time
+				var lastStopped = System.currentTimeMillis()	//when the robot got stopped the last time
 				
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State

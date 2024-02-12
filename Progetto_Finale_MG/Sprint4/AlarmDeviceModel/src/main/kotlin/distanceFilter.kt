@@ -10,7 +10,7 @@ import unibo.basicomm23.utils.CommUtils
 
 
 class distanceFilter (name : String ) : ActorBasic( name ) {
-val DLIMT = 40
+val DLIMT = SystemUtilities.readJsonVariable("alarmConfig.json","DLIMT") as Long
 //@kotlinx.coroutines.ObsoleteCoroutinesApi
 
     override suspend fun actorBody(msg: IApplMessage) {

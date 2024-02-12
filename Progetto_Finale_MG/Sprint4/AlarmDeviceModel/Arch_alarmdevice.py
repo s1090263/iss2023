@@ -27,10 +27,13 @@ with Diagram('alarmdeviceArch', show=False, outformat='png', graph_attr=graphatt
           sonar=Custom('sonar(coded)','./qakicons/codedQActor.png')
           datacleaner=Custom('datacleaner(coded)','./qakicons/codedQActor.png')
           distancefilter=Custom('distancefilter(coded)','./qakicons/codedQActor.png')
+     f=Custom('f','./qakicons/server.png')
      with Cluster('ctxcoldstorageservice', graph_attr=nodeattr):
           fridgeservice=Custom('fridgeservice(ext)','./qakicons/externalQActor.png')
           transporttrolley=Custom('transporttrolley(ext)','./qakicons/externalQActor.png')
-     transporttrolley >> Edge(color='blue', style='solid',  decorate='true', label='<coapUpdate &nbsp; >',  fontcolor='blue') >> warningdevice
+     f=Custom('f','./qakicons/server.png')
+     f >> Edge(color='blue', style='solid', decorate='true', label='< &harr; >',  fontcolor='blue') >> fridgeservice
+     transporttrolley >> Edge(color='blue', style='solid',  decorate='true', label='<coapinfo &nbsp; >',  fontcolor='blue') >> warningdevice
      alarmdevice >> Edge(color='blue', style='solid',  decorate='true', label='<stoptrolley &nbsp; resumetrolley &nbsp; >',  fontcolor='blue') >> fridgeservice
-     fridgeservice >> Edge(color='blue', style='solid',  decorate='true', label='<coapUpdate &nbsp; >',  fontcolor='blue') >> warningdevice
+     fridgeservice >> Edge(color='blue', style='solid',  decorate='true', label='<coapinfo &nbsp; >',  fontcolor='blue') >> warningdevice
 diag

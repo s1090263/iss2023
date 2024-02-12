@@ -2,6 +2,7 @@
 
 const msgArea = document.getElementById("messageArea");
 const capacityText = document.getElementById("cdStored");
+const maxCapacityText = document.getElementById("cdMax");
 const stateText = document.getElementById("state");
 const refusedText = document.getElementById("refused");
 const positionText = document.getElementById("position");
@@ -95,8 +96,10 @@ function showMsg(message) {
       case "fridgeservice" :
         if (getPayload(message)[0] == "refusingRequest")
             refusedText.innerText =  getPayload(message)[1];
-        else
+        else{
             capacityText.innerText =  getPayload(message)[1];
+            maxCapacityText.innerText = getPayload(message)[2];
+           }
           break;
         case "transporttrolley" :
                 if (getPayload(message)[0] == "position")

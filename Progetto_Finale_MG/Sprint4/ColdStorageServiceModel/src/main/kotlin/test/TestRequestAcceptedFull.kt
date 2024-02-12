@@ -70,7 +70,12 @@ class TestRequestAcceptedFull : CoapHandler {
 
         println("TestApplication - Simulating going to indoor to send ticket")
         CommUtils.delay(4000)
-        conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+        val ticketRequest: IApplMessage = CommUtils.buildRequest("testApplication", "sendticket", "sendticket("+ticket+")", "fridgeservice")
+        val ticketReply: IApplMessage? = conn.request(ticketRequest)
+        //conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+
+        //If everything goes as it should, the reply to the sendticket will be ticketaccepted
+        Assert.assertEquals("ticketaccepted", ticketReply?.msgId())
 
         //wait for the "at home" response of the robot
         var limit = 0
@@ -80,6 +85,7 @@ class TestRequestAcceptedFull : CoapHandler {
         }
 
         //if everything goes as it should, the robot must reach home when it finishes
+        assertTrue("chargeTaken" in contentList)
         assertTrue("atHome" in contentList)
     }
 }

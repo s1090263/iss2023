@@ -22,8 +22,8 @@ class Fridgeservice ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		
-				val MAXW = 100 //max storable kg in the ColdRoom
-				val TICKETTIME = 20 //seconds of ticket validity
+				val MAXW = SystemUtilities.readJsonVariable("coldStorageConfig.json","MAXW") as Long //max storable kg in the ColdRoom
+				val TICKETTIME = SystemUtilities.readJsonVariable("coldStorageConfig.json","TICKETTIME") as Long //seconds of ticket validity
 				var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
 				val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()	//structure to mantain the ticket requests that are open (<Ticket number, KG, EmissionTime>)
 				var ticketValue = 0 //incrementing ticket value
@@ -43,6 +43,8 @@ class Fridgeservice ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 					action { //it:State
 						CommUtils.outblue("$name - waiting for requests...")
 						updateResourceRep( "fridgeservice(waitingRequests)"  
+						)
+						updateResourceRep( "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)"  
 						)
 						//genTimer( actor, state )
 					}
@@ -67,7 +69,7 @@ class Fridgeservice ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 								)
 								answer("storerequest", "loadaccepted", "loadaccepted($Ticket)"   )  
 								 CurrentlyStored += payloadArg(0).toFloat()  
-								updateResourceRep( "fridgeservice(currentlyStored,$CurrentlyStored)"  
+								updateResourceRep( "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)"  
 								)
 								CommUtils.outblue("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom")
 								 openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis()))  
@@ -116,7 +118,7 @@ class Fridgeservice ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 								 )
 								 answer("sendticket", "ticketrefused", "ticketrefused(expired)"   )  
 								  CurrentlyStored -= Kg  
-								 updateResourceRep( "fridgeservice(currentlyStored,$CurrentlyStored)"  
+								 updateResourceRep( "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)"  
 								 )
 								 }
 								 else

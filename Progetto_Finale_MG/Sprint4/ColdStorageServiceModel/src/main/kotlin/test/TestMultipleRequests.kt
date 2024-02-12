@@ -88,12 +88,22 @@ class TestMultipleRequests : CoapHandler {
         //sending first ticket
         CommUtils.delay(4000)
         println("TestApplication - Inserting first ticket")
-        conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket1+"),1)")
+        val ticketRequest1: IApplMessage = CommUtils.buildRequest("testApplication", "sendticket", "sendticket("+ticket1+")", "fridgeservice")
+        val ticketReply1: IApplMessage? = conn.request(ticketRequest1)
+        //conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+
+        //If everything goes as it should, the reply to the sendticket will be ticketaccepted
+        Assert.assertEquals("ticketaccepted", ticketReply1?.msgId())
 
         //sending second ticket
         CommUtils.delay(3000)
         println("TestApplication - Inserting second ticket")
-        conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket2+"),1)")
+        val ticketRequest2: IApplMessage = CommUtils.buildRequest("testApplication", "sendticket", "sendticket("+ticket2+")", "fridgeservice")
+        val ticketReply2: IApplMessage? = conn.request(ticketRequest2)
+        //conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+
+        //If everything goes as it should, the reply to the sendticket will be ticketaccepted
+        Assert.assertEquals("ticketaccepted", ticketReply2?.msgId())
 
         //wait for the "at home" response of the robot
         var limit = 0

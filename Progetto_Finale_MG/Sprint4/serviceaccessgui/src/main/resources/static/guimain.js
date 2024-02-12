@@ -2,6 +2,7 @@
 
 const msgArea = document.getElementById("messageArea");
 const capacityText = document.getElementById("cdStored");
+const maxCapacityText = document.getElementById("cdMax");
 console.log("msgArea=" + msgArea)
 
 var socket = connect();
@@ -103,8 +104,10 @@ function showMsg(message) {
       case "fridgeservice" :
         if (getPayload(message)[0] == "chargeTaken")
             msgArea.innerHTML +=  '- Charge Taken of ticket: ' + getPayload(message)[1] + '\n';
-        else
+        else{
             capacityText.innerText =  getPayload(message)[1];
+            maxCapacityText.innerText = getPayload(message)[2];
+            }
           break;
       case "loadaccepted" :
           msgArea.innerHTML +=  '- The Store request has been accepted. Your ticket number is: ' + getPayload(message)[0] + '\n'

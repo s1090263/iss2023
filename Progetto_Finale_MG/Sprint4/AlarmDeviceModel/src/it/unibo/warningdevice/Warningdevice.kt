@@ -26,8 +26,8 @@ class Warningdevice ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outmagenta("$name - START")
-						CoapObserverSupport(myself, "127.0.0.1","9990","ctxcoldstorageservice","transporttrolley","coapUpdate")
-						CoapObserverSupport(myself, "127.0.0.1","9990","ctxcoldstorageservice","fridgeservice","coapUpdate")
+						CoapObserverSupport(myself, "192.168.1.7","9990","ctxcoldstorageservice","transporttrolley","coapUpdate")
+						CoapObserverSupport(myself, "192.168.1.7","9990","ctxcoldstorageservice","fridgeservice","coapUpdate")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

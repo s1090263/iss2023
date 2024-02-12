@@ -89,7 +89,12 @@ class TestStopResume : CoapHandler {
 
         println("TestApplication - Simulating going to indoor to send ticket")
         CommUtils.delay(4000)
-        conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+        val ticketRequest: IApplMessage = CommUtils.buildRequest("testApplication", "sendticket", "sendticket("+ticket+")", "fridgeservice")
+        val ticketReply: IApplMessage? = conn.request(ticketRequest)
+        //conn.forward("msg(sendticket,request,testApplication,fridgeservice,sendticket("+ticket+"),1)")
+
+        //If everything goes as it should, the reply to the sendticket will be ticketaccepted
+        Assert.assertEquals("ticketaccepted", ticketReply?.msgId())
 
         //Send stop message
         CommUtils.delay(1000)
@@ -115,6 +120,7 @@ class TestStopResume : CoapHandler {
         }
 
         //if everything goes as it should, the robot must reach home when it finishes
+        assertTrue("chargeTaken" in trolleyContentList)
         assertTrue("atHome" in trolleyContentList)
     }
 }

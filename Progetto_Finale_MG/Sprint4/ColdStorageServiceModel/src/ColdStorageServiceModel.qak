@@ -236,8 +236,8 @@ QActor transporttrolley context ctxcoldstorageservice{
 
 QActor fridgeservice context ctxcoldstorageservice{
 	[#
-		val MAXW = 100 //max storable kg in the ColdRoom
-		val TICKETTIME = 20 //seconds of ticket validity
+		val MAXW = SystemUtilities.readJsonVariable("coldStorageConfig.json","MAXW") as Long //max storable kg in the ColdRoom
+		val TICKETTIME = SystemUtilities.readJsonVariable("coldStorageConfig.json","TICKETTIME") as Long //seconds of ticket validity
 		var CurrentlyStored : Float = 0f //kg stored in the ColdRoom	
 		val openRequestList =  mutableListOf<Triple<Int, Float, Long>?>()	//structure to mantain the ticket requests that are open (<Ticket number, KG, EmissionTime>)
 		var ticketValue = 0 //incrementing ticket value
@@ -252,6 +252,7 @@ QActor fridgeservice context ctxcoldstorageservice{
 	State waitRequest{
 		println("$name - waiting for requests...") color blue
 		updateResource [# "fridgeservice(waitingRequests)" #]
+		updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)" #]
 	}
 	Transition t0 whenRequest storerequest -> handleRequest
 					whenRequest sendticket -> handleTicket
@@ -270,7 +271,7 @@ QActor fridgeservice context ctxcoldstorageservice{
 				updateResource [# "fridgeservice(acceptingRequest)" #]
 				replyTo storerequest with loadaccepted : loadaccepted($Ticket)
 				[# CurrentlyStored += payloadArg(0).toFloat() #]
-				updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored)" #]
+				updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)" #]
 				println("$name - After the load, there will be $CurrentlyStored Kg out of $MAXW in the ColdRoom") color blue
 				[# openRequestList.add(Triple(Ticket, payloadArg(0).toFloat() , System.currentTimeMillis())) #]	
 			}
@@ -311,7 +312,7 @@ QActor fridgeservice context ctxcoldstorageservice{
 					updateResource [# "fridgeservice(refusingTicket)" #]
 					replyTo sendticket with ticketrefused : ticketrefused(expired)
 					[# CurrentlyStored -= Kg #] //updating currentlystored if ticket got refused
-					updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored)" #]				
+					updateResource [# "fridgeservice(currentlyStored,$CurrentlyStored,$MAXW)" #]				
 				}
 				else{
 					replyTo sendticket with ticketrefused : ticketrefused(nonexistent)
